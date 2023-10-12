@@ -1,0 +1,34 @@
+[
+    {
+        "user-id": "1f764890-d5e0-4756-a7a6-a48389abf33f",
+        "first-name": "johnny",
+        "last-name": "applesauce",
+        "user-name": "ja_sauce",
+        "email": "ja_sauce@gmail.com",
+        "phone-number": "+1 202-918-2132",
+        "type": "user",
+        "my-tasks": [
+            "0d9a1a27-1404-4ab1-8a46-b81670e1cf47",
+            "2d5b5ba3-e838-44be-a5ba-45b363180821"
+        ],
+        "my-projects": [
+            "92811b61-a368-4616-9417-bf0eeaee5389"
+        ]
+    },
+    {
+        "user-id": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
+        "first-name": "bobby",
+        "last-name": "jones",
+        "user-name": "bjones",
+        "email": "bjones@gmail.com",
+        "phone-number": "+1 505-650-1251",
+        "type": "user",
+        "my-tasks": [
+            "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe"
+        ],
+        "my-projects": [
+            "92811b61-a368-4616-9417-bf0eeaee5389",
+            "05bc372c-f3a0-4dae-9eb8-a38e92229a0a"
+        ]
+    }
+]
