@@ -1,5 +1,3 @@
-package scrumprojectcode;
-
 public class Documentation {
 
     // Attributes
