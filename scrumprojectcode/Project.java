@@ -137,7 +137,7 @@ public class Project {
      * String method that returns the value of projectName with the project columns
      * and tasks underneath
      * 
-     * @return String value of the Project and their values
+     * @return String value of projectName and listOfColumns
      */
     public String toString() {
         return "[" + this.projectName + "]:\n"
