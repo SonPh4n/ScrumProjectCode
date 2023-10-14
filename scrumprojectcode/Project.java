@@ -15,7 +15,7 @@ public class Project {
     private UUID projectUUID;
 
     /**
-     * Constructor method for a new Project(), calls for methods with preset values
+     * Constructor method for a new Project that initializes the project attributes
      * 
      * @param projectName String name set by the user for a new project
      */
@@ -26,15 +26,15 @@ public class Project {
     }
 
     /**
-     * Constructor method for a Project() loaded from a file, calls for methods with
-     * preset values
+     * Constructor method for a Project() loaded from a file and initializes the
+     * project attributes with the file contents
      * 
      * @param projectName   String name set by the user for the project
      * @param listOfColumns ArrayList<Column> which holds Column() and Task()
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(String projectName, ArrayList<Column> listOfColumns, UUID projectUUID) {
+    public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns) {
         this.projectName = projectName;
         this.listOfColumns = new ArrayList<Column>(listOfColumns);
         this.projectUUID = projectUUID;
