@@ -16,7 +16,7 @@
             {
                 "id": "86cec344-8d09-4f9se-9864-f0d42ada0c75",
                 "commentor": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
-                "comment": "The diagram is coming along great! I think we should add a try-catch to deal with NullPointerExceptions for the TranscationsList"
+                "comment": "The diagram is coming along great! I think we should add a method to deal with NullPointerExceptions for the TranscationsList"
             }
         ],
         "creation-date": "09/21/2023",
@@ -27,7 +27,7 @@
         "column-id": "15a9f7c4-bbd2-48b8-81ff-0c7cf56aea18",
         "task-id": "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe",
         "task-title": "Review UML diagram progress",
-        "task-description": "Review current progress of the UML diagram and comment",
+        "task-description": "Review current progress of the UML diagram and make a comment",
         "assigned-users": [
             "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
         ],
@@ -40,7 +40,7 @@
             {
                 "id": "129a0310-3b6e-4479-809c-cee4a3b9ea7d",
                 "commentor": "1f764890-d5e0-4756-a7a6-a48389abf33f",
-                "comment": "Thanks for the comment!"
+                "comment": "Thanks for the comment! I went ahead and added that method like you mentioned."
             }
         ],
         "creation-date": "09/27/2023",
