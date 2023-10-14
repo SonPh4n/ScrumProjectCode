@@ -110,7 +110,7 @@ public class Column {
     /**
      * String method that returns the value of columnName with the tasks underneath
      * 
-     * @return String value of the Column and columnTasks
+     * @return String value of the columnName and columnTasks
      */
     public String toString() {
         String tasksToString = "";
