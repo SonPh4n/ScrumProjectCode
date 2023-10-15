@@ -16,7 +16,7 @@ public class UI {
         System.out.println();
 
         //User logs in
-        if(!facade.login("johnny, 8xw0CUeKk")){
+        if(!facade.login("johnny", "8xw0CUeKk")){
             System.out.println("Sorry we couldn't login.");
             return;
         }
