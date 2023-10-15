@@ -6,73 +6,78 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Represents a task in a scrum project.
+ * Represents a task in a project management system.
  */
 public class Task {
-
-    // Attributes
-    private String taskName;  // Stores the name of the task
-    private ArrayList<Comment> taskComments;  // Stores comments related to the task
-    private String taskDescription;  // Stores the description of the task
-    private ArrayList<User> assignedUsers;  // Stores users assigned to the task
-    private Column column;  // Represents the column the task belongs to
-    private HashMap<Date, History> taskHistory;  // Stores the task's history
-
-    // Additional Attributes
-    private Date creationDate;  // Stores the creation date of the task
-    private int timeToComplete;  // Stores the estimated time to complete the task
-    private UUID taskUUID;  // Provides a unique identifier for the task
+    private String taskName;
+    private ArrayList<Comment> taskComments;
+    private String taskDescription;
+    private ArrayList<User> assignedUsers;
+    private Column column;
+    private HashMap<Date, History> taskHistory;
+    private Date creationDate;
+    private int timeToComplete;
+    private UUID taskUUID;
 
     /**
-     * Constructor to create a Task object.
+     * Constructor for Task class.
      *
-     * @param taskName        The name of the task.
-     * @param taskDescription The description of the task.
-     * @param timeToComplete  The estimated time to complete the task.
+     * @param taskName         The name of the task.
+     * @param taskDescription  The description of the task.
+     * @param timeToComplete   The estimated time to complete the task.
      */
     public Task(String taskName, String taskDescription, int timeToComplete) {
-        // Initialize the Task object with provided parameters
-        // Initialize other attributes accordingly
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.timeToComplete = timeToComplete;
+        this.taskUUID = generateUUID();
     }
 
     /**
-     * Generates a unique UUID for the task.
+     * Generates a UUID for the task.
      *
-     * @return The generated UUID.
+     * @return The generated UUID for the task.
      */
     private UUID generateUUID() {
-        // UUID generation logic (to be implemented based on application requirements)
-        return null;  // Replace with actual logic
+        // Implementation to generate UUID
+        return UUID.randomUUID();
     }
 
     /**
-     * Moves the task to a new column.
+     * Moves the task to a different column.
      *
-     * @param newColumn The new column to which the task will be moved.
+     * @param taskName   The name of the task.
+     * @param columnName The name of the target column.
+     * @return True if the task was successfully moved, false otherwise.
      */
-    public void moveTask(Column newColumn) {
-        // Move the task to a new column
+    public boolean moveTask(String taskName, String columnName) {
+        // Implementation for moving the task to a different column
+        return false;
     }
 
     /**
      * Adds a comment to the task.
      *
-     * @param comment The comment to be added.
+     * @param comment     The comment to be added.
+     * @param projectName The name of the project.
+     * @param columnName  The name of the column.
+     * @param taskName    The name of the task.
+     * @return True if the comment was successfully added, false otherwise.
      */
-    public void addComment(String comment) {
-        // Add a comment to the task
+    public boolean addComment(String comment, String projectName, String columnName, String taskName) {
+        // Implementation for adding a comment to the task
+        return false;
     }
 
     /**
-     * Returns a string representation of the Task object.
+     * Overrides the toString() method to provide a string representation of the task.
      *
-     * @return A string representing the Task object.
+     * @return A string representation of the task.
      */
     @Override
     public String toString() {
-        // Override the toString() method
-        return "";
+        // Implementation for generating the string representation of the task
+        return "Task: " + taskName;
     }
 }
-
 
