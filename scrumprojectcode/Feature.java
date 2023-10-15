@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Feature {
     private ArrayList<String> subTasks;
     
-<<<<<<< HEAD
-=======
     public Feature(String taskName, ArrayList<String> subTasks){
         //TODO
     }
@@ -21,6 +19,16 @@ public class Feature {
 
     public String toString(){
         //TODO
+        return "";
     }
->>>>>>> projectsystemfacade-class
+
+    //Getter/Setter
+    public ArrayList<String> getSubTasks(){
+        return subTasks;
+    }
+
+    public void setSubTasks(ArrayList<String> subTasks){
+        this.subTasks = subTasks;
+    }
+
 }
