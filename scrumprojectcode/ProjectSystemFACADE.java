@@ -36,44 +36,32 @@ public class ProjectSystemFACADE {
         return true;
     }
 
-<<<<<<< HEAD
-    public boolean addColumn(String columnName){
-        //TODO
-        return true; 
-    }
-
-    public boolean removeColumn(String columnName){
-=======
     public boolean addColumn(String columnName, String projectName){
         //TODO
         return true;
     }
 
     public boolean removeColumn(String columnName, String projectName){
->>>>>>> projectsystemfacade-class
         //TODO
         return true;
     }
 
-<<<<<<< HEAD
-    public boolean addTask(String taskName){
-=======
     public boolean addTask(String taskName, String columnName, String projectName){
->>>>>>> projectsystemfacade-class
         //TODO
         return true;
     }
 
-<<<<<<< HEAD
-    public boolean removeTask(String taskName){
-=======
     public boolean removeTask(String taskName, String columnName, String projectName){
->>>>>>> projectsystemfacade-class
         //TODO
         return true;
     }
 
     public boolean moveTask(String taskName, String newColumn){
+        //TODO
+        return true;
+    }
+
+    public boolean addComment(String comment, String projectName, String columnName, String taskName){
         //TODO
         return true;
     }
