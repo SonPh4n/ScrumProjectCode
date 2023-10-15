@@ -16,39 +16,48 @@ public class ProjectSystemFACADE {
         return facade;
     }
 
-    public User login(String username, String password){
-        return null;
-    }
-
-    public User register(){
-        return null;
-    }
-
-    public void addProject(Project project){
+    public boolean login(String username, String password){
         //TODO
+        return true;
     }
 
-    public void removeProject(Project projet){
+    public boolean register(){
         //TODO
+        return true;
     }
 
-    public void addColumn(Column column){
+    public boolean addProject(String projectName){
         //TODO
+        return true;
     }
 
-    public void removeColumn(Column column){
+    public boolean removeProject(String projectName){
         //TODO
+        return true;
     }
 
-    public void addTask(Task task){
+    public boolean addColumn(String columnName){
         //TODO
+        return true; 
     }
 
-    public void removeTask(Task task){
+    public boolean removeColumn(String columnName){
         //TODO
+        return true;
     }
 
-    public void moveTask(Task task, Column newColumn){
+    public boolean addTask(String taskName){
         //TODO
+        return true;
+    }
+
+    public boolean removeTask(String taskName){
+        //TODO
+        return true;
+    }
+
+    public boolean moveTask(String taskName, String newColumn){
+        //TODO
+        return true;
     }
 }
