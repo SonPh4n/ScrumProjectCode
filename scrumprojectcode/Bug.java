@@ -1,5 +1,10 @@
 package scrumprojectcode;
 
+
+
+import java.util.ArrayList;
+
+
 public class Bug extends Task {
 
     public User tester;
