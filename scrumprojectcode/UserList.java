@@ -13,7 +13,7 @@ public class UserList {
 
     public static UserList getInstance(ArrayList<User> users)
     {
-        return listOfUsers;
+        return new UserList(users);
     }
 
 }
