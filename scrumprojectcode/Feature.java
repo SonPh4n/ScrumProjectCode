@@ -5,4 +5,22 @@ import java.util.ArrayList;
 public class Feature {
     private ArrayList<String> subTasks;
     
+<<<<<<< HEAD
+=======
+    public Feature(String taskName, ArrayList<String> subTasks){
+        //TODO
+    }
+
+    public void addSubtas(String subtask){
+        //TODO
+    }
+
+    public void removeSubtask(String subtask){
+        //TODO
+    }
+
+    public String toString(){
+        //TODO
+    }
+>>>>>>> projectsystemfacade-class
 }
