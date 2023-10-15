@@ -29,7 +29,7 @@ public class History {
      */
     @Override
     public String toString() {
-        // Override the toString() method
+        // Override the toString() method to provide a meaningful string representation
         // of the History object
         return null;  // Replace with actual logic
     }
