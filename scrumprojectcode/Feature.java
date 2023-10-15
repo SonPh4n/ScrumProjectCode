@@ -9,7 +9,7 @@ public class Feature {
         //TODO
     }
 
-    public void addSubtas(String subtask){
+    public void addSubtask(String subtask){
         //TODO
     }
 
