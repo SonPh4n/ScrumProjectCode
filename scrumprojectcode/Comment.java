@@ -9,10 +9,10 @@ import java.util.UUID;
 public class Comment {
 
     // Attributes
-    private String comment;  // Stores the comment text
-    private User user;  // Represents the user associated with the comment
-    private ArrayList<Comment> moreComments;  // Stores Array of comments
-    private UUID commentUUID;  // Provides a unique identifier for the comment
+    private String comment; // Stores the comment text
+    private User user; // Represents the user associated with the comment
+    private ArrayList<Comment> moreComments; // Stores Array of comments
+    private UUID commentUUID; // Provides a unique identifier for the comment
 
     /**
      * Constructor to create a Comment object.
@@ -24,8 +24,8 @@ public class Comment {
         // Constructor logic
         this.comment = comment;
         this.user = user;
-        this.commentUUID = generateUUID();  // Generate a unique UUID for the comment
-        this.moreComments = new ArrayList<>();  // Initialize the list for additional comments
+        this.commentUUID = generateUUID(); // Generate a unique UUID for the comment
+        this.moreComments = new ArrayList<>(); // Initialize the list for additional comments
     }
 
     /**
@@ -36,7 +36,7 @@ public class Comment {
     private UUID generateUUID() {
         // UUID generation logic (to be implemented)
         // This method should return a unique UUID for the comment
-        return null;  // Replace with actual logic
+        return null; // Replace with actual logic
     }
 
     /**
@@ -47,8 +47,8 @@ public class Comment {
     @Override
     public String toString() {
         // toString method logic (to be implemented)
-        // This method should return a meaningful string representation of the Comment object
-        return "";  // Replace with actual logic
+        // This method should return a meaningful string representation of the Comment
+        // object
+        return ""; // Replace with actual logic
     }
 }
-

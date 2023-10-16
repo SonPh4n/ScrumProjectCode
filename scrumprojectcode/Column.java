@@ -37,9 +37,9 @@ public class Column {
      * @param columnTasks ArrayList<Task> that holds the tasks of the project column
      */
     public Column(String columnUUID, String columnName, ArrayList<String> columnTasks) {
-        this.columnUUID = toUUID(columnUUID); //convert String UUID to object UUID
+        this.columnUUID = toUUID(columnUUID); // convert String UUID to object UUID
         this.columnName = columnName;
-        this.columnTasks = UUIDtoTasks(columnTasks); //converts arrayList of String UUIDs to Task objects
+        this.columnTasks = UUIDtoTasks(columnTasks); // converts arrayList of String UUIDs to Task objects
     }
 
     /**
@@ -119,13 +119,25 @@ public class Column {
         return "--- " + this.columnName + " ---\n" + tasksToString;
     }
 
-    private UUID toUUID(String columnUUID){
-        //TODO convert string UUID from dataloader to object UUID
+    /**
+     * UUID method that converts String columnUUID to a UUID
+     * 
+     * @param columnUUID String to be converted as a UUID
+     * @return Converted columnUUID value
+     */
+    private UUID toUUID(String columnUUID) {
+        // TODO convert string UUID from Dataloader to object UUID
         return null;
     }
 
-    private ArrayList<Task> UUIDtoTasks(ArrayList<String> columnTasks){
-        //TODO convert String UUIDs from dataLoader to Task Objects
+    /**
+     * ArrayList<Task> method that converts ArrayList<String> to ArrayList<Task>
+     * 
+     * @param columnTasks ArrayList<String> to be converted as ArrayList<Task>
+     * @return ArrayList<Task> to set as Column.columnTasks
+     */
+    private ArrayList<Task> UUIDtoTasks(ArrayList<String> columnTasks) {
+        // TODO convert String UUIDs from DataLoader to Task Objects
         return null;
     }
 
