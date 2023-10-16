@@ -99,8 +99,11 @@ public class Project {
     /**
      * String method that prints out the contents of the selected column using
      * ArrayList.forEach() method
+     * 
+     * @return String value of the columnName and columnTasks
      */
-    public String displayColumnTasks(Column column) {
+    public String displayColumnTasks(Column column) { // @author jedalto slightly edited this to compile, should work
+                                                      // the same
         String tasksToString = "";
         for (Task task : column.getColumnTasks())
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
