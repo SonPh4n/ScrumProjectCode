@@ -1,7 +1,5 @@
 package scrumprojectcode;
 
-import java.util.Date;
-
 /**
  * Represents the history of a task in a scrum project.
  */
