@@ -1,6 +1,6 @@
 package scrumprojectcode;
 
-public class DataWriter {
+public class DataWriter extends DataConstants{
     // Attributes
     private boolean saveTasks;
     private boolean saveUsers;
