@@ -16,7 +16,7 @@ public class Task {
     private Column column;
     private HashMap<Date, History> taskHistory;
     private Date creationDate;
-    private int timeToComplete;
+    private String timeToComplete;
     private UUID taskUUID;
 
     /**
@@ -26,7 +26,7 @@ public class Task {
      * @param taskDescription  The description of the task.
      * @param timeToComplete   The estimated time to complete the task.
      */
-    public Task(String taskName, String taskDescription, int timeToComplete) {
+    public Task(String taskName, String taskDescription, String timeToComplete) { //TODO update Task constructor
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.timeToComplete = timeToComplete;
@@ -79,5 +79,80 @@ public class Task {
         // Implementation for generating the string representation of the task
         return "Task: " + taskName;
     }
+
+    //getters and setters for all attributes
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public ArrayList<Comment> getTaskComments() {
+        return taskComments;
+    }
+
+    public void setTaskComments(ArrayList<Comment> taskComments) {
+        this.taskComments = taskComments;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public ArrayList<User> getAssignedUsers() {
+        return assignedUsers;
+    }
+
+    public void setAssignedUsers(ArrayList<User> assignedUsers) {
+        this.assignedUsers = assignedUsers;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
+    public void setColumn(Column column) {
+        this.column = column;
+    }
+
+    public HashMap<Date, History> getTaskHistory() {
+        return taskHistory;
+    }
+
+    public void setTaskHistory(HashMap<Date, History> taskHistory) {
+        this.taskHistory = taskHistory;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getTimeToComplete() {
+        return timeToComplete;
+    }
+
+    public void setTimeToComplete(String timeToComplete) {
+        this.timeToComplete = timeToComplete;
+    }
+
+    public UUID getTaskUUID() {
+        return taskUUID;
+    }
+
+    public void setTaskUUID(UUID taskUUID) {
+        this.taskUUID = taskUUID;
+    }
 }
+
+
 

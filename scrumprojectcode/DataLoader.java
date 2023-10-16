@@ -47,7 +47,7 @@ public class DataLoader extends DataConstants{
                 String taskCreationDate = (String)taskJSON.get(TASK_CREATION_DATE);
                 String taskDueDate = (String)taskJSON.get(TASK_DUE_DATE);
 
-                tasks.add(new Task(taskTitle, taskDescription, taskDueDate));       //TODO change Task constructor//
+                tasks.add(new Task(taskTitle, taskDescription, taskDueDate));
             }
 
             return tasks;
@@ -98,8 +98,7 @@ public class DataLoader extends DataConstants{
                     myProjects.add((String) myProjectsJSON.get(j));
                 }
 
-                tasks.add(new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects)));       
-                //TODO change User constructor//
+                users.add(new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects));       
             }
 
             return users;
@@ -174,7 +173,7 @@ public class DataLoader extends DataConstants{
             for(int i=0; i < columnsJSON.size(); i++) {
                 JSONObject columnJSON = (JSONObject)columnsJSON.get(i);
                 String projectID = (String)columnJSON.get(COLUMN_PROJECT_ID);
-                String columnID = (String)columnJSON.get(COLUMN_ID)
+                String columnID = (String)columnJSON.get(COLUMN_ID);
                 String columnTitle = (String)columnJSON.get(COLUMN_TITLE);
                 
                 //Parse "column-tasks" as JSON arrays
@@ -187,7 +186,7 @@ public class DataLoader extends DataConstants{
                     columnTasks.add((String) columnTasksJSON.get(j));
                 }
 
-                columns.add(new Column(columnTitle, columnTasks));       //TODO change Column constructor//
+                columns.add(new Column(columnID, columnTitle, columnTasks));       //TODO change Column constructor//
             }
 
             return columns;

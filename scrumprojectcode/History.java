@@ -9,7 +9,7 @@ public class History {
 
     private User user;      // Represents the user associated with this history entry
     private String details; // Stores details of the history entry
-    private Date date;      // Represents the date of the history entry
+    private String date;      // Represents the date of the history entry
 
     /**
      * Constructor to create a History object.
@@ -18,8 +18,22 @@ public class History {
      * @param details Details of the history entry.
      * @param date    The date of the history entry.
      */
-    public History(User user, String details, Date date) {
+    public History(User user, String details, String date) {
         // Initialize the History object with provided parameters
+        this.user = user;
+        this.details = details;
+        this.date = date;
+    }
+
+    public History(String userID, String details, String date){
+        this.user = UUIDtoUser(userID);
+        this.details = details;
+        this.date = date;
+    }
+
+    private User UUIDtoUser(String userID){
+        //convert string uuid to object UUID
+        return null;
     }
 
     /**

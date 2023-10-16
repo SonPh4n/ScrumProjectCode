@@ -1,3 +1,7 @@
+package scrumprojectcode;
+
+import java.util.ArrayList;
+
 public class Documentation {
 
     // Attributes
