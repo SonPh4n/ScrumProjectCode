@@ -34,10 +34,10 @@ public class Project {
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns) {
+    public Project(String projectUUID, String projectName, ArrayList<String> listOfColumns) {
+        this.projectUUID = toUUID(projectUUID); // convert String UUID to object UUID
         this.projectName = projectName;
-        this.listOfColumns = new ArrayList<Column>(listOfColumns);
-        this.projectUUID = projectUUID;
+        this.listOfColumns = UUIDtoColumn(listOfColumns); // converts arrayList of String UUIDs to Column objects
     }
 
     /**
@@ -100,7 +100,7 @@ public class Project {
      * String method that prints out the contents of the selected column using
      * ArrayList.forEach() method
      */
-    public String displayColumnTasks(Column column) { //@author jedalto slightly edited this to compile, should work the same
+    public String displayColumnTasks(Column column) {
         String tasksToString = "";
         for (Task task : column.getColumnTasks())
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
@@ -142,5 +142,27 @@ public class Project {
     public String toString() {
         return "[" + this.projectName + "]:\n"
                 + listOfColumns.toString();
+    }
+
+    /**
+     * UUID method that converts String columnUUID to a UUID
+     * 
+     * @param columnUUID String to be converted as a UUID
+     * @return Converted columnUUID value
+     */
+    private UUID toUUID(String projectUUId) {
+        // TODO convert string UUID from Dataloader to object UUID
+        return null;
+    }
+
+    /**
+     * ArrayList<Column> method that converts ArrayList<String> to ArrayList<Column>
+     * 
+     * @param columnTasks ArrayList<String> to be converted as ArrayList<Object>
+     * @return ArrayList<Column> to set as Project.listOfColumns
+     */
+    private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
+        // TODO convert String UUIDs from DataLoader to Column Objects
+        return null;
     }
 }
