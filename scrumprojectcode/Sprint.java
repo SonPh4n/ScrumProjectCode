@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Sprint {
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private ArrayList<Task> tasksToComplete;
 
-    public Sprint(Date startDate, Date endDate, ArrayList<Task> tasksToComplete) {
+    public Sprint(String startDate, String endDate, ArrayList<Task> tasksToComplete) {
         // Constructor logic
     }
 
