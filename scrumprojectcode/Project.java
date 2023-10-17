@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Project {
     public String projectName;
     public ArrayList<Column> listOfColumns;
-    private ArrayList<User> assignedUsers;
+    public ArrayList<User> assignedUsers;
     private UUID projectUUID;
 
     /**
