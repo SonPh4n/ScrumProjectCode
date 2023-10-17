@@ -60,6 +60,7 @@ public class User {
         this.type = type;
     }
 
+    //Setters and Getters 
     public String getUsername(String username) {
         return username;
     }
@@ -147,6 +148,8 @@ public class User {
     public void setUserUUID(UUID userUUID) {
         this.userUUID = userUUID;
     }
+    //end of setters and getters
+
 
     private UUID generateUUID() {
         // check if it has an ID, if from dataloader must convert using toUUID
@@ -157,19 +160,55 @@ public class User {
         return "something";
     }
 
+    //checks if the username and password match to login
     private boolean login(String username, String passsword) {
+        if(this.username.equals(username) && this.password.equals(password))
+        {
+            loggedIn = true;
+            return true;
+        }
         return false;
     }
 
-    private boolean register() {
+    //logs out the user
+    public void logout()
+    {
+        loggedIn = false;
+    }
+
+
+    //registers a new user by checking if their UUID already exists, if not, create a new UUID and set their info
+    private boolean register(String username, String password, String firstName, String lastName, String email, String phoneNumber, String type) {
+        if(this.userUUID == null)
+        {
+            this.userUUID = generateUUID();
+            this.username = username;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.phoneNumber = phoneNumber;
+            this.type = type;
+            return true;
+        }
         return false;
     }
 
     private boolean addProject(String projectName) {
-        return false;
+        if(listOfProjects == null)
+        {
+            listOfProjects = new ArrayList<>();
+        }
+        listOfProjects.add(projectName);
     }
 
     private Project findProject(String projectName) {
+        for(Project project : myProjects)
+        {
+            if(project.getProjectName().equals(projectName)){
+                return project;
+            }
+        }
         return null;
     }
 
@@ -186,6 +225,6 @@ public class User {
 
     private UUID toUUID(String userID) {
         // TODO convert string UUID from dataLoader to object UUID
-        return null;
+        return UUID.fromString(userID);
     }
 }
