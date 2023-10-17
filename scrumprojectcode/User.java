@@ -116,7 +116,7 @@ public class User {
     {
         return phoneNumber;
     }
-    
+
     private UUID generateUUID()
     {
         //check if it has an ID, if from dataloader must convert using toUUID
@@ -164,4 +164,4 @@ public class User {
     }
 }
 
-}
+
