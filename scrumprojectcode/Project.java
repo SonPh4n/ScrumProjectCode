@@ -12,6 +12,7 @@ import java.util.UUID;
 public class Project {
     public String projectName;
     public ArrayList<Column> listOfColumns;
+    private ArrayList<User> assignedUsers;
     private UUID projectUUID;
 
     /**
@@ -34,10 +35,13 @@ public class Project {
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(String projectUUID, String projectName, ArrayList<String> listOfColumns) {
+    public Project(String projectUUID, String projectName, ArrayList<String> listOfColumns,
+            ArrayList<String> assignedUsers) {
         this.projectUUID = toUUID(projectUUID); // convert String UUID to object UUID
         this.projectName = projectName;
         this.listOfColumns = UUIDtoColumn(listOfColumns); // converts arrayList of String UUIDs to Column objects
+        // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
+        this.assignedUsers = setAssignedUsers(assignedUsers);
     }
 
     /**
@@ -74,6 +78,14 @@ public class Project {
      */
     public ArrayList<Column> getListOfColumns() {
         return this.listOfColumns;
+    }
+
+    public ArrayList<User> getAssignedUsers() {
+        return this.assignedUsers;
+    }
+
+    public void setAssignedUsers(ArrayList<User> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 
     /**

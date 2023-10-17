@@ -5,11 +5,12 @@ import java.util.UUID;
 
 /**
  * Changes
+ * 
  * @author SonPh4n
  * @author kuriakm
  */
 public class User {
-    
+
     public String username;
     private String password;
     public String firstName;
@@ -19,101 +20,87 @@ public class User {
     public boolean loggedIn;
     private String type;
 
-    //****************************************************************************************************//
-    //personalTasks and listOfProjects are the UUIDs of the objects
-    //private ArrayList<String> personalTasks;
-    //private ArrayList<String> listOfProjects;
-    //we can write a method to convert them each to arrayLists of ojbects
+    // ****************************************************************************************************//
+    // personalTasks and listOfProjects are the UUIDs of the objects
+    // private ArrayList<String> personalTasks;
+    // private ArrayList<String> listOfProjects;
+    // we can write a method to convert them each to arrayLists of ojbects
     private ArrayList<Task> myTasks;
     private ArrayList<Project> myProjects;
-    //****************************************************************************************************//
+    // ****************************************************************************************************//
 
     private String userID;
     private UUID userUUID;
 
-
-    public User(String userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<String> tasks, ArrayList<String> projects, String type)
-    {
+    public User(String userID, String firstName, String lastName, String username, String email, String phoneNumber,
+            ArrayList<String> tasks, ArrayList<String> projects, String type) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.phoneNumber = phoneNumber; 
-        this.myTasks = UUIDtoTasks(tasks);  //arraylist of Task objects
-        this.myProjects = UUIDtoProjects(projects);   //arraylist of Project objects
+        this.phoneNumber = phoneNumber;
+        this.myTasks = UUIDtoTasks(tasks); // arraylist of Task objects
+        this.myProjects = UUIDtoProjects(projects); // arraylist of Project objects
         this.loggedIn = false;
         this.type = type;
     }
 
-    public User(UUID userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<Task> tasks, ArrayList<Project> projects, String type)
-    {
+    public User(UUID userID, String firstName, String lastName, String username, String email, String phoneNumber,
+            ArrayList<Task> tasks, ArrayList<Project> projects, String type) {
         this.userUUID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.phoneNumber = phoneNumber; 
-        this.myTasks = tasks;  //arraylist of Task objects
-        this.myProjects = projects;   //arraylist of Project objects
+        this.phoneNumber = phoneNumber;
+        this.myTasks = tasks; // arraylist of Task objects
+        this.myProjects = projects; // arraylist of Project objects
         this.loggedIn = false;
         this.type = type;
     }
 
-    
-
-     public String getUsername(String username)
-    {
+    public String getUsername(String username) {
         return username;
     }
 
-    private void setUsername(String username)
-    {
+    private void setUsername(String username) {
         this.username = username;
     }
 
-    public void setPassword(String password)
-    {
-        this.password= password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getPassword(String password)
-    {
+    public String getPassword(String password) {
         return password;
     }
 
-    public String getFirstName(String firstName)
-    {
+    public String getFirstName(String firstName) {
         return firstName;
     }
 
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void setLastName(String LastName)
-    {
+    public void setLastName(String LastName) {
         this.lastName = lastName;
     }
 
-    public void setEmail(String email)
-    {
-        this.email=email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getEmail(String email)
-    {
+    public String getEmail(String email) {
         return email;
     }
 
-    public void setPhoneNumber (String phoneNumber)
-    {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoneNumber(String phoneNumber)
-    {
+    public String getPhoneNumber(String phoneNumber) {
         return phoneNumber;
     }
 
@@ -128,6 +115,7 @@ public class User {
     public ArrayList<Task> getMyTasks() {
         return myTasks;
     }
+
     public void setMyTasks(ArrayList<Task> myTasks) {
         this.myTasks = myTasks;
     }
@@ -140,6 +128,14 @@ public class User {
         this.myProjects = myProjects;
     }
 
+    public String getUserType() {
+        return type;
+    }
+
+    public void setUserType(String type) {
+        this.type = type;
+    }
+
     public String getUserID() {
         return userID;
     }
@@ -147,56 +143,49 @@ public class User {
     public UUID getUserUUID() {
         return userUUID;
     }
-    
+
     public void setUserUUID(UUID userUUID) {
         this.userUUID = userUUID;
     }
 
-    private UUID generateUUID()
-    {
-        //check if it has an ID, if from dataloader must convert using toUUID
+    private UUID generateUUID() {
+        // check if it has an ID, if from dataloader must convert using toUUID
         return UUID.randomUUID();
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "something";
     }
 
-    private boolean login(String username, String passsword)
-    {
+    private boolean login(String username, String passsword) {
         return false;
     }
 
-    private boolean register()
-    {
+    private boolean register() {
         return false;
     }
 
-    private boolean addProject(String projectName)
-    {
+    private boolean addProject(String projectName) {
         return false;
     }
 
-    private Project findProject(String projectName)
-    {
+    private Project findProject(String projectName) {
         return null;
     }
 
-    private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks){
-        //TODO populate myTasks with Task objects based on the UUIDs from personalTasks
+    private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks) {
+        // TODO populate myTasks with Task objects based on the UUIDs from personalTasks
         return null;
     }
 
-    private ArrayList<Project> UUIDtoProjects(ArrayList<String> listOfProjects){
-        //TODO populate myProjects with Project objects based on the UUIDs from listOfProjects
+    private ArrayList<Project> UUIDtoProjects(ArrayList<String> listOfProjects) {
+        // TODO populate myProjects with Project objects based on the UUIDs from
+        // listOfProjects
         return null;
     }
 
-    private UUID toUUID(String userID){
-        //TODO convert string UUID from dataLoader to object UUID
+    private UUID toUUID(String userID) {
+        // TODO convert string UUID from dataLoader to object UUID
         return null;
     }
 }
-
-
