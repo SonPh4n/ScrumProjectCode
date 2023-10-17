@@ -117,6 +117,41 @@ public class User {
         return phoneNumber;
     }
 
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public ArrayList<Task> getMyTasks() {
+        return myTasks;
+    }
+    public void setMyTasks(ArrayList<Task> myTasks) {
+        this.myTasks = myTasks;
+    }
+
+    public ArrayList<Project> getMyProjects() {
+        return myProjects;
+    }
+
+    public void setMyProjects(ArrayList<Project> myProjects) {
+        this.myProjects = myProjects;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public UUID getUserUUID() {
+        return userUUID;
+    }
+    
+    public void setUserUUID(UUID userUUID) {
+        this.userUUID = userUUID;
+    }
+
     private UUID generateUUID()
     {
         //check if it has an ID, if from dataloader must convert using toUUID
