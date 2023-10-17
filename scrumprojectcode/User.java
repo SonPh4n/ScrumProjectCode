@@ -62,11 +62,40 @@ public class User {
 
     
 
+     public String getUsername(String username)
+    {
+        return username;
+    }
+
     private void setUsername(String username)
     {
         this.username = username;
     }
 
+    public void setPassword(String password)
+    {
+        this.password= password;
+    }
+
+    public String getPassword(String password)
+    {
+        return password;
+    }
+
+    public String getFirstName(String firstName)
+    {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String LastName)
+    {
+        this.lastName = lastName;
+    }
     private UUID generateUUID()
     {
         //check if it has an ID, if from dataloader must convert using toUUID
@@ -112,4 +141,6 @@ public class User {
         //TODO convert string UUID from dataLoader to object UUID
         return null;
     }
+}
+
 }
