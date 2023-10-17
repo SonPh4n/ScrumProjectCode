@@ -60,10 +60,7 @@ public class User {
         this.type = type;
     }
 
-    public User()
-    {
-
-    }
+    
 
     private void setUsername(String username)
     {
