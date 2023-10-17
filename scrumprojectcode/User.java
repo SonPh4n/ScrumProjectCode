@@ -1,5 +1,6 @@
 package scrumprojectcode;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -214,12 +215,48 @@ public class User {
 
     private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks) {
         // TODO populate myTasks with Task objects based on the UUIDs from personalTasks
+        ArrayList<Task> tasks = new ArrayList<>();
+        for(String taskUUID : personalTasks)
+        {
+            Task task = findTaskByUUID(taskUUID);
+            if(task != null){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    private Task findTaskByUUID(String taskUUID){
+        for(Task task : myTasks)
+        {
+            if(task.getTaskUUID().toString().equals(taskUUID)){
+                return task;
+            }
+        }
         return null;
     }
 
     private ArrayList<Project> UUIDtoProjects(ArrayList<String> listOfProjects) {
         // TODO populate myProjects with Project objects based on the UUIDs from
         // listOfProjects
+        ArrayList<Project> projects = new ArrayList<>();
+        for(String projectUUID : listOfProjects)
+        {
+            Project project = findProjectByUUID(projectUUID);
+            if(project != null){
+                projects.add(project);
+            }
+        }
+        return null;
+    }
+
+    private Project findProjectByUUID(String projectUUID){
+        for(Project project : myProjects)
+        {
+            if(project.getProjectUUID().toString().equals(projectUUID)){
+                return project;
+            }
+        }
         return null;
     }
 
