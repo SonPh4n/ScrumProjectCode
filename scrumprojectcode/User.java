@@ -96,6 +96,27 @@ public class User {
     {
         this.lastName = lastName;
     }
+
+    public void setEmail(String email)
+    {
+        this.email=email;
+    }
+
+    public String getEmail(String email)
+    {
+        return email;
+    }
+
+    public void setPhoneNumber (String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber(String phoneNumber)
+    {
+        return phoneNumber;
+    }
+    
     private UUID generateUUID()
     {
         //check if it has an ID, if from dataloader must convert using toUUID
