@@ -3,17 +3,31 @@ package scrumprojectcode;
 import java.util.ArrayList;
 
 public class UserList {
-    
-    private ArrayList<User> listOfUsers;
-    
-    private UserList(ArrayList<User> users)
-    {
-        this.listOfUsers = users;
+    private static UserList userList = null;
+    private static ArrayList<User> listOfUsers; // @kuriakm: Allows UserList to create
+                                                // an instance without an ArrayList
+
+    private UserList() {
+        listOfUsers = DataLoader.loadUsers();
     }
 
-    public static UserList getInstance(ArrayList<User> users)
-    {
-        return new UserList(users);
+    private UserList(ArrayList<User> users) {
+        listOfUsers = users;
     }
 
+    public static UserList getInstance(ArrayList<User> users) {
+        if (userList == null)
+            userList = new UserList(users);
+        return userList;
+    }
+
+    public static UserList getInstance() {
+        if (userList == null)
+            userList = new UserList();
+        return userList;
+    }
+
+    public ArrayList<User> getListOfUsers() {
+        return listOfUsers;
+    }
 }
