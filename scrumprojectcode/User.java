@@ -17,6 +17,7 @@ public class User {
     private String email;
     private String phoneNumber;
     public boolean loggedIn;
+    private String type;
 
     //****************************************************************************************************//
     //personalTasks and listOfProjects are the UUIDs of the objects
@@ -31,7 +32,7 @@ public class User {
     private UUID userUUID;
 
 
-    public User(String userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<String> tasks, ArrayList<String> projects)
+    public User(String userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<String> tasks, ArrayList<String> projects, String type)
     {
         this.userID = userID;
         this.firstName = firstName;
@@ -42,9 +43,10 @@ public class User {
         this.myTasks = UUIDtoTasks(tasks);  //arraylist of Task objects
         this.myProjects = UUIDtoProjects(projects);   //arraylist of Project objects
         this.loggedIn = false;
+        this.type = type;
     }
 
-    public User(UUID userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<Task> tasks, ArrayList<Project> projects)
+    public User(UUID userID, String firstName, String lastName, String username, String email, String phoneNumber, ArrayList<Task> tasks, ArrayList<Project> projects, String type)
     {
         this.userUUID = userID;
         this.firstName = firstName;
@@ -55,6 +57,7 @@ public class User {
         this.myTasks = tasks;  //arraylist of Task objects
         this.myProjects = projects;   //arraylist of Project objects
         this.loggedIn = false;
+        this.type = type;
     }
 
     public User()

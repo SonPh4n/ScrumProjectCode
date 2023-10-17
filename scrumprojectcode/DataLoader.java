@@ -97,7 +97,7 @@ public class DataLoader extends DataConstants {
                     myProjects.add((String) myProjectsJSON.get(j));
                 }
 
-                users.add(new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects));
+                users.add(new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects, type));
             }
 
             return users;
