@@ -1,9 +1,7 @@
 package scrumprojectcode;
 
-import ava.
-
+import java.io.FileWriter;
 import java.util.ArrayList;
-
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,7 +16,7 @@ public class DataWriter extends DataConstants {
     // Attributes
     private boolean saveTasks;
     private boolean saveUsers;
-        priate boolean saveProjects;
+    private boolean saveProjects;
 
     // Constructor
     public DataWriter(boolean saveTasks, boolean saveUsers, boolean saveProjects) {
@@ -49,10 +47,10 @@ public class DataWriter extends DataConstants {
 
     public static void saveTasks() {
         TaskList taskList = TaskList.getInstance();
-     
+        ArrayList<Task> tasks = taskList.getListOfTasks();
+        JSONArray jsonTasks = new JSONArray();
 
-           
-
+        for (int i = 0; i < tasks.size(); i++)
             jsonTasks.add(getTaskJSON(tasks.get(i)));
 
         try (FileWriter file = new FileWriter(USER_FILE_NAME)) {
@@ -73,10 +71,9 @@ public class DataWriter extends DataConstants {
      * Check if saving users is enabled.
      *
      * @return True if saving users is enabled, false otherwise.
-     
-
-           return saveUsers;
-
+     */
+    public boolean isSaveUsers() {
+        return saveUsers;
     }
 
     /**

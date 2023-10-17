@@ -3,17 +3,16 @@ package scrumprojectcode;
 import java.util.ArrayList;
 
 public class TaskList {
-        priate static TaskList taskList = null;
-    private static ArrayList<Task> listO
+    private static TaskList taskList = null;
+    private static ArrayList<Task> listOfTasks;
 
-     private TaskList() {
+    private TaskList() {
         listOfTasks = DataLoader.loadTasks();
     }
 
     private TaskList(ArrayList<Task> tasks) {
         listOfTasks = tasks;
     }
-
 
     public static TaskList getInstance(ArrayList<Task> tasks) {
         if (taskList == null)
