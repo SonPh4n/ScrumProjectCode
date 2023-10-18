@@ -12,30 +12,9 @@ public class ProjectSystemFACADE {
         user = null;
     }
 
-  //  private void setUserByUUID(UUID userUUID){
-  //      UserList userList = UserList.getInstance();
-  //      ArrayList<User> listOfUsers = userList.getListOfUsers();
-
-  //      for(User user : listOfUsers){
-  //          if(user.getUserUUID().equals(userUUID)){
-  //              this.user = user;
-  //          } else{
-  //              user = null;
-  //          }
-  //      } 
-        
-// }
-
     public static ProjectSystemFACADE getFacadeInstance(){
         if(facade == null){
             facade = new ProjectSystemFACADE();
-
-           // if(loggedInUserUUID != null) {
-           //     facade.setUserByUUID();
-           // } else{
-                //handle scenario
-           //     facade.user = null;
-           // }
         }
         return facade;
     }
