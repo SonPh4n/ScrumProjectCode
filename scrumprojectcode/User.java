@@ -174,7 +174,7 @@ public class User {
     }
 
     //Setters and Getters 
-    public String getUsername(String username) {
+    public String getUsername() {
         return username;
     }
 
@@ -186,11 +186,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPassword(String password) {
+    public String getPassword() {
         return password;
     }
 
-    public String getFirstName(String firstName) {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -206,7 +206,7 @@ public class User {
         this.email = email;
     }
 
-    public String getEmail(String email) {
+    public String getEmail() {
         return email;
     }
 
@@ -214,7 +214,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoneNumber(String phoneNumber) {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
