@@ -40,14 +40,29 @@ public class DataLoader extends DataConstants {
                 String taskID = (String) taskJSON.get(TASK_ID);
                 String taskTitle = (String) taskJSON.get(TASK_TITLE);
                 String taskDescription = (String) taskJSON.get(TASK_DESCRIPTION);
-                String taskUsers = (String) taskJSON.get(TASK_USERS);
-                String taskHistory = (String) taskJSON.get(TASK_HISTORY);
+                //String taskUsers = (String) taskJSON.get(TASK_USERS);
+                //String taskHistory = (String) taskJSON.get(TASK_HISTORY);
                 String taskComments = (String) taskJSON.get(TASK_COMMENTS);
                 String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
                 String taskDueDate = (String) taskJSON.get(TASK_DUE_DATE);
 
-                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, taskUsers, taskHistory,
-                        taskComments, taskDueDate));
+                // Parse "my-tasks" and "my-projects" as JSON arrays
+                JSONArray assignedUsersJSON = (JSONArray) taskJSON.get(USER_TASKS);
+                JSONArray taskHistoryJSON = (JSONArray) taskJSON.get(USER_PROJECTS);
+
+                // Convert JSON arrays to JAVA arrayLists
+                ArrayList<String> assignedUsers = new ArrayList<String>();
+                ArrayList<String> taskHistory = new ArrayList<String>();
+
+                for (int j = 0; j < assignedUsersJSON.size(); j++) {
+                    assignedUsers.add((String) assignedUsersJSON.get(j));
+                }
+
+                for (int j = 0; j < taskHistoryJSON.size(); j++) {
+                    taskHistory.add((String) taskHistoryJSON.get(j));
+                }
+
+                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, assignedUsers, taskHistory, taskComments, taskDueDate, taskCreationDate));
             }
 
             return tasks;

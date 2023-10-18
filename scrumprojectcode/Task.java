@@ -28,16 +28,29 @@ public class Task {
      * @param taskDescription The description of the task.
      * @param timeToComplete  The estimated time to complete the task.
      */
-    public Task(String taskName, String taskDescription, String timeToComplete) { // TODO update Task constructor
+    public Task(String projectID, String columnID, String taskTitle, String taskDesc, ArrayList<User> taskUsers, 
+            ArrayList<History> taskHistory, String taskComments, String taskDueDate, String taskCreationDate) { // TODO update Task constructor
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.timeToComplete = timeToComplete;
         this.taskUUID = generateUUID();
     }
 
+    /**
+     * creates a Task from DataLoader
+     * @param projectID
+     * @param columnID
+     * @param taskID
+     * @param taskTitle
+     * @param taskDesc
+     * @param taskUsers
+     * @param taskHistory
+     * @param taskComments
+     * @param taskDueDate
+     * @param taskCreationDate
+     */
     public Task(String projectID, String columnID, String taskID, String taskTitle, String taskDesc,
-            ArrayList<String> taskUsers,
-            String taskHistory, String taskComments, String taskDueDate) {
+            ArrayList<String> taskUsers, ArrayList<String> taskHistory, String taskComments, String taskDueDate, String taskCreationDate) {
         setProjectUUID(projectID);
         setColumnUUID(columnID);
         setTaskUUID(taskID);
