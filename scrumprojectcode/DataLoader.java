@@ -46,7 +46,8 @@ public class DataLoader extends DataConstants {
                 String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
                 String taskDueDate = (String) taskJSON.get(TASK_DUE_DATE);
 
-                tasks.add(new Task(taskTitle, taskDescription, taskDueDate));
+                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, taskUsers, taskHistory,
+                        taskComments, taskDueDate));
             }
 
             return tasks;
@@ -97,7 +98,8 @@ public class DataLoader extends DataConstants {
                     myProjects.add((String) myProjectsJSON.get(j));
                 }
 
-                users.add(new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects, type));
+                users.add(
+                        new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects, type));
             }
 
             return users;

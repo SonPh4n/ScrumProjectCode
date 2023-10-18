@@ -45,6 +45,10 @@ public class DataWriter extends DataConstants {
         this.saveTasks = saveTasks;
     }
 
+    /**
+     * Void method that saves the current values in TaskList() and stores it in
+     * task.json
+     */
     public static void saveTasks() {
         TaskList taskList = TaskList.getInstance();
         ArrayList<Task> tasks = taskList.getListOfTasks();
@@ -53,7 +57,7 @@ public class DataWriter extends DataConstants {
         for (int i = 0; i < tasks.size(); i++)
             jsonTasks.add(getTaskJSON(tasks.get(i)));
 
-        try (FileWriter file = new FileWriter(USER_FILE_NAME)) {
+        try (FileWriter file = new FileWriter(TASK_FILE_NAME)) {
             file.write(jsonTasks.toJSONString());
             file.flush();
         } catch (Exception e) {
@@ -61,8 +65,24 @@ public class DataWriter extends DataConstants {
         }
     }
 
+    /**
+     * JSONObject method that takes in a Task and adds its attributes to JSONObject
+     * 
+     * @param task Task to be converted into a JSONObject
+     * @return JSONObject to be added to JSONArray
+     */
     public static JSONObject getTaskJSON(Task task) {
         JSONObject taskDetails = new JSONObject();
+        taskDetails.put(TASK_PROJECT_ID, task.getProjectUUID());
+        taskDetails.put(TASK_COLUMN_ID, task.getColumnUUID());
+        taskDetails.put(TASK_ID, task.getTaskUUID());
+        taskDetails.put(TASK_TITLE, task.getTaskName());
+        taskDetails.put(TASK_DESCRIPTION, task.getTaskDescription());
+        taskDetails.put(TASK_USERS, task.getAssignedUsers());
+        taskDetails.put(TASK_HISTORY, task.getTaskHistory());
+        taskDetails.put(TASK_COMMENTS, task.getTaskComments());
+        taskDetails.put(TASK_CREATION_DATE, task.getCreationDate());
+        taskDetails.put(TASK_DUE_DATE, task.getDueDate());
         // TODO: Figure out how to get projectID, columnID from Task
         return taskDetails;
     }
@@ -86,6 +106,46 @@ public class DataWriter extends DataConstants {
     }
 
     /**
+     * Void method that saves the current values in UserList() and stores it in
+     * user.json
+     */
+    public static void saveUsers() {
+        UserList userList = UserList.getInstance();
+        ArrayList<User> users = userList.getListOfUsers();
+        JSONArray jsonUsers = new JSONArray();
+
+        for (int i = 0; i < users.size(); i++)
+            jsonUsers.add(getUserJSON(users.get(i)));
+
+        try (FileWriter file = new FileWriter(USER_FILE_NAME)) {
+            file.write(jsonUsers.toJSONString());
+            file.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * JSONObject method that takes in a User and adds its attributes to JSONObject
+     * 
+     * @param task User to be converted into a JSONObject
+     * @return JSONObject to be added to JSONArray
+     */
+    public static JSONObject getUserJSON(User user) {
+        JSONObject userDetails = new JSONObject();
+        userDetails.put(USER_ID, user.getUserUUID());
+        userDetails.put(USER_FIRST_NAME, user.getFirstName());
+        userDetails.put(USER_LAST_NAME, user.getLastName());
+        userDetails.put(USER_USERNAME, user.getUsername());
+        userDetails.put(USER_EMAIL, user.getEmail());
+        userDetails.put(USER_PHONE_NUMBER, user.getPhoneNumber());
+        userDetails.put(USER_TYPE, user.getType());
+        userDetails.put(USER_TASKS, user.getMyTasks());
+        userDetails.put(USER_PROJECTS, user.getMyProjects());
+        return userDetails;
+    }
+
+    /**
      * Check if saving projects is enabled.
      *
      * @return True if saving projects is enabled, false otherwise.
@@ -101,5 +161,41 @@ public class DataWriter extends DataConstants {
      */
     public void setSaveProjects(boolean saveProjects) {
         this.saveProjects = saveProjects;
+    }
+
+    /**
+     * Void method that saves the current values in ProjectList() and stores it in
+     * project.json
+     */
+    public static void saveProjects() {
+        ProjectList projectList = ProjectList.getInstance();
+        ArrayList<Project> projects = projectList.getListOfProjects();
+        JSONArray jsonProjects = new JSONArray();
+
+        for (int i = 0; i < projects.size(); i++)
+            jsonProjects.add(getProjectJSON(projects.get(i)));
+
+        try (FileWriter file = new FileWriter(PROJECT_FILE_NAME)) {
+            file.write(jsonProjects.toJSONString());
+            file.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * JSONObject method that takes in a Project and adds its attributes to
+     * JSONObject
+     * 
+     * @param task Project to be converted into a JSONObject
+     * @return JSONObject to be added to JSONArray
+     */
+    public static JSONObject getProjectJSON(Project project) {
+        JSONObject projectDetails = new JSONObject();
+        projectDetails.put(PROJECT_ID, project.getProjectUUID());
+        projectDetails.put(PROJECT_TITLE, project.getProjectName());
+        projectDetails.put(PROJECT_USERS, project.getAssignedUsers());
+        projectDetails.put(PROJECT_COLUMNS, project.getListOfColumns());
+        return projectDetails;
     }
 }

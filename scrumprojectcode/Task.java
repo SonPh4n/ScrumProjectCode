@@ -18,19 +18,36 @@ public class Task {
     private Date creationDate;
     private String timeToComplete;
     private UUID taskUUID;
+    private UUID projectUUID;
+    private UUID columnUUID;
 
     /**
      * Constructor for Task class.
      *
-     * @param taskName         The name of the task.
-     * @param taskDescription  The description of the task.
-     * @param timeToComplete   The estimated time to complete the task.
+     * @param taskName        The name of the task.
+     * @param taskDescription The description of the task.
+     * @param timeToComplete  The estimated time to complete the task.
      */
-    public Task(String taskName, String taskDescription, String timeToComplete) { //TODO update Task constructor
+    public Task(String taskName, String taskDescription, String timeToComplete) { // TODO update Task constructor
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.timeToComplete = timeToComplete;
         this.taskUUID = generateUUID();
+    }
+
+    public Task(String projectID, String columnID, String taskID, String taskTitle, String taskDesc,
+            ArrayList<String> taskUsers,
+            String taskHistory, String taskComments, String taskDueDate) {
+        setProjectUUID(projectID);
+        setColumnUUID(columnID);
+        setTaskUUID(taskID);
+        setTaskName(taskTitle);
+        setTaskDescription(taskDesc);
+
+        // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
+        setAssignedUsers(taskUsers);
+        // TODO: Convert ArrayList<String> taskHistory to HashMap<Date, History>
+        setTaskHistory(taskHistory);
     }
 
     /**
@@ -70,7 +87,8 @@ public class Task {
     }
 
     /**
-     * Overrides the toString() method to provide a string representation of the task.
+     * Overrides the toString() method to provide a string representation of the
+     * task.
      *
      * @return A string representation of the task.
      */
@@ -80,7 +98,7 @@ public class Task {
         return "Task: " + taskName;
     }
 
-    //getters and setters for all attributes
+    // getters and setters for all attributes
     public String getTaskName() {
         return taskName;
     }
@@ -137,6 +155,14 @@ public class Task {
         this.creationDate = creationDate;
     }
 
+    public String getDueDate() {
+        return timeToComplete;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.timeToComplete = dueDate;
+    }
+
     public String getTimeToComplete() {
         return timeToComplete;
     }
@@ -145,14 +171,28 @@ public class Task {
         this.timeToComplete = timeToComplete;
     }
 
+    public UUID getProjectUUID() {
+        return projectUUID;
+    }
+
+    public void setProjectUUID(String projectID) {
+        this.projectUUID = UUID.fromString(projectID);
+    }
+
+    public UUID getColumnUUID() {
+        return columnUUID;
+    }
+
+    public void setColumnUUID(String columnID) {
+        this.columnUUID = UUID.fromString(columnID);
+    }
+
     public UUID getTaskUUID() {
         return taskUUID;
     }
 
-    public void setTaskUUID(UUID taskUUID) {
-        this.taskUUID = taskUUID;
+    public void setTaskUUID(String taskID) {
+        this.taskUUID = UUID.fromString(taskID);
     }
+
 }
-
-
-
