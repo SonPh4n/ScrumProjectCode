@@ -202,6 +202,10 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getLastName(){
+        return lastName;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -242,11 +246,11 @@ public class User {
         this.myProjects = myProjects;
     }
 
-    public String getUserType() {
+    public String getType() {
         return type;
     }
 
-    public void setUserType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
