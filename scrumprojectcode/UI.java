@@ -3,11 +3,12 @@ package scrumprojectcode;
 public class UI {
     private ProjectSystemFACADE facade;
 
-    public void UI() {
-        facade = new ProjectSystemFACADE();
+    public UI() {
+        //TODO
     }
 
     public void run() {
+        facade = ProjectSystemFACADE.getFacadeInstance();
         scenario1();
         scenario2();
     }
