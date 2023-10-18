@@ -19,6 +19,8 @@ public class User {
     public boolean loggedIn;
     private String type;
 
+    private UUID currentlyLoggedIn; //holds the UUID of the user that is currently logged in
+
     //****************************************************************************************************//
     //personalTasks and listOfProjects are the UUIDs of the objects
     //private ArrayList<String> personalTasks;
