@@ -1,34 +1,42 @@
 [
     {
-        "user-id": "1f764890-d5e0-4756-a7a6-a48389abf33f",
-        "first-name": "johnny",
-        "last-name": "applesauce",
-        "user-name": "ja_sauce",
-        "email": "ja_sauce@gmail.com",
-        "phone-number": "+1 202-918-2132",
-        "type": "user",
+        "phone-number": "123-456-7890",
         "my-tasks": [
-            "0d9a1a27-1404-4ab1-8a46-b81670e1cf47",
-            "2d5b5ba3-e838-44be-a5ba-45b363180821"
+            {
+                "my-task-id": "5ffed330-2020-4a42-87bf-94f9b2964eb5"
+            }
         ],
+        "password": "abc123",
+        "user-name": "jdoe",
+        "user-id": "313df4c7-7b3c-4be8-a97f-649df8a81de7",
+        "type": "user",
         "my-projects": [
-            "92811b61-a368-4616-9417-bf0eeaee5389"
-        ]
+            {
+                "my-project-id": "2c68433c-a4be-4291-96f2-624b5cad6958"
+            }
+        ],
+        "first-name": "John",
+        "email": "jdoe@email.edu",
+        "last-name": "Doe"
     },
     {
-        "user-id": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
-        "first-name": "bobby",
-        "last-name": "jones",
-        "user-name": "bjones",
-        "email": "bjones@gmail.com",
-        "phone-number": "+1 505-650-1251",
-        "type": "user",
+        "phone-number": "098-765-4321",
         "my-tasks": [
-            "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe"
+            {
+                "my-task-id": "0bc41b60-fc8b-475c-8e01-47a8775306ff"
+            }
         ],
+        "password": "123abc",
+        "user-name": "co_hanna",
+        "user-id": "f78044ec-70eb-42d0-851e-ed498a4e5049",
+        "type": "user",
         "my-projects": [
-            "92811b61-a368-4616-9417-bf0eeaee5389",
-            "05bc372c-f3a0-4dae-9eb8-a38e92229a0a"
-        ]
+            {
+                "my-project-id": "6b0e58b1-1e9f-4c30-99a8-602b32dbd541"
+            }
+        ],
+        "first-name": "Johanna",
+        "email": "jcole@email.edu",
+        "last-name": "Cole"
     }
 ]

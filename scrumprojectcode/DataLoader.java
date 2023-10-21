@@ -2,10 +2,17 @@ package scrumprojectcode;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.UUID;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;;
+import org.json.simple.parser.JSONParser;
 
+/**
+ * @author jedalto
+ * @author kuriakm
+ */
 public class DataLoader extends DataConstants {
     private static ArrayList<Task> tasks;
     private static ArrayList<User> users;
@@ -40,8 +47,8 @@ public class DataLoader extends DataConstants {
                 String taskID = (String) taskJSON.get(TASK_ID);
                 String taskTitle = (String) taskJSON.get(TASK_TITLE);
                 String taskDescription = (String) taskJSON.get(TASK_DESCRIPTION);
-                //String taskUsers = (String) taskJSON.get(TASK_USERS);
-                //String taskHistory = (String) taskJSON.get(TASK_HISTORY);
+                // String taskUsers = (String) taskJSON.get(TASK_USERS);
+                // String taskHistory = (String) taskJSON.get(TASK_HISTORY);
                 String taskComments = (String) taskJSON.get(TASK_COMMENTS);
                 String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
                 String taskDueDate = (String) taskJSON.get(TASK_DUE_DATE);
@@ -62,7 +69,8 @@ public class DataLoader extends DataConstants {
                     taskHistory.add((String) taskHistoryJSON.get(j));
                 }
 
-                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, assignedUsers, taskHistory, taskComments, taskDueDate, taskCreationDate));
+                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, assignedUsers, taskHistory,
+                        taskComments, taskDueDate, taskCreationDate));
             }
 
             return tasks;
@@ -80,7 +88,9 @@ public class DataLoader extends DataConstants {
      * 
      * @return returns an arraylist of user objects
      */
-    public static ArrayList<User> loadUsers() {
+    public static ArrayList<User> loadUsers() { // Modified loadUsers() to convert Objects directly from user.json and
+                                                // read UUID arrays for my-projects and my-tasks @kuriakm
+        ArrayList<User> users = new ArrayList<User>();
         try {
             FileReader reader = new FileReader(USER_FILE_NAME);
             JSONParser parser = new JSONParser();
@@ -88,41 +98,51 @@ public class DataLoader extends DataConstants {
 
             for (int i = 0; i < usersJSON.size(); i++) {
                 JSONObject userJSON = (JSONObject) usersJSON.get(i);
-                String userID = (String) userJSON.get(USER_ID);
+                String phoneNumber = (String) userJSON.get(USER_PHONE_NUMBER);
                 String firstName = (String) userJSON.get(USER_FIRST_NAME);
                 String lastName = (String) userJSON.get(USER_LAST_NAME);
-                String userName = (String) userJSON.get(USER_USERNAME);
                 String password = (String) userJSON.get(USER_PASSWORD);
-                String email = (String) userJSON.get(USER_EMAIL);
-                String phoneNumber = (String) userJSON.get(USER_PHONE_NUMBER);
+                String userName = (String) userJSON.get(USER_USERNAME);
+                UUID userID = UUID.fromString((String) userJSON.get(USER_ID));
                 String type = (String) userJSON.get(USER_TYPE);
-
-                // Parse "my-tasks" and "my-projects" as JSON arrays
-                JSONArray myTasksJSON = (JSONArray) userJSON.get(USER_TASKS);
-                JSONArray myProjectsJSON = (JSONArray) userJSON.get(USER_PROJECTS);
+                String email = (String) userJSON.get(USER_EMAIL);
 
                 // Convert JSON arrays to JAVA arrayLists
-                ArrayList<String> myTasks = new ArrayList<String>();
-                ArrayList<String> myProjects = new ArrayList<String>();
+                ArrayList<UUID> projectsUUID = new ArrayList<UUID>();
+                ArrayList<UUID> tasksUUID = new ArrayList<UUID>();
 
-                for (int j = 0; j < myTasksJSON.size(); j++) {
-                    myTasks.add((String) myTasksJSON.get(j));
+                // Parse "my-tasks" and "my-projects" as JSON arrays
+                JSONArray projectsJSON = (JSONArray) userJSON.get(USER_PROJECTS);
+                JSONArray tasksJSON = (JSONArray) userJSON.get(USER_TASKS);
+
+                // Included iterators to go through my-project-id and my-task-id @kuriakm
+                Iterator ip = projectsJSON.iterator();
+                Iterator it = tasksJSON.iterator();
+
+                // Iterates through my-project-id and adds it to projectsUUID
+                while (ip.hasNext()) {
+                    JSONObject projectJSON = (JSONObject) ip.next();
+                    UUID projectUUID = UUID.fromString((String) projectJSON.get(USER_PROJECT_ID));
+                    projectsUUID.add(projectUUID);
                 }
 
-                for (int j = 0; j < myProjectsJSON.size(); j++) {
-                    myProjects.add((String) myProjectsJSON.get(j));
+                // Iterates through my-task-id and adds it to tasksUUID
+                while (it.hasNext()) {
+                    JSONObject taskJSON = (JSONObject) it.next();
+                    UUID taskUUID = UUID.fromString((String) taskJSON.get(USER_TASK_ID));
+                    tasksUUID.add(taskUUID);
                 }
 
-                users.add(
-                        new User(userID, firstName, lastName, userName, email, phoneNumber, myTasks, myProjects, type));
+                // TODO: figure out how to get Objects from UUIDs
+                // TODO: Maybe use ArrayList<UUID> for tasks and projects attribute?
+                User aU = new User(userID, firstName, lastName, userName, password, email, phoneNumber, type, tasksUUID,
+                        projectsUUID);
+                users.add(aU);
             }
-
             return users;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
