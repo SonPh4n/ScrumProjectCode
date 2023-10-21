@@ -133,15 +133,31 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getUserJSON(User user) {
         JSONObject userDetails = new JSONObject();
-        userDetails.put(USER_ID, user.getUserUUID());
+        userDetails.put(USER_ID, user.getUserUUID().toString());
         userDetails.put(USER_FIRST_NAME, user.getFirstName());
         userDetails.put(USER_LAST_NAME, user.getLastName());
         userDetails.put(USER_USERNAME, user.getUsername());
+        userDetails.put(USER_PASSWORD, user.getPassword());
         userDetails.put(USER_EMAIL, user.getEmail());
         userDetails.put(USER_PHONE_NUMBER, user.getPhoneNumber());
-        userDetails.put(USER_TYPE, user.getType());
-        userDetails.put(USER_TASKS, user.getMyTasks());
-        userDetails.put(USER_PROJECTS, user.getMyProjects());
+        userDetails.put(USER_TYPE, user.getUserType());
+
+        JSONArray arrayProjects = new JSONArray();
+        JSONArray arrayTasks = new JSONArray();
+
+        for (Project project : user.getMyProjects()) {
+            JSONObject projectIDs = new JSONObject();
+            projectIDs.put(USER_PROJECT_ID, project.getProjectUUID().toString());
+            arrayProjects.add(projectIDs);
+        }
+        for (Task task : user.getMyTasks()) {
+            JSONObject taskIDs = new JSONObject();
+            taskIDs.put(USER_TASK_ID, task.getTaskUUID().toString());
+            arrayTasks.add(taskIDs);
+        }
+        userDetails.put(USER_PROJECTS, arrayProjects);
+        userDetails.put(USER_TASKS, arrayTasks);
+
         return userDetails;
     }
 
