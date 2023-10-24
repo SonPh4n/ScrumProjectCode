@@ -7,6 +7,13 @@ import java.util.UUID;
 /**
  * Represents a task in a project management system.
  */
+
+/*
+ * TODO: Update classes that use getters/setters for Column, Project,
+ * ArrayList<User> assignedUser, HashMap<Date, History> taskHistory, Date
+ * creationDate, String timeToComplete to new attribute types
+ */
+
 public class Task {
     private String taskName;
     private String taskDescription;
@@ -172,52 +179,36 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public ArrayList<User> getAssignedUsers() {
+    public ArrayList<UUID> getAssignedUsers() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<User> assignedUsers) {
+    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 
-    public Column getColumn() {
-        return column;
-    }
-
-    public void setColumn(Column column) {
-        this.column = column;
-    }
-
-    public HashMap<Date, History> getTaskHistory() {
+    public HashMap<String, History> getTaskHistory() {
         return taskHistory;
     }
 
-    public void setTaskHistory(HashMap<Date, History> taskHistory) {
+    public void setTaskHistory(HashMap<String, History> taskHistory) {
         this.taskHistory = taskHistory;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
     public String getDueDate() {
-        return timeToComplete;
+        return taskDueDate;
     }
 
     public void setDueDate(String dueDate) {
-        this.timeToComplete = dueDate;
-    }
-
-    public String getTimeToComplete() {
-        return timeToComplete;
-    }
-
-    public void setTimeToComplete(String timeToComplete) {
-        this.timeToComplete = timeToComplete;
+        this.taskDueDate = dueDate;
     }
 
     public UUID getProjectUUID() {
