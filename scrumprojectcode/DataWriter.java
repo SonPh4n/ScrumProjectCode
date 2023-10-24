@@ -189,18 +189,20 @@ public class DataWriter extends DataConstants {
         JSONArray arrayProjects = new JSONArray();
         JSONArray arrayTasks = new JSONArray();
 
-        for (UUID project : user.getMyProjects()) {
-            JSONObject projectIDs = new JSONObject();
-            projectIDs.put(USER_PROJECT_ID, project.toString());
-            arrayProjects.add(projectIDs);
-        }
-        for (UUID task : user.getMyTasks()) {
-            JSONObject taskIDs = new JSONObject();
-            taskIDs.put(USER_TASK_ID, task.toString());
-            arrayTasks.add(taskIDs);
-        }
-        userDetails.put(USER_PROJECTS, arrayProjects);
-        userDetails.put(USER_TASKS, arrayTasks);
+        /*
+         * for (UUID project : user.getMyProjects()) {
+         * JSONObject projectIDs = new JSONObject();
+         * projectIDs.put(USER_PROJECT_ID, project.toString());
+         * arrayProjects.add(projectIDs);
+         * }
+         * for (UUID task : user.getMyTasks()) {
+         * JSONObject taskIDs = new JSONObject();
+         * taskIDs.put(USER_TASK_ID, task.toString());
+         * arrayTasks.add(taskIDs);
+         * }
+         * userDetails.put(USER_PROJECTS, arrayProjects);
+         * userDetails.put(USER_TASKS, arrayTasks);
+         */
 
         return userDetails;
     }
@@ -227,13 +229,12 @@ public class DataWriter extends DataConstants {
      * Void method that saves the current values in ProjectList() and stores it in
      * project.json
      */
-    public static void saveProjects() {
-        ProjectList projectList = ProjectList.getInstance();
-        ArrayList<Project> projects = projectList.getListOfProjects();
+    public static void saveProjects(ArrayList<Project> projects) {
         JSONArray jsonProjects = new JSONArray();
 
-        for (int i = 0; i < projects.size(); i++)
+        for (int i = 0; i < projects.size(); i++) {
             jsonProjects.add(getProjectJSON(projects.get(i)));
+        }
 
         try (FileWriter file = new FileWriter(PROJECT_FILE_NAME)) {
             file.write(jsonProjects.toJSONString());
@@ -250,12 +251,33 @@ public class DataWriter extends DataConstants {
      * @param project Project to be converted into a JSONObject
      * @return JSONObject to be added to JSONArray
      */
-    public static JSONObject getProjectJSON(Project project) {
-        JSONObject projectDetails = new JSONObject();
-        projectDetails.put(PROJECT_ID, project.getProjectUUID());
-        projectDetails.put(PROJECT_TITLE, project.getProjectName());
-        projectDetails.put(PROJECT_USERS, project.getAssignedUsers());
-        projectDetails.put(PROJECT_COLUMNS, project.getListOfColumns());
-        return projectDetails;
+    public static JSONObject getProjectJSON(User user) {
+        JSONObject userDetails = new JSONObject();
+        userDetails.put(USER_ID, user.getUserUUID().toString());
+        userDetails.put(USER_FIRST_NAME, user.getFirstName());
+        userDetails.put(USER_LAST_NAME, user.getLastName());
+        userDetails.put(USER_USERNAME, user.getUsername());
+        userDetails.put(USER_PASSWORD, user.getPassword());
+        userDetails.put(USER_EMAIL, user.getEmail());
+        userDetails.put(USER_PHONE_NUMBER, user.getPhoneNumber());
+        userDetails.put(USER_TYPE, user.getUserType());
+
+        JSONArray arrayProjects = new JSONArray();
+        JSONArray arrayTasks = new JSONArray();
+
+        for (UUID project : user.getMyProjects()) {
+            JSONObject projectIDs = new JSONObject();
+            projectIDs.put(USER_PROJECT_ID, project.toString());
+            arrayProjects.add(projectIDs);
+        }
+        for (UUID task : user.getMyTasks()) {
+            JSONObject taskIDs = new JSONObject();
+            taskIDs.put(USER_TASK_ID, task.toString());
+            arrayTasks.add(taskIDs);
+        }
+        userDetails.put(USER_PROJECTS, arrayProjects);
+        userDetails.put(USER_TASKS, arrayTasks);
+
+        return userDetails;
     }
 }
