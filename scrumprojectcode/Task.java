@@ -1,7 +1,6 @@
-package scrumprojectcode;
-
+import java.time.LocalDateTime; // Handles creationDate attribute @kuriakm
+import java.time.format.DateTimeFormatter; // Formats creationDate to MM/dd/YYYY @kuriakm
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -10,16 +9,38 @@ import java.util.UUID;
  */
 public class Task {
     private String taskName;
-    private ArrayList<Comment> taskComments;
     private String taskDescription;
-    private ArrayList<User> assignedUsers;
-    private Column column;
-    private HashMap<Date, History> taskHistory;
-    private Date creationDate;
-    private String timeToComplete;
+    private ArrayList<Comment> taskComments;
+    private ArrayList<UUID> assignedUsers; // Was unable to use User object when loading from task.json so I changed it
+                                           // to ArrayList<UUID> @kuriakm
+    private HashMap<String, History> taskHistory;
+    private String creationDate; // Changed creationDate from Date to String to make it easier to load from file
+                                 // @kuriakm
+    private String taskDueDate;
     private UUID taskUUID;
     private UUID projectUUID;
     private UUID columnUUID;
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
+
+    /**
+     * Debugger method, remove in final submission
+     */
+    public Task(UUID user) {
+        this.taskUUID = generateUUID();
+        this.taskName = "Test Task Name";
+        this.taskDescription = "Test Task Description";
+        this.taskComments = new ArrayList<Comment>();
+        taskComments.add(new Comment(user));
+        this.assignedUsers = new ArrayList<UUID>();
+        assignedUsers.add(user);
+        this.taskHistory = new HashMap<String, History>();
+        taskHistory.put(creationDate, new History(user, creationDate, user + " created a task"));
+        LocalDateTime dateNow = LocalDateTime.now();
+        this.creationDate = formatter.format(dateNow);
+        this.taskDueDate = "N/A";
+        this.projectUUID = generateUUID();
+        this.columnUUID = generateUUID();
+    }
 
     /**
      * Constructor for Task class.
@@ -28,16 +49,24 @@ public class Task {
      * @param taskDescription The description of the task.
      * @param timeToComplete  The estimated time to complete the task.
      */
-    public Task(String projectID, String columnID, String taskTitle, String taskDesc, ArrayList<User> taskUsers, 
-            ArrayList<History> taskHistory, String taskComments, String taskDueDate, String taskCreationDate) { // TODO update Task constructor
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
-        this.timeToComplete = timeToComplete;
-        this.taskUUID = generateUUID();
+    public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc,
+            UUID userUUID, String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
+        this.taskUUID = taskID;
+        this.taskName = taskTitle;
+        this.taskDescription = taskDesc;
+        this.taskComments = taskComments;
+        this.assignedUsers = new ArrayList<>();
+        this.assignedUsers.add(userUUID); // Adds first User that created
+        this.taskHistory = taskHistory;
+        this.creationDate = taskCreationDate;
+        this.taskDueDate = taskDueDate;
+        this.projectUUID = projectID;
+        this.columnUUID = columnID;
     }
 
     /**
      * creates a Task from DataLoader
+     * 
      * @param projectID
      * @param columnID
      * @param taskID
@@ -49,18 +78,19 @@ public class Task {
      * @param taskDueDate
      * @param taskCreationDate
      */
-    public Task(String projectID, String columnID, String taskID, String taskTitle, String taskDesc,
-            ArrayList<String> taskUsers, ArrayList<String> taskHistory, String taskComments, String taskDueDate, String taskCreationDate) {
-        setProjectUUID(projectID);
-        setColumnUUID(columnID);
-        setTaskUUID(taskID);
-        setTaskName(taskTitle);
-        setTaskDescription(taskDesc);
-
-        // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
-        setAssignedUsers(taskUsers);
-        // TODO: Convert ArrayList<String> taskHistory to HashMap<Date, History>
-        setTaskHistory(taskHistory);
+    public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc,
+            ArrayList<UUID> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
+            String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
+        this.taskUUID = taskID;
+        this.taskName = taskTitle;
+        this.taskDescription = taskDesc;
+        this.taskComments = taskComments;
+        this.assignedUsers = taskUsers;
+        this.taskHistory = taskHistory;
+        this.creationDate = taskCreationDate;
+        this.taskDueDate = taskDueDate;
+        this.projectUUID = projectID;
+        this.columnUUID = columnID;
     }
 
     /**
@@ -107,8 +137,14 @@ public class Task {
      */
     @Override
     public String toString() {
-        // Implementation for generating the string representation of the task
-        return "Task: " + taskName;
+        String commentsToString = "";
+        for (Comment comment : taskComments)
+            commentsToString = commentsToString + comment.toString();
+        return "[Task]: " + this.taskName + "\n"
+                + "[Description]: " + this.taskDescription + "\n"
+                + "[Due Date]: " + this.taskDueDate + "\n"
+                + "[Creation Date]: " + this.creationDate + "\n\n"
+                + "[Task Comments]: \n" + commentsToString;
     }
 
     // getters and setters for all attributes
