@@ -26,7 +26,10 @@
         "creation-date": "10\/23\/2023",
         "history": [
             {
-                "history-id": "cd4a4294-b91d-48f2-b306-b0ec43124110"
+                "history-id": "3c06104a-213b-451f-8aee-fca81c4a7819",
+                "history-user": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
+                "history-details": "Bob Jones created a task",
+                "recorded-date": "09/27/2023"
             }
         ],
         "project-id": "ada85188-1d1d-4726-9654-448290c61da6",
@@ -59,7 +62,10 @@
         "creation-date": "10\/23\/2023",
         "history": [
             {
-                "history-id": "1b4bae16-5286-492c-933d-22d3370ead16"
+                "history-id": "a80acec2-90f1-4fed-b89b-a46ac310189f",
+                "history-user": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
+                "history-details": "Bob Jones made a comment",
+                "recorded-date": "09/28/2023"
             }
         ],
         "project-id": "99f41ae5-8b31-42da-adc0-381db07828b3",

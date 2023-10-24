@@ -18,9 +18,11 @@ public class User {
     public boolean loggedIn;
     private String type;
 
-    private UUID userUUID;
-    private ArrayList<UUID> myTasks; // Was unable to use Task and Project object when loading from user.json so I
-                                     // changed these to ArrayList<UUID> @kuriakm
+    /*
+     * private UUID userUUID;
+     * private ArrayList<UUID> myTasks;
+     */ // Was unable to use Task and Project object when loading from user.json so I
+        // changed these to ArrayList<UUID> @kuriakm
     private ArrayList<UUID> myProjects;
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
@@ -160,7 +162,8 @@ public class User {
     }
 
     // logs out the user
-    public void logout() {
+    public void logout() { // TODO: Call UserList.saveTasks(), saveUsers(), saveProjects() and set loggedIn
+                           // to false
         loggedIn = false;
     }
 

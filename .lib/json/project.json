@@ -7,10 +7,14 @@
             "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
         ],
         "project-columns": [
-            "15a9f7c4-bbd2-48b8-81ff-0c7cf56aea18",
-            "667f0961-5295-4aa3-9ff2-30231e76baeb",
-            "c4abc28c-830f-49ba-af8c-2f96cd2a498f",
-            "85cec173-4345-4ebd-bb4a-825debcd81e1"
+            {
+                "column-id": "15a9f7c4-bbd2-48b8-81ff-0c7cf56aea18",
+                "column-title": "completed",
+                "column-tasks": [
+                    "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe",
+                    "9d9f2cca-360d-4fde-a4b6-143760ebe0a8"
+                ]
+            }
         ]
     },
     {
@@ -20,9 +24,15 @@
             "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
         ],
         "project-columns": [
-            "15a9f7c4-bbd2-48b8-81ff-0c7cf56aea18",
-            "667f0961-5295-4aa3-9ff2-30231e76baeb",
-            "c4abc28c-830f-49ba-af8c-2f96cd2a498f"
+            {
+                "column-id": "667f0961-5295-4aa3-9ff2-30231e76baeb",
+                "column-title": "work in progress",
+                "column-tasks": [
+                    "0d9a1a27-1404-4ab1-8a46-b81670e1cf47",
+                    "cb39793b-1690-45fb-85ae-9d081c2a16c5",
+                    "0005cdd0-6afa-4815-9511-ea3b5247fe2a"
+                ]
+            }
         ]
     }
 ]
