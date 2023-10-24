@@ -3,46 +3,63 @@ package scrumprojectcode;
 /**
  * Represents the history of a task in a scrum project.
  */
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public class History {
+    private UUID user; // Was unable to use User object when loading from task.json so I changed it
+    // to UUID @kuriakm
+    private String details;
+    private String date;
+    private UUID historyUUID;
 
-    private User user;      // Represents the user associated with this history entry
-    private String details; // Stores details of the history entry
-    private String date;      // Represents the date of the history entry
+    public History(UUID userID, String date, String details) {
+        this.user = userID;
+        this.date = date;
+        this.details = details;
+        this.historyUUID = generateUUID();
+    }
 
-    /**
-     * Constructor to create a History object.
-     *
-     * @param user    The user associated with this history entry.
-     * @param details Details of the history entry.
-     * @param date    The date of the history entry.
-     */
-    public History(User user, String details, String date) {
-        // Initialize the History object with provided parameters
+    public History(UUID historyID, UUID userID, String date, String details) {
+        this.historyUUID = historyID;
+        this.user = userID;
+        this.date = date;
+        this.details = details;
+    }
+
+    public UUID generateUUID() {
+        return UUID.randomUUID();
+    }
+
+    public UUID getUser() {
+        return this.user;
+    }
+
+    public void setUser(UUID user) {
         this.user = user;
+    }
+
+    public String getDetails() {
+        return this.details;
+    }
+
+    public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public History(String userID, String details, String date){
-        this.user = UUIDtoUser(userID);
-        this.details = details;
-        this.date = date;
+    public UUID getHistoryUUID() {
+        return this.historyUUID;
     }
 
-    private User UUIDtoUser(String userID){
-        //convert string uuid to object UUID
-        return null;
-    }
-
-    /**
-     * Returns a string representation of the History object.
-     *
-     * @return A string representing the History object.
-     */
-    @Override
-    public String toString() {
-        // Override the toString() method
-        // of the History object
-        return null;  // Replace with actual logic
+    public void setHistoryUUID(UUID historyUUID) {
+        this.historyUUID = historyUUID;
     }
 }
