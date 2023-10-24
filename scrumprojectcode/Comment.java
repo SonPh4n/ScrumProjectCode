@@ -10,9 +10,24 @@ public class Comment {
 
     // Attributes
     private String comment; // Stores the comment text
-    private User user; // Represents the user associated with the comment
+    private UUID user; // Represents the user associated with the comment
+    // Was unable to use User object when loading from task.json so I changed it
+    // to UUID @kuriakm
     private ArrayList<Comment> moreComments; // Stores Array of comments
     private UUID commentUUID; // Provides a unique identifier for the comment
+
+    /**
+     * Debugger method, remove in final submission
+     */
+    public Comment(UUID user) {
+        this.comment = "Test comment";
+        this.user = user;
+        this.commentUUID = generateUUID();
+        this.moreComments = new ArrayList<>();
+        Comment testMoreComments = new Comment("Test more comments", user);
+        testMoreComments.moreComments.add(testMoreComments);
+        moreComments.add(testMoreComments);
+    }
 
     /**
      * Constructor to create a Comment object.
@@ -20,12 +35,37 @@ public class Comment {
      * @param comment The comment text.
      * @param user    The user associated with the comment.
      */
-    public Comment(String comment, User user) {
+    public Comment(String comment, UUID user) {
         // Constructor logic
         this.comment = comment;
         this.user = user;
         this.commentUUID = generateUUID(); // Generate a unique UUID for the comment
         this.moreComments = new ArrayList<>(); // Initialize the list for additional comments
+    }
+
+    /**
+     * Constructor to take in JSON file contents in Comment object
+     * 
+     * @param comment
+     */
+    public Comment(UUID commentID, String comment, UUID user, ArrayList<Comment> moreComments) {
+        this.commentUUID = commentID;
+        this.comment = comment;
+        this.user = user;
+        this.moreComments = moreComments;
+    }
+
+    /**
+     * Constructor to take in JSON file contents in Comment object without
+     * moreComments
+     * 
+     * @param comment
+     */
+    public Comment(UUID commentID, String comment, UUID user) {
+        this.commentUUID = commentID;
+        this.comment = comment;
+        this.user = user;
+        this.moreComments = new ArrayList<>();
     }
 
     /**
@@ -36,7 +76,39 @@ public class Comment {
     private UUID generateUUID() {
         // UUID generation logic (to be implemented)
         // This method should return a unique UUID for the comment
-        return null; // Replace with actual logic
+        return UUID.randomUUID(); // Replace with actual logic
+    }
+
+    public String getComment() {
+        return this.comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public UUID getUser() {
+        return this.user;
+    }
+
+    public void setUser(UUID user) {
+        this.user = user;
+    }
+
+    public ArrayList<Comment> getMoreComments() {
+        return this.moreComments;
+    }
+
+    public void setMoreComments(ArrayList<Comment> moreComments) {
+        this.moreComments = moreComments;
+    }
+
+    public UUID getCommentUUID() {
+        return this.commentUUID;
+    }
+
+    public void setCommentUUID(UUID commentUUID) {
+        this.commentUUID = commentUUID;
     }
 
     /**
@@ -44,11 +116,18 @@ public class Comment {
      *
      * @return A string representing the Comment object.
      */
-    @Override
+    @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
-        // toString method logic (to be implemented)
-        // This method should return a meaningful string representation of the Comment
-        // object
-        return ""; // Replace with actual logic
+        String commentsToString = "";
+        int commentIterator = 0;
+        for (Comment comment : moreComments) { // TODO: use UserList to convert getUser to User.username
+            commentsToString = commentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
+                    + comment.getComment() + "\n"
+                    + "\t[User]: " + comment.getUser();
+            commentIterator++;
+        }
+        return "[Comment]: " + comment + "\n"
+                + "[User]: " + this.user + "\n" + commentsToString; // TODO: Use UserList to access username instead of
+                                                                    // userUUID
     }
 }
