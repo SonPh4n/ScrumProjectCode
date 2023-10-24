@@ -2,6 +2,8 @@ package scrumprojectcode;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,6 +14,10 @@ import org.json.simple.JSONObject;
  * @AidanH002
  * @kuriakm
  */
+
+// TODO: fix saveProjects() in main repo
+
+// TODO: Include saveHistory() and saveColumn() methods
 public class DataWriter extends DataConstants {
     // Attributes
     private boolean saveTasks;
@@ -49,13 +55,12 @@ public class DataWriter extends DataConstants {
      * Void method that saves the current values in TaskList() and stores it in
      * task.json
      */
-    public static void saveTasks() {
-        TaskList taskList = TaskList.getInstance();
-        ArrayList<Task> tasks = taskList.getListOfTasks();
+    public static void saveTasks(ArrayList<Task> tasks) {
         JSONArray jsonTasks = new JSONArray();
 
-        for (int i = 0; i < tasks.size(); i++)
+        for (int i = 0; i < tasks.size(); i++) {
             jsonTasks.add(getTaskJSON(tasks.get(i)));
+        }
 
         try (FileWriter file = new FileWriter(TASK_FILE_NAME)) {
             file.write(jsonTasks.toJSONString());
@@ -73,17 +78,54 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getTaskJSON(Task task) {
         JSONObject taskDetails = new JSONObject();
-        taskDetails.put(TASK_PROJECT_ID, task.getProjectUUID());
-        taskDetails.put(TASK_COLUMN_ID, task.getColumnUUID());
-        taskDetails.put(TASK_ID, task.getTaskUUID());
+        taskDetails.put(TASK_PROJECT_ID, task.getProjectUUID().toString());
+        taskDetails.put(TASK_COLUMN_ID, task.getColumnUUID().toString());
+        taskDetails.put(TASK_ID, task.getTaskUUID().toString());
         taskDetails.put(TASK_TITLE, task.getTaskName());
         taskDetails.put(TASK_DESCRIPTION, task.getTaskDescription());
-        taskDetails.put(TASK_USERS, task.getAssignedUsers());
-        taskDetails.put(TASK_HISTORY, task.getTaskHistory());
-        taskDetails.put(TASK_COMMENTS, task.getTaskComments());
         taskDetails.put(TASK_CREATION_DATE, task.getCreationDate());
-        taskDetails.put(TASK_DUE_DATE, task.getDueDate());
-        // TODO: Figure out how to get projectID, columnID from Task
+        taskDetails.put(TASK_DUE_DATE, task.getTaskDueDate());
+
+        JSONArray arrayUsers = new JSONArray();
+        JSONArray arrayComments = new JSONArray();
+        JSONArray arrayMoreComments = new JSONArray(); // TODO: figure out how to save recursive moreComments
+        JSONArray arrayHistory = new JSONArray();
+
+        for (UUID user : task.getAssignedUsers()) {
+            JSONObject userIDDetails = new JSONObject();
+            userIDDetails.put(TASK_USER_ID, user.toString());
+            arrayUsers.add(userIDDetails);
+        }
+
+        for (Comment comment : task.getTaskComments()) {
+            JSONObject commentDetails = new JSONObject();
+            commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
+            commentDetails.put(TASK_COMMENTOR, comment.getUser().toString());
+            commentDetails.put(TASK_COMMENT, comment.getComment().toString());
+
+            int moreCommentsIterator = 0;
+            for (Comment moreComments : task.getTaskComments().get(moreCommentsIterator).getMoreComments()) {
+                if (!task.getTaskComments().get(moreCommentsIterator).getMoreComments().isEmpty()) {
+                    JSONObject moreCommentDetails = new JSONObject();
+                    moreCommentDetails.put(TASK_COMMENT_ID, moreComments.getCommentUUID().toString());
+                    moreCommentDetails.put(TASK_COMMENTOR, moreComments.getUser().toString());
+                    moreCommentDetails.put(TASK_COMMENT, moreComments.getComment().toString());
+                    arrayMoreComments.add(moreCommentDetails);
+                    moreCommentsIterator++;
+                }
+            }
+            commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
+            arrayComments.add(commentDetails);
+        }
+        for (HashMap.Entry<String, History> history : task.getTaskHistory().entrySet()) {
+            JSONObject historyDetails = new JSONObject();
+            historyDetails.put(TASK_HISTORY_ID, history.getValue().getHistoryUUID().toString());
+            arrayHistory.add(historyDetails);
+        }
+        taskDetails.put(TASK_USERS, arrayUsers);
+        taskDetails.put(TASK_COMMENT_TITLE, arrayComments);
+        taskDetails.put(TASK_HISTORY, arrayHistory);
+
         return taskDetails;
     }
 
@@ -106,16 +148,18 @@ public class DataWriter extends DataConstants {
     }
 
     /**
-     * Void method that saves the current values in UserList() and stores it in
-     * user.json
+     * Saves Users from ArrayList<User> to user.json
+     * TODO: Figure out how to save Users in user.json without appending preexisting
+     * TODO: values
+     * 
+     * @param users
      */
-    public static void saveUsers() {
-        UserList userList = UserList.getInstance();
-        ArrayList<User> users = userList.getListOfUsers();
+    public static void saveUsers(ArrayList<User> users) {
         JSONArray jsonUsers = new JSONArray();
 
-        for (int i = 0; i < users.size(); i++)
+        for (int i = 0; i < users.size(); i++) {
             jsonUsers.add(getUserJSON(users.get(i)));
+        }
 
         try (FileWriter file = new FileWriter(USER_FILE_NAME)) {
             file.write(jsonUsers.toJSONString());
@@ -128,7 +172,7 @@ public class DataWriter extends DataConstants {
     /**
      * JSONObject method that takes in a User and adds its attributes to JSONObject
      * 
-     * @param task User to be converted into a JSONObject
+     * @param user User to be converted into a JSONObject
      * @return JSONObject to be added to JSONArray
      */
     public static JSONObject getUserJSON(User user) {
@@ -145,14 +189,14 @@ public class DataWriter extends DataConstants {
         JSONArray arrayProjects = new JSONArray();
         JSONArray arrayTasks = new JSONArray();
 
-        for (Project project : user.getMyProjects()) {
+        for (UUID project : user.getMyProjects()) {
             JSONObject projectIDs = new JSONObject();
-            projectIDs.put(USER_PROJECT_ID, project.getProjectUUID().toString());
+            projectIDs.put(USER_PROJECT_ID, project.toString());
             arrayProjects.add(projectIDs);
         }
-        for (Task task : user.getMyTasks()) {
+        for (UUID task : user.getMyTasks()) {
             JSONObject taskIDs = new JSONObject();
-            taskIDs.put(USER_TASK_ID, task.getTaskUUID().toString());
+            taskIDs.put(USER_TASK_ID, task.toString());
             arrayTasks.add(taskIDs);
         }
         userDetails.put(USER_PROJECTS, arrayProjects);
@@ -203,7 +247,7 @@ public class DataWriter extends DataConstants {
      * JSONObject method that takes in a Project and adds its attributes to
      * JSONObject
      * 
-     * @param task Project to be converted into a JSONObject
+     * @param project Project to be converted into a JSONObject
      * @return JSONObject to be added to JSONArray
      */
     public static JSONObject getProjectJSON(Project project) {

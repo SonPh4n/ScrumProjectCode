@@ -2,6 +2,7 @@ package scrumprojectcode;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -34,7 +35,9 @@ public class DataLoader extends DataConstants {
      * 
      * @return returns an arraylist of task objects
      */
-    public static ArrayList<Task> loadTasks() {
+    public static ArrayList<Task> loadTasks() { // TODO: Read comments recursively and fix getTaskHistory to properly
+                                                // TODO: populate HashMap<String, History>
+        ArrayList<Task> tasks = new ArrayList<Task>();
         try {
             FileReader reader = new FileReader(TASK_FILE_NAME);
             JSONParser parser = new JSONParser();
@@ -42,43 +45,97 @@ public class DataLoader extends DataConstants {
 
             for (int i = 0; i < tasksJSON.size(); i++) {
                 JSONObject taskJSON = (JSONObject) tasksJSON.get(i);
-                String projectID = (String) taskJSON.get(TASK_PROJECT_ID);
-                String columnID = (String) taskJSON.get(TASK_PROJECT_ID);
-                String taskID = (String) taskJSON.get(TASK_ID);
+                UUID projectID = UUID.fromString((String) taskJSON.get(TASK_PROJECT_ID));
+                UUID columnID = UUID.fromString((String) taskJSON.get(TASK_COLUMN_ID));
+                UUID taskID = UUID.fromString((String) taskJSON.get(TASK_ID));
                 String taskTitle = (String) taskJSON.get(TASK_TITLE);
-                String taskDescription = (String) taskJSON.get(TASK_DESCRIPTION);
-                // String taskUsers = (String) taskJSON.get(TASK_USERS);
-                // String taskHistory = (String) taskJSON.get(TASK_HISTORY);
-                String taskComments = (String) taskJSON.get(TASK_COMMENTS);
-                String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
+                String taskDesc = (String) taskJSON.get(TASK_DESCRIPTION);
                 String taskDueDate = (String) taskJSON.get(TASK_DUE_DATE);
+                String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
 
-                // Parse "my-tasks" and "my-projects" as JSON arrays
-                JSONArray assignedUsersJSON = (JSONArray) taskJSON.get(USER_TASKS);
-                JSONArray taskHistoryJSON = (JSONArray) taskJSON.get(USER_PROJECTS);
+                ArrayList<UUID> usersUUID = new ArrayList<UUID>();
+                ArrayList<Comment> comments = new ArrayList<Comment>();
+                ArrayList<UUID> historiesUUID = new ArrayList<>(); // Used to convert UUIDs in task.json to History
+                HashMap<String, History> history = new HashMap<>();
 
-                // Convert JSON arrays to JAVA arrayLists
-                ArrayList<String> assignedUsers = new ArrayList<String>();
-                ArrayList<String> taskHistory = new ArrayList<String>();
+                JSONArray usersJSON = (JSONArray) taskJSON.get(TASK_USERS);
+                JSONArray commentsJSON = (JSONArray) taskJSON.get(TASK_COMMENT);
+                JSONArray moreCommentsJSON = (JSONArray) taskJSON.get(TASK_MORE_COMMENTS);
+                JSONArray historiesJSON = (JSONArray) taskJSON.get(TASK_HISTORY);
+                Iterator iu = usersJSON.iterator();
+                Iterator ih = historiesJSON.iterator();
+                Iterator ic = commentsJSON.iterator();
+                Iterator iMC = moreCommentsJSON.iterator();
 
-                for (int j = 0; j < assignedUsersJSON.size(); j++) {
-                    assignedUsers.add((String) assignedUsersJSON.get(j));
+                while (iu.hasNext()) {
+                    JSONObject userJSON = (JSONObject) iu.next();
+                    UUID userUUID = UUID.fromString((String) userJSON.get(TASK_USER_ID));
+                    usersUUID.add(userUUID);
                 }
 
-                for (int j = 0; j < taskHistoryJSON.size(); j++) {
-                    taskHistory.add((String) taskHistoryJSON.get(j));
+                while (ih.hasNext()) {
+                    JSONObject historyJSON = (JSONObject) ih.next();
+                    UUID historyUUID = UUID.fromString((String) historyJSON.get(TASK_HISTORY_ID));
+                    historiesUUID.add(historyUUID);
                 }
 
-                tasks.add(new Task(projectID, columnID, taskID, taskTitle, taskDescription, assignedUsers, taskHistory,
-                        taskComments, taskDueDate, taskCreationDate));
+                history = getTaskHistory(historiesUUID);
+
+                while (ic.hasNext()) {
+                    ArrayList<Comment> moreComments = new ArrayList<Comment>();
+                    JSONObject commentJSON = (JSONObject) ic.next();
+                    UUID commentor = UUID.fromString((String) commentJSON.get(TASK_COMMENTOR));
+                    String comment = (String) commentJSON.get(TASK_COMMENT);
+                    UUID commentUUID = UUID.fromString((String) commentJSON.get(TASK_COMMENT_ID));
+                    while (iMC.hasNext()) {
+                        JSONObject moreCommentJSON = (JSONObject) iMC.next();
+                        UUID moreCommentor = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENTOR));
+                        String moreComment = (String) moreCommentJSON.get(TASK_COMMENT);
+                        UUID moreCommentUUID = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENT_ID));
+                        Comment aMC = new Comment(moreCommentor, moreComment, moreCommentUUID);
+                        moreComments.add(aMC);
+                    }
+                    Comment aC = new Comment(commentor, comment, commentUUID, moreComments);
+                    comments.add(aC);
+                }
+
+                Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, usersUUID, history, comments,
+                        taskDueDate, taskCreationDate);
+                tasks.add(aT);
             }
-
             return tasks;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
+    // TODO: Handle getTaskHistory()/loadHistory() methods by either using
+    // TODO: ArrayList<UUID> for taskHistory or loading HashMap<String, History>
+    // TODO: from history.json in loadTasks()
+    private static HashMap<String, History> getTaskHistory(ArrayList<UUID> historyUUID) {
+        HashMap<String, History> history = new HashMap<>();
+        try {
+            FileReader reader = new FileReader(HISTORY_FILE_NAME);
+            JSONParser parser = new JSONParser();
+            JSONArray historiesJSON = (JSONArray) new JSONParser().parse(reader);
+
+            for (int i = 0; i < historiesJSON.size(); i++) {
+                JSONObject historyJSON = (JSONObject) historiesJSON.get(i);
+                UUID historyID = UUID.fromString((String) historyJSON.get(HISTORY_ID));
+                UUID userID = UUID.fromString((String) historyJSON.get(HISTORY_USER));
+                String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
+                String recordedDate = (String) historyJSON.get(HISTORY_RECORDED_DATE);
+
+                if (historyID.equals(historyUUID.get(i))) {
+                    History aH = new History(historyID, userID, recordedDate, historyDetails);
+                    history.put(recordedDate, aH);
+                }
+            }
+            return history;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

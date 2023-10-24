@@ -9,7 +9,7 @@ public class DataConstants {
     /**
      * user data constants
      */
-    protected static final String USER_FILE_NAME = ".\\lib\\user.json"; // Included file path for user.json @kuriakm
+    protected static final String USER_FILE_NAME = ".\\.lib\\user.json"; // Included file path for user.json @kuriakm
     protected static final String USER = "user";
     protected static final String USER_ID = "user-id";
     protected static final String USER_FIRST_NAME = "first-name";
@@ -27,8 +27,8 @@ public class DataConstants {
     /**
      * column data constants
      */
-    protected static final String COLUMN_FILE_NAME = ".\\lib\\column.json"; // Included file path for column.json
-                                                                            // @kuriakm
+    protected static final String COLUMN_FILE_NAME = ".\\.lib\\column.json"; // Included file path for column.json
+                                                                             // @kuriakm
     protected static final String COLUMN = "column";
     protected static final String COLUMN_PROJECT_ID = "project-id";
     protected static final String COLUMN_ID = "column-id";
@@ -38,8 +38,8 @@ public class DataConstants {
     /**
      * history data constants
      */
-    protected static final String HISTORY_FILE_NAME = ".\\lib\\history.json"; // Included file path for history.json
-                                                                              // @kuriakm
+    protected static final String HISTORY_FILE_NAME = ".\\.lib\\history.json"; // Included file path for history.json
+                                                                               // @kuriakm
     protected static final String HISTORY = "history";
     protected static final String HISTORY_ID = "history-id";
     protected static final String HISTORY_USER = "history-user";
@@ -49,8 +49,8 @@ public class DataConstants {
     /**
      * project data constants
      */
-    protected static final String PROJECT_FILE_NAME = ".\\lib\\project.json"; // Included file path for project.json
-                                                                              // @kuriakm
+    protected static final String PROJECT_FILE_NAME = ".\\.lib\\project.json"; // Included file path for project.json
+                                                                               // @kuriakm
     protected static final String PROJECT = "project";
     protected static final String PROJECT_ID = "project-id";
     protected static final String PROJECT_TITLE = "project-title";
@@ -60,7 +60,7 @@ public class DataConstants {
     /**
      * task data constants
      */
-    protected static final String TASK_FILE_NAME = ".\\lib\\task.json"; // Included file path for task.json @kuriakm
+    protected static final String TASK_FILE_NAME = ".\\.lib\task.json"; // Included file path for task.json @kuriakm
     protected static final String TASK_PROJECT_ID = "project-id";
     protected static final String TASK_COLUMN_ID = "column-id";
     protected static final String TASK_ = "task";
@@ -68,8 +68,14 @@ public class DataConstants {
     protected static final String TASK_TITLE = "task-title";
     protected static final String TASK_DESCRIPTION = "task-description";
     protected static final String TASK_USERS = "assigned-users";
+    protected static final String TASK_USER_ID = "user-id";
     protected static final String TASK_HISTORY = "history";
-    protected static final String TASK_COMMENTS = "comments";
+    protected static final String TASK_HISTORY_ID = "history-id";
+    protected static final String TASK_COMMENT_TITLE = "comments";
+    protected static final String TASK_COMMENT_ID = "id";
+    protected static final String TASK_COMMENTOR = "commentor";
+    protected static final String TASK_COMMENT = "comment";
+    protected static final String TASK_MORE_COMMENTS = "more-comments";
     protected static final String TASK_CREATION_DATE = "creation-date";
     protected static final String TASK_DUE_DATE = "due-date";
 }
