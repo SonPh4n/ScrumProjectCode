@@ -11,8 +11,8 @@ import java.util.UUID;
  */
 public class Project {
     public String projectName;
-    public ArrayList<Column> listOfColumns;
-    public ArrayList<User> assignedUsers;
+    public ArrayList<UUID> listOfColumns;
+    public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
 
     /**
@@ -23,7 +23,7 @@ public class Project {
     public Project(String projectName) {
         this.projectName = projectName;
         this.projectUUID = generateUUID();
-        this.listOfColumns = new ArrayList<Column>();
+        this.listOfColumns = new ArrayList<UUID>();
     }
 
     /**
@@ -35,13 +35,13 @@ public class Project {
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(String projectUUID, String projectName, ArrayList<String> listOfColumns,
-            ArrayList<String> assignedUsers) {
+    public Project(String projectUUID, String projectName, ArrayList<UUID> listOfColumns,
+            ArrayList<UUID> assignedUsers) {
         this.projectUUID = toUUID(projectUUID); // convert String UUID to object UUID
         this.projectName = projectName;
-        this.listOfColumns = UUIDtoColumn(listOfColumns); // converts arrayList of String UUIDs to Column objects
+        this.listOfColumns = listOfColumns; // converts arrayList of String UUIDs to Column objects
         // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
-        this.assignedUsers = setAssignedUsers(assignedUsers);
+        this.assignedUsers = assignedUsers;
     }
 
     /**
@@ -76,15 +76,15 @@ public class Project {
      * 
      * @return ArrayList<Column> with the project's columns and column tasks
      */
-    public ArrayList<Column> getListOfColumns() {
+    public ArrayList<UUID> getListOfColumns() {
         return this.listOfColumns;
     }
 
-    public ArrayList<User> getAssignedUsers() {
+    public ArrayList<UUID> getAssignedUsers() {
         return this.assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<User> assignedUsers) {
+    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 
@@ -94,7 +94,7 @@ public class Project {
      * 
      * @param column New Column with ArrayList<Task> for the project tasks
      */
-    private void addColumn(Column column) {
+    private void addColumn(UUID column) {
         this.listOfColumns.add(column);
     }
 
@@ -104,7 +104,7 @@ public class Project {
      * 
      * @param column Column to be removed from the project
      */
-    private void removeColumn(Column column) {
+    private void removeColumn(UUID column) {
         this.listOfColumns.remove(column);
     }
 
@@ -117,7 +117,7 @@ public class Project {
     public String displayColumnTasks(Column column) { // @author jedalto slightly edited this to compile, should work
                                                       // the same
         String tasksToString = "";
-        for (Task task : column.getColumnTasks())
+        for (UUID task : column.getColumnTasks())
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }

@@ -30,4 +30,8 @@ public class UserList {
     public ArrayList<User> getListOfUsers() {
         return listOfUsers;
     }
+
+    public void saveUsers() {
+        DataWriter.saveUsers(listOfUsers);
+    }
 }

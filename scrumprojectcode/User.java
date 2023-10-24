@@ -25,15 +25,7 @@ public class User {
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
-        this.userUUID = generateUUID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.loggedIn = false;
-        this.type = type;
+        register(username, password, firstName, lastName, email, phoneNumber, type);
     }
 
     public User(UUID userID, String firstName, String lastName, String username, String password, String email,
@@ -176,14 +168,15 @@ public class User {
     // a new UUID and set their info
     private boolean register(String username, String password, String firstName, String lastName, String email,
             String phoneNumber, String type) {
-        if (this.userUUID == null) {
+        if (!UserList.findUser(String email)) { // TODO: Create UserList.findUser() to find User before registering
             this.userUUID = generateUUID();
-            this.username = username;
-            this.password = password;
             this.firstName = firstName;
             this.lastName = lastName;
+            this.username = username;
+            this.password = password;
             this.email = email;
             this.phoneNumber = phoneNumber;
+            this.loggedIn = false;
             this.type = type;
             return true;
         }
