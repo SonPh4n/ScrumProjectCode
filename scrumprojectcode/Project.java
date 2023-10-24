@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class Project {
     public String projectName;
-    public ArrayList<UUID> listOfColumns;
+    public ArrayList<Column> listOfColumns;
     public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
 
@@ -23,7 +23,7 @@ public class Project {
     public Project(String projectName) {
         this.projectName = projectName;
         this.projectUUID = generateUUID();
-        this.listOfColumns = new ArrayList<UUID>();
+        this.listOfColumns = new ArrayList<Column>();
     }
 
     /**
@@ -35,7 +35,7 @@ public class Project {
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(String projectUUID, String projectName, ArrayList<UUID> listOfColumns,
+    public Project(String projectUUID, String projectName, ArrayList<Column> listOfColumns,
             ArrayList<UUID> assignedUsers) {
         this.projectUUID = toUUID(projectUUID); // convert String UUID to object UUID
         this.projectName = projectName;
@@ -76,7 +76,7 @@ public class Project {
      * 
      * @return ArrayList<Column> with the project's columns and column tasks
      */
-    public ArrayList<UUID> getListOfColumns() {
+    public ArrayList<Column> getListOfColumns() {
         return this.listOfColumns;
     }
 
@@ -94,7 +94,7 @@ public class Project {
      * 
      * @param column New Column with ArrayList<Task> for the project tasks
      */
-    private void addColumn(UUID column) {
+    private void addColumn(Column column) {
         this.listOfColumns.add(column);
     }
 
@@ -104,7 +104,7 @@ public class Project {
      * 
      * @param column Column to be removed from the project
      */
-    private void removeColumn(UUID column) {
+    private void removeColumn(Column column) {
         this.listOfColumns.remove(column);
     }
 
@@ -117,7 +117,7 @@ public class Project {
     public String displayColumnTasks(Column column) { // @author jedalto slightly edited this to compile, should work
                                                       // the same
         String tasksToString = "";
-        for (UUID task : column.getColumnTasks())
+        for (UUID task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }
@@ -128,7 +128,7 @@ public class Project {
      * @param task   User made Task to be added to the Projec
      * @param column Column in the Project's listOfColumns
      */
-    private void addTask(Task task, Column column) {
+    private void addTask(UUID task, Column column) {
         for (int i = 0; i < this.listOfColumns.size(); i++) {
             if (this.listOfColumns.get(i) == column)
                 this.listOfColumns.get(i).columnTasks.add(task);
@@ -141,7 +141,7 @@ public class Project {
      * @param task   Task to be removed from the Project
      * @param column Column where the Task was in
      */
-    private void removeTask(Task task, Column column) {
+    private void removeTask(UUID task, Column column) {
         for (int i = 0; i < this.listOfColumns.size(); i++) {
             if (this.listOfColumns.get(i) == column)
                 this.listOfColumns.get(i).columnTasks.remove(task);

@@ -84,7 +84,7 @@ public class DataWriter extends DataConstants {
         taskDetails.put(TASK_TITLE, task.getTaskName());
         taskDetails.put(TASK_DESCRIPTION, task.getTaskDescription());
         taskDetails.put(TASK_CREATION_DATE, task.getCreationDate());
-        taskDetails.put(TASK_DUE_DATE, task.getTaskDueDate());
+        taskDetails.put(TASK_DUE_DATE, task.getDueDate());
 
         JSONArray arrayUsers = new JSONArray();
         JSONArray arrayComments = new JSONArray();
@@ -251,33 +251,37 @@ public class DataWriter extends DataConstants {
      * @param project Project to be converted into a JSONObject
      * @return JSONObject to be added to JSONArray
      */
-    public static JSONObject getProjectJSON(User user) {
-        JSONObject userDetails = new JSONObject();
-        userDetails.put(USER_ID, user.getUserUUID().toString());
-        userDetails.put(USER_FIRST_NAME, user.getFirstName());
-        userDetails.put(USER_LAST_NAME, user.getLastName());
-        userDetails.put(USER_USERNAME, user.getUsername());
-        userDetails.put(USER_PASSWORD, user.getPassword());
-        userDetails.put(USER_EMAIL, user.getEmail());
-        userDetails.put(USER_PHONE_NUMBER, user.getPhoneNumber());
-        userDetails.put(USER_TYPE, user.getUserType());
+    public static JSONObject getProjectJSON(Project project) {
+        JSONObject projectDetails = new JSONObject();
+        projectDetails.put(PROJECT_ID, project.getProjectUUID().toString());
+        projectDetails.put(PROJECT_TITLE, project.getProjectName());
 
-        JSONArray arrayProjects = new JSONArray();
-        JSONArray arrayTasks = new JSONArray();
+        JSONArray arrayUsers = new JSONArray();
+        JSONArray arrayColumns = new JSONArray();
+        JSONArray arrayColumnTasks = new JSONArray();
 
-        for (UUID project : user.getMyProjects()) {
-            JSONObject projectIDs = new JSONObject();
-            projectIDs.put(USER_PROJECT_ID, project.toString());
-            arrayProjects.add(projectIDs);
+        for (UUID projectUsers : project.getAssignedUsers()) {
+            JSONObject userIDS = new JSONObject();
+            userIDS.put(PROJECT_USERS_ID, projectUsers.toString());
+            arrayUsers.add(userIDS);
         }
-        for (UUID task : user.getMyTasks()) {
-            JSONObject taskIDs = new JSONObject();
-            taskIDs.put(USER_TASK_ID, task.toString());
-            arrayTasks.add(taskIDs);
+        int columnTasksIterator = 0;
+        for (Column projectColumns : project.getListOfColumns()) {
+            JSONObject projectColumn = new JSONObject();
+            projectColumn.put(COLUMN_ID, projectColumns.getColumnUUID().toString());
+            projectColumn.put(COLUMN_TITLE, projectColumns.getColumnName());
+            for (UUID columnTaskIDs : project.getListOfColumns().get(columnTasksIterator).getColumnTasks()) {
+                JSONObject columnTaskID = new JSONObject();
+                columnTaskID.put(COLUMN_TASK_ID, columnTaskIDs.toString());
+                arrayColumnTasks.add(columnTaskID);
+            }
+            projectColumn.put(COLUMN, arrayColumnTasks);
+            arrayColumns.add(arrayColumnTasks);
         }
-        userDetails.put(USER_PROJECTS, arrayProjects);
-        userDetails.put(USER_TASKS, arrayTasks);
 
-        return userDetails;
+        projectDetails.put(PROJECT_USERS, arrayUsers);
+        projectDetails.put(PROJECT_COLUMNS, arrayColumns);
+
+        return projectDetails;
     }
 }

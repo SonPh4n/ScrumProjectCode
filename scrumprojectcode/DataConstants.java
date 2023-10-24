@@ -34,6 +34,7 @@ public class DataConstants {
     protected static final String COLUMN_ID = "column-id";
     protected static final String COLUMN_TITLE = "column-title";
     protected static final String COLUMN_TASKS = "column-tasks";
+    protected static final String COLUMN_TASK_ID = "column-task-id";
 
     /**
      * history data constants
@@ -55,6 +56,7 @@ public class DataConstants {
     protected static final String PROJECT_ID = "project-id";
     protected static final String PROJECT_TITLE = "project-title";
     protected static final String PROJECT_USERS = "assigned-users";
+    protected static final String PROJECT_USERS_ID = "assigned-user-id";
     protected static final String PROJECT_COLUMNS = "project-columns";
 
     /**
