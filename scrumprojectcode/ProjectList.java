@@ -29,4 +29,17 @@ public class ProjectList {
     public ArrayList<Project> getListOfProjects() {
         return listOfProjects;
     }
+
+    public boolean findProject(String projectName){
+        for(Project project : listOfProjects){
+            if(project.getProjectName().equals(projectName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveProjects() { //is this all we have to do for this method?
+        DataWriter.saveProjects(listOfProjects);
+    }
 }
