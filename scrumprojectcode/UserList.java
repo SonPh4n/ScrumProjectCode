@@ -1,3 +1,7 @@
+/**
+ * @author Jane Dalton
+ */
+
 package scrumprojectcode;
 
 import java.util.ArrayList;
@@ -27,11 +31,25 @@ public class UserList {
         return userList;
     }
 
-    public ArrayList<User> getListOfUsers() {
+    public ArrayList<User> getListOfUsers() { 
         return listOfUsers;
     }
 
-    public void saveUsers() {
+    /**
+     * finds user by email
+     * @param email String representation of user's email
+     * @return true if user is found, false if not
+     */
+    public boolean findUser(String email){
+        for(User user : listOfUsers){
+            if(user.getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveUsers() { //is this all we have to do for this method?
         DataWriter.saveUsers(listOfUsers);
     }
 }
