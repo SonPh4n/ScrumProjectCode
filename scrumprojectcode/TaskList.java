@@ -29,4 +29,17 @@ public class TaskList {
     public ArrayList<Task> getListOfTasks() {
         return listOfTasks;
     }
+
+    public boolean findTask(String projectName, String taskName){ //TODO: remember to change task projects
+        for(Task task : listOfTasks){
+            if(task.getProjectName().equals(projectName) && task.getTaskName().equals(taskName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveTasks() { //is this all we have to do for this method?
+        DataWriter.saveTasks(listOfTasks);
+    }
 }
