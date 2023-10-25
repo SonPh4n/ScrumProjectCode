@@ -1,3 +1,5 @@
+package scrumprojectcode;
+
 import java.time.LocalDateTime; // Handles creationDate attribute @kuriakm
 import java.time.format.DateTimeFormatter; // Formats creationDate to MM/dd/YYYY @kuriakm
 import java.util.ArrayList;

@@ -114,8 +114,7 @@ public class Project {
      * 
      * @return String value of the columnName and columnTasks
      */
-    public String displayColumnTasks(Column column) { // @author jedalto slightly edited this to compile, should work
-                                                      // the same
+    public String displayColumnTasks(Column column) { 
         String tasksToString = "";
         for (UUID task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
