@@ -34,7 +34,7 @@ public class Task {
     /**
      * Debugger method, remove in final submission
      */
-    public Task(UUID user) {
+    /* public Task(UUID user) {
         this.taskUUID = generateUUID();
         this.taskName = "Test Task Name";
         this.taskDescription = "Test Task Description";
@@ -49,7 +49,7 @@ public class Task {
         this.taskDueDate = "N/A";
         this.projectUUID = generateUUID();
         this.columnUUID = generateUUID();
-    }
+    } */
 
     /**
      * Constructor for Task class.
