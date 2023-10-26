@@ -5,6 +5,7 @@
 package scrumprojectcode;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class UserList {
     private static UserList userList = null;
@@ -40,9 +41,9 @@ public class UserList {
      * @param email String representation of user's email
      * @return true if user is found, false if not
      */
-    public boolean findUser(String email){
+    public boolean findUser(UUID uuid){
         for(User user : listOfUsers){
-            if(user.getEmail().equals(email)){
+            if(user.getUserUUID().equals(uuid)){
                 return true;
             }
         }
