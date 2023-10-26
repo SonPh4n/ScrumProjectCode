@@ -42,22 +42,22 @@ public class UserList {
      * @param uuid unique id for individual user
      * @return true if user is found by uuid, false if not
      */
-    public boolean findUser(UUID uuid) {
+    public User findUser(UUID uuid) {
         for (User user : listOfUsers) {
             if (user.getUserUUID().equals(uuid)) {
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean findUser(String email) {
+    public User findUser(String email) {
         for (User user : listOfUsers) {
             if (user.getEmail().equals(email)) {
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
 
     public void saveUsers() {
