@@ -10,7 +10,7 @@ public class Comment {
 
     // Attributes
     private String comment; // Stores the comment text
-    private UUID user; // Represents the user associated with the comment
+    private User user; // Represents the user associated with the comment
     // Was unable to use User object when loading from task.json so I changed it
     // to UUID @kuriakm
     private ArrayList<Comment> moreComments; // Stores Array of comments
@@ -88,11 +88,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public UUID getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser(UUID user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -121,10 +121,10 @@ public class Comment {
     public String toString() {
         String commentsToString = "";
         int commentIterator = 0;
-        for (Comment comment : moreComments) { // TODO: use UserList to convert getUser to User.username
+        for (Comment comment : moreComments) { 
             commentsToString = commentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
                     + comment.getComment() + "\n"
-                    + "\t[User]: " + comment.getUser();
+                    + "\t[User]: " + comment.getUser().getUsername();
             commentIterator++;
         }
         return "[Comment]: " + comment + "\n"
