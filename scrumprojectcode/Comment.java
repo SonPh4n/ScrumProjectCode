@@ -15,13 +15,14 @@ public class Comment {
     // to UUID @kuriakm
     private ArrayList<Comment> moreComments; // Stores Array of comments
     private UUID commentUUID; // Provides a unique identifier for the comment
+    private static UserList userList = UserList.getInstance();
 
     /**
      * Debugger method, remove in final submission
      */
     public Comment(UUID user) {
         this.comment = "Test comment";
-        this.user = user;
+        this.user = userList.findUser(user);
         this.commentUUID = generateUUID();
         this.moreComments = new ArrayList<>();
         Comment testMoreComments = new Comment("Test more comments", user);
