@@ -37,9 +37,9 @@ public class UserList {
     }
 
     /**
-     * finds user by email
-     * @param email String representation of user's email
-     * @return true if user is found, false if not
+     * finds user by uuid
+     * @param uuid unique id for individual user
+     * @return true if user is found by uuid, false if not
      */
     public boolean findUser(UUID uuid){
         for(User user : listOfUsers){
@@ -50,7 +50,7 @@ public class UserList {
         return false;
     }
 
-    public void saveUsers() { //is this all we have to do for this method?
+    public void saveUsers() { 
         DataWriter.saveUsers(listOfUsers);
     }
 }
