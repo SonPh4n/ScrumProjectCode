@@ -14,8 +14,7 @@ public class Bug extends Task {
     }
 
     public String toString() {
-        // TODO
-        return "";
+        return super.toString();
     }
 
 }
