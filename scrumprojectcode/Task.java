@@ -58,15 +58,15 @@ public class Task {
      * @param taskDescription The description of the task.
      * @param timeToComplete  The estimated time to complete the task.
      */
-    public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc,
+    public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc,
             UUID userUUID, String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
-        this.taskUUID = taskID;
+        this.taskUUID = generateUUID();
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
-        this.taskComments = taskComments;
+        this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
         this.assignedUsers.add(userUUID); // Adds first User that created
-        this.taskHistory = taskHistory;
+        this.taskHistory = new HashMap<String, History>();
         this.creationDate = taskCreationDate;
         this.taskDueDate = taskDueDate;
         this.projectUUID = projectID;
