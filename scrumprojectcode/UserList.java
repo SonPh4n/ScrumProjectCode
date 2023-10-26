@@ -32,25 +32,35 @@ public class UserList {
         return userList;
     }
 
-    public ArrayList<User> getListOfUsers() { 
+    public ArrayList<User> getListOfUsers() {
         return listOfUsers;
     }
 
     /**
      * finds user by uuid
+     * 
      * @param uuid unique id for individual user
      * @return true if user is found by uuid, false if not
      */
-    public boolean findUser(UUID uuid){
-        for(User user : listOfUsers){
-            if(user.getUserUUID().equals(uuid)){
+    public boolean findUser(UUID uuid) {
+        for (User user : listOfUsers) {
+            if (user.getUserUUID().equals(uuid)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void saveUsers() { 
+    public boolean findUser(String email) {
+        for (User user : listOfUsers) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveUsers() {
         DataWriter.saveUsers(listOfUsers);
     }
 }

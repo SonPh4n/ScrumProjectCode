@@ -8,7 +8,7 @@ public class Bug extends Task {
     public Priority priority;
     public ArrayList<String> reproductionSteps;
 
-    public Bug(String taskName, Priority priority, User tester) {
+    public Bug(UUID projectID, UUID columnID, String taskName) {
         super(taskName, "Bug", "randomTime"); // TODO update Bug/Task constructors
         // TODO
     }
