@@ -17,9 +17,8 @@ public class User {
     private String phoneNumber;
     public boolean loggedIn;
     private String type;
-
+    private UUID userUUID;
     /*
-     * private UUID userUUID;
      * private ArrayList<UUID> myTasks;
      */ // Was unable to use Task and Project object when loading from user.json so I
         // changed these to ArrayList<UUID> @kuriakm
@@ -31,7 +30,7 @@ public class User {
     }
 
     public User(UUID userID, String firstName, String lastName, String username, String password, String email,
-            String phoneNumber, String type, ArrayList<UUID> tasks, ArrayList<UUID> projects) {
+            String phoneNumber, String type) {
         this.userUUID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,12 +38,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.myTasks = tasks;
-        // this.myTasks = new ArrayList<Task>();
-        // myTasks = UUIDtoTasks(tasks); // arraylist of Task objects
-        this.myProjects = projects;
-        // this.myProjects = new ArrayList<Project>();
-        // myProjects = UUIDtoProjects(projects); // arraylist of Project objects
         this.loggedIn = false;
         this.type = type;
     }
@@ -78,7 +71,7 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String LastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -104,22 +97,6 @@ public class User {
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
-    }
-
-    public ArrayList<UUID> getMyTasks() {
-        return myTasks;
-    }
-
-    public void setMyTasks(ArrayList<UUID> myTasks) {
-        this.myTasks = myTasks;
-    }
-
-    public ArrayList<UUID> getMyProjects() {
-        return myProjects;
-    }
-
-    public void setMyProjects(ArrayList<UUID> myProjects) {
-        this.myProjects = myProjects;
     }
 
     public String getUserType() {
@@ -171,7 +148,7 @@ public class User {
     // a new UUID and set their info
     private boolean register(String username, String password, String firstName, String lastName, String email,
             String phoneNumber, String type) {
-        if (!UserList.findUser(String email)) { // TODO: Create UserList.findUser() to find User before registering
+        if (!UserList.findUser(email)) { // TODO: Create UserList.findUser() to find User before registering
             this.userUUID = generateUUID();
             this.firstName = firstName;
             this.lastName = lastName;
