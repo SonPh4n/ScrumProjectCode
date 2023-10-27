@@ -20,7 +20,7 @@ public class Comment {
     /**
      * Debugger method, remove in final submission
      */
-    public Comment(UUID user) {
+    public Comment(User user) {
         this.comment = "Test comment";
         this.user = userList.findUser(user);
         this.commentUUID = generateUUID();
@@ -36,7 +36,7 @@ public class Comment {
      * @param comment The comment text.
      * @param user    The user associated with the comment.
      */
-    public Comment(String comment, UUID user) {
+    public Comment(String comment, User user) {
         // Constructor logic
         this.comment = comment;
         this.user = user;
@@ -49,7 +49,7 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, String comment, UUID user, ArrayList<Comment> moreComments) {
+    public Comment(UUID commentID, String comment, User user, ArrayList<Comment> moreComments) {
         this.commentUUID = commentID;
         this.comment = comment;
         this.user = user;
@@ -62,7 +62,7 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, String comment, UUID user) {
+    public Comment(UUID commentID, String comment, User user) {
         this.commentUUID = commentID;
         this.comment = comment;
         this.user = user;
@@ -123,7 +123,7 @@ public class Comment {
         int commentIterator = 0;
         for (Comment comment : moreComments) { 
             commentsToString = commentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
-                    + comment.getComment() + "\n"
+                    + comment.getComment() + "\n" 
                     + "\t[User]: " + comment.getUser().getUsername();
             commentIterator++;
         }
