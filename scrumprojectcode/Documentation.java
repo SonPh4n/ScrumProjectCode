@@ -10,7 +10,7 @@ public class Documentation {
     // Constructor
     public Documentation(ArrayList<String> documentation) {
         // TODO: Constructor logic
-        this.documentation = documentation;
+        this.documentation = new ArrayList<>(documentation);
     }
 
     // Methods
@@ -22,7 +22,7 @@ public class Documentation {
      */
     public ArrayList<String> getDocumentation() {
         // TODO: Method logic
-        return documentation;
+        return new ArrayList<>(documentation);
     }
 
     /**
@@ -32,6 +32,6 @@ public class Documentation {
      */
     public void setDocumentation(ArrayList<String> documentation) {
         // TODO: Method logic
-        this.documentation = documentation;
+        this.documentation = new ArrayList<>(documentation);
     }
 }
