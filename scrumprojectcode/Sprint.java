@@ -1,7 +1,5 @@
 package scrumprojectcode;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Sprint {
     private String startDate;
@@ -9,20 +7,33 @@ public class Sprint {
     private ArrayList<Task> tasksToComplete;
 
     public Sprint(String startDate, String endDate, ArrayList<Task> tasksToComplete) {
-        // Constructor logic
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tasksToComplete = tasksToComplete;
     }
 
     public void addNewTask(Task task) {
-        // Add a new task to the sprint
+        tasksToComplete.add(task);
     }
 
     public void removeTask(Task task) {
-        // Remove a task from the sprint
+        tasksToComplete.remove(task);
     }
 
     @Override
     public String toString() {
-        // Convert sprint information to a string representation
-        return super.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sprint Start Date: ").append(startDate).append("\n");
+        sb.append("Sprint End Date: ").append(endDate).append("\n");
+        sb.append("Tasks to Complete:\n");
+
+        for (Task task : tasksToComplete) {
+            sb.append("Task Name: ").append(task.getTaskName()).append("\n");
+            sb.append("Task Description: ").append(task.getTaskDescription()).append("\n");
+            sb.append("Task Due Date: ").append(task.getDueDate()).append("\n");
+            sb.append("Task Creation Date: ").append(task.getCreationDate()).append("\n\n");
+        }
+
+        return sb.toString();
     }
 }
