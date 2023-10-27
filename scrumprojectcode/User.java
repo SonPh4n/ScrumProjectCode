@@ -18,6 +18,7 @@ public class User {
     public boolean loggedIn;
     private String type;
     private UUID userUUID;
+    private static UserList userList = UserList.getInstance();
     /*
      * private ArrayList<UUID> myTasks;
      */ // Was unable to use Task and Project object when loading from user.json so I
@@ -148,7 +149,7 @@ public class User {
     // a new UUID and set their info
     private boolean register(String username, String password, String firstName, String lastName, String email,
             String phoneNumber, String type) {
-        if (!UserList.findUser(email)) { // TODO: Create UserList.findUser() to find User before registering
+        if (userList.findUser(email) != null) { // TODO: Create UserList.findUser() to find User before registering
             this.userUUID = generateUUID();
             this.firstName = firstName;
             this.lastName = lastName;

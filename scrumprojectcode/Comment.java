@@ -22,7 +22,7 @@ public class Comment {
      */
     public Comment(User user) {
         this.comment = "Test comment";
-        this.user = userList.findUser(user);
+        this.user = userList.findUser(user.getUserUUID());
         this.commentUUID = generateUUID();
         this.moreComments = new ArrayList<>();
         Comment testMoreComments = new Comment("Test more comments", user);

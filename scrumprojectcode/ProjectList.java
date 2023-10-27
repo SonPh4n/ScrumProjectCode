@@ -1,6 +1,7 @@
 package scrumprojectcode;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class ProjectList {
     private static ProjectList projectList = null;
@@ -30,13 +31,13 @@ public class ProjectList {
         return listOfProjects;
     }
 
-    public boolean findProject(String projectName){
+    public Project findProject(UUID uuid){
         for(Project project : listOfProjects){
-            if(project.getProjectName().equals(projectName)){
-                return true;
+            if(project.getProjectUUID().equals(uuid)){
+                return project;
             }
         }
-        return false;
+        return null;
     }
 
     public void saveProjects() { //is this all we have to do for this method?

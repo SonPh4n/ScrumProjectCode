@@ -14,6 +14,7 @@ public class Project {
     public ArrayList<Column> listOfColumns;
     public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
+    TaskList taskList = TaskList.getInstance(); //TODO update UML
 
     /**
      * Constructor method for a new Project that initializes the project attributes
@@ -117,7 +118,7 @@ public class Project {
     public String displayColumnTasks(Column column) { 
         String tasksToString = "";
         for (UUID task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
-            tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
+            tasksToString = tasksToString + "- " + taskList.findTask(task).getTaskName() + "\n"; 
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }
 

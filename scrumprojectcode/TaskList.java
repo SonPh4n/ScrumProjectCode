@@ -1,6 +1,7 @@
 package scrumprojectcode;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TaskList {
     private static TaskList taskList = null;
@@ -30,13 +31,16 @@ public class TaskList {
         return listOfTasks;
     }
 
-    public boolean findTask(String projectName, String taskName) { // TODO: remember to change task projects
+    public Task findTask(UUID uuid/*String projectName, String taskName*/) { // TODO: remember to change task projects
         for (Task task : listOfTasks) {
-            if (task.getProjectName().equals(projectName) && task.getTaskName().equals(taskName)) {
+            /* if (task.getProjectName().equals(projectName) && task.getTaskName().equals(taskName)) {
                 return true;
+            } */
+            if(task.getTaskUUID().equals(uuid)){
+                return task;
             }
         }
-        return false;
+        return null;
     }
 
     public void saveTasks() { // is this all we have to do for this method?
