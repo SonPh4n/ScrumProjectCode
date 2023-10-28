@@ -2,7 +2,7 @@ package scrumprojectcode;
 
 import java.util.ArrayList;
 
-public class Feature {
+public class Feature extends Task{
     private String taskName;
     private ArrayList<String> subTasks;
 
