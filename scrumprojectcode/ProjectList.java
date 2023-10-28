@@ -40,7 +40,7 @@ public class ProjectList {
         return null;
     }
 
-    public void saveProjects() { //is this all we have to do for this method?
+    public void saveProjects() { 
         DataWriter.saveProjects(listOfProjects);
     }
 }

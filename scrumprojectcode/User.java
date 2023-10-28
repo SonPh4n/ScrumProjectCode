@@ -19,6 +19,7 @@ public class User {
     private String type;
     private UUID userUUID;
     private static UserList userList = UserList.getInstance();
+    private static ProjectList projectList = ProjectList.getInstance();
     /*
      * private ArrayList<UUID> myTasks;
      */ // Was unable to use Task and Project object when loading from user.json so I
@@ -27,7 +28,15 @@ public class User {
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
-        register(username, password, firstName, lastName, email, phoneNumber, type);
+        this.userUUID = generateUUID();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.loggedIn = false;
+        this.type = type;
     }
 
     public User(UUID userID, String firstName, String lastName, String username, String password, String email,
@@ -150,15 +159,8 @@ public class User {
     private boolean register(String username, String password, String firstName, String lastName, String email,
             String phoneNumber, String type) {
         if (userList.findUser(email) != null) { // TODO: Create UserList.findUser() to find User before registering
-            this.userUUID = generateUUID();
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.username = username;
-            this.password = password;
-            this.email = email;
-            this.phoneNumber = phoneNumber;
-            this.loggedIn = false;
-            this.type = type;
+            User newUser = new User(firstName, lastName, username, password, email, phoneNumber, type);
+            userList.getListOfUsers().add(newUser);
             return true;
         }
         return false;
@@ -190,23 +192,23 @@ public class User {
      * }
      */
 
-    /**
-     * private boolean addProject(String projectName) {
-     * if (myProjects == null) {
-     * myProjects = new ArrayList<Project>();
-     * }
-     * listOfProjects.add(projectName);
-     * }
-     * 
-     * private Project findProject(String projectName) {
-     * for (Project project : myProjects) {
-     * if (project.getProjectName().equals(projectName)) {
-     * return project;
-     * }
-     * }
-     * return null;
-     * }
-     * 
+    
+    private boolean addProject(String projectName) {
+        if (projectList.getListOfProjects().) {
+         = new ArrayList<Project>();
+        }
+        listOfProjects.add(projectName);
+    }
+     
+    private Project findProject(String projectName) {
+        for (Project project : myProjects) {
+            if (project.getProjectName().equals(projectName)) {
+                return project;
+            }
+        }
+        return null;
+    } 
+     /* * 
      * private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks) {
      * // TODO populate myTasks with Task objects based on the UUIDs from
      * personalTasks
@@ -255,6 +257,6 @@ public class User {
      * // TODO convert string UUID from dataLoader to object UUID
      * return UUID.fromString(userID);
      * }
-     */
+     */ */
 
 }
