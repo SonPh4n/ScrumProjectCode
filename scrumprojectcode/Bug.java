@@ -1,20 +1,28 @@
 package scrumprojectcode;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Bug extends Task {
+    private User tester;
+    private Priority priority;
+    private ArrayList<String> reproductionSteps;
 
-    public User tester;
-    public Priority priority;
-    public ArrayList<String> reproductionSteps;
-
-    public Bug(UUID projectID, UUID columnID, String taskName) {
-        super(taskName, "Bug", "randomTime"); // TODO update Bug/Task constructors
-        // TODO
+    public Bug(String taskName, Priority priority, User tester) {
+        super(UUID.randomUUID(), UUID.randomUUID(), taskName);
+        this.priority = priority;
+        this.tester = tester;
+        this.reproductionSteps = new ArrayList<>();
     }
 
     public String toString() {
-        return super.toString();
+        return "[Bug Task]\n" +
+               "Task Name: " + getTaskName() + "\n" +
+               "Priority: " + priority + "\n" +
+               "Tester: " + tester.getUsername() + "\n" +
+               "Reproduction Steps: " + reproductionSteps + "\n" +
+               "Description: " + getTaskDescription() + "\n" +
+               "Due Date: " + getDueDate() + "\n" +
+               "Creation Date: " + getCreationDate() + "\n";
     }
-
 }

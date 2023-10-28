@@ -73,6 +73,32 @@ public class Task {
         this.columnUUID = columnID;
     }
 
+/**
+ * This constructor allows the Bug class to function properly.
+ * @param projectID
+ * @param columnID
+ * @param taskName 
+ *   V V V V V V
+ *    V V V V V
+ *     V V V V
+ *      V V V
+ *       V V
+ *        V
+ */
+    public Task(UUID projectID, UUID columnID, String taskName) {
+        this.taskUUID = generateUUID();
+        this.taskName = taskName;
+        this.taskDescription = "Default Task Description";
+        this.taskComments = new ArrayList<Comment>();
+        this.assignedUsers = new ArrayList<UUID>();
+        this.taskHistory = new HashMap<String, History>();
+        LocalDateTime dateNow = LocalDateTime.now();
+        this.creationDate = formatter.format(dateNow);
+        this.taskDueDate = "N/A";
+        this.projectUUID = projectID;
+        this.columnUUID = columnID;
+    }
+    
     /**
      * creates a Task from DataLoader
      * 
