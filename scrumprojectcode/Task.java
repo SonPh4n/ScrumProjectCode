@@ -88,13 +88,13 @@ public class Task {
     public Task(UUID projectID, UUID columnID, String taskName) {
         this.taskUUID = generateUUID();
         this.taskName = taskName;
-        this.taskDescription = "Default Task Description";
+        this.taskDescription = "Ex:) A bug needs to be fixed!";
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<UUID>();
         this.taskHistory = new HashMap<String, History>();
         LocalDateTime dateNow = LocalDateTime.now();
         this.creationDate = formatter.format(dateNow);
-        this.taskDueDate = "N/A";
+        this.taskDueDate = "probably after the deadline...";
         this.projectUUID = projectID;
         this.columnUUID = columnID;
     }
