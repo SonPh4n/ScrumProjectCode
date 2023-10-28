@@ -4,68 +4,86 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ProjectSystemFACADE {
-    private User user;
-    private static ProjectSystemFACADE facade;
+    private static ProjectSystemFACADE facade; // Singleton instance
+    private UserList userList;
+    private ArrayList<Project> projects;
+    private User currentUser; // Track the currently logged-in user
 
-    private ProjectSystemFACADE(){
+    // Private constructor to prevent direct instantiation
+    private ProjectSystemFACADE() {
+        this.userList = UserList.getInstance();
+        this.projects = new ArrayList<>();
+        this.currentUser = null;
         facade = getFacadeInstance();
-        user = null;
     }
 
-    public static ProjectSystemFACADE getFacadeInstance(){
-        if(facade == null){
+    // Get the singleton instance
+    public static ProjectSystemFACADE getFacadeInstance() {
+        if (facade == null) {
             facade = new ProjectSystemFACADE();
         }
         return facade;
     }
 
-    public boolean login(String username, String password){
-        //TODO
-        return true;
+    // User management methods
+
+    public boolean login(String username, String password) {
+        User user = userList.findUser(username);
+        if (user != null && user.getPassword().equals(password)) {
+            currentUser = user;
+            return true;
+        }
+        return false;
     }
 
-    public boolean register(){
-        //TODO
-        return true;
+    public void logout() {
+        currentUser = null;
     }
 
-    public boolean addProject(String projectName){
-        //TODO
-        return true;
+    public boolean register(String firstName, String lastName, String username, String password, String email, String phoneNumber, String type) {
+        User user = new User(firstName, lastName, username, password, email, phoneNumber, type);
+        if (!userList.getListOfUsers().contains(user)) {
+            userList.getListOfUsers().add(user);
+            return true;
+        }
+        return false;
     }
 
-    public boolean removeProject(String projectName){
-        //TODO
-        return true;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public boolean addColumn(String columnName, String projectName){
-        //TODO
-        return true;
+    // Project management methods
+
+    public void addProject(String projectName) {
+        projects.add(new Project(projectName));
     }
 
-    public boolean removeColumn(String columnName, String projectName){
-        //TODO
-        return true;
+    public void removeProject(Project project) {
+        projects.remove(project);
     }
 
-    public boolean addTask(String taskName, String columnName, String projectName){
-        //TODO
-        return true;
+    public void addColumn(Project project, Column column) {
+        project.addColumn(column);
     }
 
-    public boolean removeTask(String taskName, String columnName, String projectName){
-        //TODO
-        return true;
+    public void removeColumn(Project project, Column column) {
+        project.removeColumn(column);
     }
 
-    public boolean moveTask(String taskName, String newColumn){
-        //TODO
-        return true;
+    public void addTask(Project project, UUID task, Column column) {
+        project.addTask(task, column);
     }
 
-    public boolean addComment(String comment, String projectName, String columnName, String taskName){
-        //TODO
-        return true;
+    public void removeTask(Project project, UUID task, Column column) {
+        project.removeTask(task, column);
+    }
+
+    public void moveTask(Column sourceColumn, Column targetColumn, UUID task) {
+        // Implement task moving logic
+    }
+
+    public void addComment(Task task, String comment) {
+        task.addComment(comment, comment, comment, comment);
     }
 }
