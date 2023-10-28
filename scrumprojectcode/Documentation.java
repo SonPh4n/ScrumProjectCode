@@ -2,7 +2,7 @@ package scrumprojectcode;
 
 import java.util.ArrayList;
 
-public class Documentation {
+public class Documentation extends Task{
 
     // Attributes
     private ArrayList<String> documentation;
