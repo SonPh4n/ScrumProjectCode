@@ -235,46 +235,6 @@ public class DataLoader extends DataConstants {
     }
 
     /**
-     * loads columns from json files
-     * takes column info from json and creates column objects
-     * 
-     * @return returns an arraylist of column objects
-     */
-    public ArrayList<Column> loadColumns() {
-        try {
-            FileReader reader = new FileReader(COLUMN_FILE_NAME);
-            JSONParser parser = new JSONParser();
-            JSONArray columnsJSON = (JSONArray) new JSONParser().parse(reader);
-
-            for (int i = 0; i < columnsJSON.size(); i++) {
-                JSONObject columnJSON = (JSONObject) columnsJSON.get(i);
-                String projectID = (String) columnJSON.get(COLUMN_PROJECT_ID);
-                String columnID = (String) columnJSON.get(COLUMN_ID);
-                String columnTitle = (String) columnJSON.get(COLUMN_TITLE);
-
-                // Parse "column-tasks" as JSON arrays
-                JSONArray columnTasksJSON = (JSONArray) columnJSON.get(COLUMN_TASKS);
-
-                // Convert JSON array to JAVA arrayList
-                ArrayList<String> columnTasks = new ArrayList<String>();
-
-                for (int j = 0; j < columnTasksJSON.size(); j++) {
-                    columnTasks.add((String) columnTasksJSON.get(j));
-                }
-
-                columns.add(new Column(columnID, columnTitle, columnTasks)); // TODO change Column constructor//
-            }
-
-            return columns;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
      * loads history from json files
      * takes history info from json and creates history objects
      * 
