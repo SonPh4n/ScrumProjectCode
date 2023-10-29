@@ -60,6 +60,7 @@ public class DataConstants {
     protected static final String PROJECT_USERS = "assigned-users";
     protected static final String PROJECT_USERS_ID = "assigned-user-id";
     protected static final String PROJECT_COLUMNS = "project-columns";
+    protected static final String PROJECT_COLUMNS_ID = "column-task-id";
 
     /**
      * task data constants

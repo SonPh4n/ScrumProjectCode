@@ -3,16 +3,24 @@
         "project-id": "92811b61-a368-4616-9417-bf0eeaee5389",
         "project-title": "Writing & Design Team: Financial App Diagrams",
         "assigned-users": [
-            "1f764890-d5e0-4756-a7a6-a48389abf33f",
-            "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
+            {
+                "assigned-user-id": "1f764890-d5e0-4756-a7a6-a48389abf33f"
+            },
+            {
+                "assigned-user-id": "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
+            }
         ],
         "project-columns": [
             {
                 "column-id": "15a9f7c4-bbd2-48b8-81ff-0c7cf56aea18",
                 "column-title": "completed",
                 "column-tasks": [
-                    "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe",
-                    "9d9f2cca-360d-4fde-a4b6-143760ebe0a8"
+                    {
+                        "column-task-id": "d2d1e907-dac3-4aaa-b1ba-3a42c1f6eabe"
+                    },
+                    {
+                        "column-task-id": "9d9f2cca-360d-4fde-a4b6-143760ebe0a8"
+                    }
                 ]
             }
         ]
@@ -21,16 +29,24 @@
         "project-id": "05bc372c-f3a0-4dae-9eb8-a38e92229a0a",
         "project-title": "Writing Team: Financial App Documentation",
         "assigned-users": [
-            "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
+            {
+                "assigned-user-id": "aa495da8-e871-4b0a-827e-7c67e51f4e6b"
+            }
         ],
         "project-columns": [
             {
                 "column-id": "667f0961-5295-4aa3-9ff2-30231e76baeb",
                 "column-title": "work in progress",
                 "column-tasks": [
-                    "0d9a1a27-1404-4ab1-8a46-b81670e1cf47",
-                    "cb39793b-1690-45fb-85ae-9d081c2a16c5",
-                    "0005cdd0-6afa-4815-9511-ea3b5247fe2a"
+                    {
+                        "column-task-id": "0d9a1a27-1404-4ab1-8a46-b81670e1cf47"
+                    },
+                    {
+                        "column-task-id": "cb39793b-1690-45fb-85ae-9d081c2a16c5"
+                    },
+                    {
+                        "column-task-id": "0005cdd0-6afa-4815-9511-ea3b5247fe2a"
+                    }
                 ]
             }
         ]

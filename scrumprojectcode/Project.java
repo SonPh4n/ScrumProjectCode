@@ -14,7 +14,7 @@ public class Project {
     public ArrayList<Column> listOfColumns;
     public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
-    TaskList taskList = TaskList.getInstance(); //TODO update UML
+    TaskList taskList = TaskList.getInstance(); // TODO update UML
 
     /**
      * Constructor method for a new Project that initializes the project attributes
@@ -36,9 +36,9 @@ public class Project {
      *                      objects for the project
      * @param projectUUID   UUID generated when project was first created
      */
-    public Project(String projectUUID, String projectName, ArrayList<Column> listOfColumns,
+    public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns,
             ArrayList<UUID> assignedUsers) {
-        this.projectUUID = toUUID(projectUUID); // convert String UUID to object UUID
+        this.projectUUID = projectUUID; // convert String UUID to object UUID
         this.projectName = projectName;
         this.listOfColumns = listOfColumns; // converts arrayList of String UUIDs to Column objects
         // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
@@ -89,9 +89,10 @@ public class Project {
         this.assignedUsers = assignedUsers;
     }
 
-    public boolean facadeAddColumn(String columnName){
+    public boolean facadeAddColumn(String columnName) {
         return addColumn(columnName);
     }
+
     /**
      * Void method that adds a new Column to the project using the ArrayList.add()
      * method
@@ -99,18 +100,19 @@ public class Project {
      * @param column New Column with ArrayList<Task> for the project tasks
      */
     private boolean addColumn(String columnName) {
-        if(findColumn(columnName) == null){
+        if (findColumn(columnName) == null) {
             Column newColumn = new Column(columnName, projectUUID);
             this.listOfColumns.add(newColumn);
-            //projectList.saveProjects();       should we save right after modifying?
+            // projectList.saveProjects(); should we save right after modifying?
             return true;
         }
         return false;
     }
 
-    public boolean facadeRemoveColumn(String columnName){
+    public boolean facadeRemoveColumn(String columnName) {
         return removeColumn(columnName);
     }
+
     /**
      * Void method that removes a Column from the project using the
      * ArrayList.remove() method
@@ -118,48 +120,49 @@ public class Project {
      * @param column Column to be removed from the project
      */
     private boolean removeColumn(String columnName) {
-        if(findColumn(columnName) == null){
+        if (findColumn(columnName) == null) {
             return false;
         }
         listOfColumns.remove(findColumn(columnName));
         return true;
     }
 
-    public boolean facadeMoveTask(String sourceColumn, String targetColumn, String taskName){
+    public boolean facadeMoveTask(String sourceColumn, String targetColumn, String taskName) {
         return moveTask(sourceColumn, targetColumn, taskName);
     }
 
-    private boolean moveTask(String sourceColumn, String targetColumn, String taskName){
+    private boolean moveTask(String sourceColumn, String targetColumn, String taskName) {
         Column oldColumn = findColumn(sourceColumn);
         Column newColumn = findColumn(targetColumn);
         Task task = oldColumn.findTask(taskName);
         oldColumn.facadeRemoveTask(taskName);
         task.setColumnUUID(newColumn.getColumnUUID());
         newColumn.columnTasks.add(task.getTaskUUID());
-        if(newColumn.findTask(taskName) == null){
+        if (newColumn.findTask(taskName) == null) {
             return false;
         }
         return true;
     }
 
-    public Column findColumn(String columnName){ //can this be public
-        for(Column column : listOfColumns){
-            if(column.getColumnName().equals(columnName)){
+    public Column findColumn(String columnName) { // can this be public
+        for (Column column : listOfColumns) {
+            if (column.getColumnName().equals(columnName)) {
                 return column;
             }
         }
         return null;
     }
+
     /**
      * String method that prints out the contents of the selected column using
      * ArrayList.forEach() method
      * 
      * @return String value of the columnName and columnTasks
      */
-    public String displayColumnTasks(Column column) { 
+    public String displayColumnTasks(Column column) {
         String tasksToString = "";
         for (UUID task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
-            tasksToString = tasksToString + "- " + taskList.findTask(task).getTaskName() + "\n"; 
+            tasksToString = tasksToString + "- " + taskList.findTask(task).getTaskName() + "\n";
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }
 
@@ -169,12 +172,14 @@ public class Project {
      * @param task   User made Task to be added to the Projec
      * @param column Column in the Project's listOfColumns
      */
-    /* private void addTask(UUID task, Column column) {
-        for (int i = 0; i < this.listOfColumns.size(); i++) {
-            if (this.listOfColumns.get(i) == column)
-                this.listOfColumns.get(i).columnTasks.add(task);
-        }
-    } */
+    /*
+     * private void addTask(UUID task, Column column) {
+     * for (int i = 0; i < this.listOfColumns.size(); i++) {
+     * if (this.listOfColumns.get(i) == column)
+     * this.listOfColumns.get(i).columnTasks.add(task);
+     * }
+     * }
+     */
 
     /**
      * Void method that removes a Task from a project column
@@ -182,12 +187,14 @@ public class Project {
      * @param task   Task to be removed from the Project
      * @param column Column where the Task was in
      */
-    /* private void removeTask(UUID task, Column column) {
-        for (int i = 0; i < this.listOfColumns.size(); i++) {
-            if (this.listOfColumns.get(i) == column)
-                this.listOfColumns.get(i).columnTasks.remove(task);
-        }
-    } */
+    /*
+     * private void removeTask(UUID task, Column column) {
+     * for (int i = 0; i < this.listOfColumns.size(); i++) {
+     * if (this.listOfColumns.get(i) == column)
+     * this.listOfColumns.get(i).columnTasks.remove(task);
+     * }
+     * }
+     */
 
     /**
      * String method that returns the value of projectName with the project columns
@@ -217,8 +224,8 @@ public class Project {
      * @param columnTasks ArrayList<String> to be converted as ArrayList<Object>
      * @return ArrayList<Column> to set as Project.listOfColumns
      */
-    //private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
-        // TODO convert String UUIDs from DataLoader to Column Objects
-      //  return null;
-    //}
+    // private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
+    // TODO convert String UUIDs from DataLoader to Column Objects
+    // return null;
+    // }
 }

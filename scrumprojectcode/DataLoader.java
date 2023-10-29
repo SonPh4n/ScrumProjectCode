@@ -187,28 +187,42 @@ public class DataLoader extends DataConstants {
 
             for (int i = 0; i < projectsJSON.size(); i++) {
                 JSONObject projectJSON = (JSONObject) projectsJSON.get(i);
-                String projectID = (String) projectJSON.get(PROJECT_ID);
+                UUID projectID = UUID.fromString((String) projectJSON.get(PROJECT_ID));
                 String projectTitle = (String) projectJSON.get(PROJECT_TITLE);
-                // String assignedUsers = (String)projectJSON.get(TASK_USERS);
-                // String projectColumns = (String)projectJSON.get(TASK_USERS);
 
                 // Parse "assigned-users" and "project-columns" as JSON arrays
                 JSONArray assignedUsersJSON = (JSONArray) projectJSON.get(PROJECT_USERS);
                 JSONArray projectColumnsJSON = (JSONArray) projectJSON.get(PROJECT_COLUMNS);
 
                 // Convert JSON arrays to JAVA arrayLists
-                ArrayList<String> assignedUsers = new ArrayList<String>();
-                ArrayList<String> projectColumns = new ArrayList<String>();
+                ArrayList<UUID> assignedUsers = new ArrayList<>();
+                ArrayList<Column> projectColumns = new ArrayList<>();
 
-                for (int j = 0; j < assignedUsersJSON.size(); j++) {
-                    assignedUsers.add((String) assignedUsersJSON.get(j));
+                Iterator iU = assignedUsersJSON.iterator();
+                Iterator iPC = projectColumnsJSON.iterator();
+
+                while (iU.hasNext()) {
+                    JSONObject userJSON = (JSONObject) iU.next();
+                    UUID userUUID = UUID.fromString((String) userJSON.get(PROJECT_USERS_ID));
+                    assignedUsers.add(userUUID);
                 }
 
-                for (int j = 0; j < projectColumnsJSON.size(); j++) {
-                    projectColumns.add((String) projectColumnsJSON.get(j));
+                while (iPC.hasNext()) {
+                    JSONObject columnJSON = (JSONObject) iPC.next();
+                    UUID columnUUID = UUID.fromString((String) columnJSON.get(COLUMN_ID));
+                    String columnTitle = (String) columnJSON.get(COLUMN_TITLE);
+                    JSONArray columnTasksJSON = (JSONArray) columnJSON.get(COLUMN_TASKS);
+                    ArrayList<UUID> columnTasks = new ArrayList<>();
+                    Iterator iCT = columnTasksJSON.iterator();
+                    while (iCT.hasNext()) {
+                        JSONObject columnTaskJSON = (JSONObject) iCT.next();
+                        UUID taskUUID = UUID.fromString((String) columnTaskJSON.get(COLUMN_TASK_ID));
+                        columnTasks.add(taskUUID);
+                    }
+                    projectColumns.add(new Column(projectID, columnUUID, columnTitle, columnTasks));
                 }
 
-                projects.add(new Project(projectTitle)); // TODO change Project constructor//
+                projects.add(new Project(projectID, projectTitle, projectColumns, assignedUsers));
             }
 
             return projects;
