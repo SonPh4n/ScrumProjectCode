@@ -152,12 +152,12 @@ public class Project {
      * @param task   User made Task to be added to the Projec
      * @param column Column in the Project's listOfColumns
      */
-    private void addTask(UUID task, Column column) {
+    /* private void addTask(UUID task, Column column) {
         for (int i = 0; i < this.listOfColumns.size(); i++) {
             if (this.listOfColumns.get(i) == column)
                 this.listOfColumns.get(i).columnTasks.add(task);
         }
-    }
+    } */
 
     /**
      * Void method that removes a Task from a project column
@@ -165,12 +165,12 @@ public class Project {
      * @param task   Task to be removed from the Project
      * @param column Column where the Task was in
      */
-    private void removeTask(UUID task, Column column) {
+    /* private void removeTask(UUID task, Column column) {
         for (int i = 0; i < this.listOfColumns.size(); i++) {
             if (this.listOfColumns.get(i) == column)
                 this.listOfColumns.get(i).columnTasks.remove(task);
         }
-    }
+    } */
 
     /**
      * String method that returns the value of projectName with the project columns
@@ -200,8 +200,8 @@ public class Project {
      * @param columnTasks ArrayList<String> to be converted as ArrayList<Object>
      * @return ArrayList<Column> to set as Project.listOfColumns
      */
-    private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
+    //private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
         // TODO convert String UUIDs from DataLoader to Column Objects
-        return null;
-    }
+      //  return null;
+    //}
 }
