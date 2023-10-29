@@ -38,9 +38,9 @@ public class Comment {
      */
     public Comment(String comment, User user) {
         // Constructor logic
-        this.comment = comment;
-        this.user = user;
-        this.commentUUID = generateUUID(); // Generate a unique UUID for the comment
+        setComment(comment);
+        setUser(user);
+        generateUUID(); // Generate a unique UUID for the comment
         this.moreComments = new ArrayList<>(); // Initialize the list for additional comments
     }
 
@@ -50,10 +50,11 @@ public class Comment {
      * @param comment
      */
     public Comment(UUID commentID, String comment, User user, ArrayList<Comment> moreComments) {
-        this.commentUUID = commentID;
-        this.comment = comment;
-        this.user = user;
-        this.moreComments = moreComments;
+        setCommentUUID(commentID);
+        setComment(comment);
+        setUser(user);
+        setMoreComments(moreComments);
+        ;
     }
 
     /**
@@ -63,9 +64,9 @@ public class Comment {
      * @param comment
      */
     public Comment(UUID commentID, String comment, User user) {
-        this.commentUUID = commentID;
-        this.comment = comment;
-        this.user = user;
+        setCommentUUID(commentID);
+        setComment(comment);
+        setUser(user);
         this.moreComments = new ArrayList<>();
     }
 
@@ -121,9 +122,9 @@ public class Comment {
     public String toString() {
         String commentsToString = "";
         int commentIterator = 0;
-        for (Comment comment : moreComments) { 
+        for (Comment comment : moreComments) {
             commentsToString = commentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
-                    + comment.getComment() + "\n" 
+                    + comment.getComment() + "\n"
                     + "\t[User]: " + comment.getUser().getUsername();
             commentIterator++;
         }
@@ -131,4 +132,5 @@ public class Comment {
                 + "[User]: " + this.user + "\n" + commentsToString; // TODO: Use UserList to access username instead of
                                                                     // userUUID
     }
+
 }
