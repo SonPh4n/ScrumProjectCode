@@ -4,11 +4,11 @@ public class UI {
     private ProjectSystemFACADE facade;
 
     public UI() {
-        //TODO
+        facade = ProjectSystemFACADE.getFacadeInstance();
     }
 
     public void run() {
-        facade = ProjectSystemFACADE.getFacadeInstance();
+        //facade = ProjectSystemFACADE.getFacadeInstance();
         scenario1();
         scenario2();
     }
@@ -39,7 +39,7 @@ public class UI {
         }
 
         // create task
-        if (!facade.addTask("new task", "new column", "new task")) {
+        if (!facade.addTask("new task", "new column", "new task", "this is a task", "11/01/2023", "10/29/2023")) {
             System.out.println("Sorry we could not create your task.");
         } else {
             System.out.println("new task has been added to new column in new project.");
@@ -59,11 +59,11 @@ public class UI {
         System.out.println("Bobby Jones is now logged in.");
 
         // comments on a pre-existing task
-        if (!facade.addComment("Good work", "new project", "new column", "new task")) {
+        /* if (!facade.addComment("Good work", "new project", "new column", "new task")) {
             System.out.println("Sorry we could not add your comment.");
         } else {
             System.out.println("'good work' was was commented on new task in new column in new project.");
-        }
+        } */
     }
 
 }
