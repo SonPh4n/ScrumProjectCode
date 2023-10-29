@@ -55,7 +55,6 @@ public class DataLoader extends DataConstants {
 
                 ArrayList<UUID> usersUUID = new ArrayList<UUID>();
                 ArrayList<Comment> comments = new ArrayList<Comment>();
-                ArrayList<UUID> historiesUUID = new ArrayList<>(); // Used to convert UUIDs in task.json to History
                 HashMap<String, History> history = new HashMap<>();
 
                 JSONArray usersJSON = (JSONArray) taskJSON.get(TASK_USERS);
@@ -76,10 +75,11 @@ public class DataLoader extends DataConstants {
                 while (ih.hasNext()) {
                     JSONObject historyJSON = (JSONObject) ih.next();
                     UUID historyUUID = UUID.fromString((String) historyJSON.get(TASK_HISTORY_ID));
-                    historiesUUID.add(historyUUID);
+                    UUID historyUser = UUID.fromString((String) historyJSON.get(HISTORY_USER));
+                    String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
+                    String recordedDate = (String) historyJSON.get(HISTORY_RECORDED_DATE);
+                    history.put(recordedDate, new History(historyUUID, historyUser, recordedDate, historyDetails));
                 }
-
-                history = getTaskHistory(historiesUUID);
 
                 while (ic.hasNext()) {
                     ArrayList<Comment> moreComments = new ArrayList<Comment>();
@@ -226,38 +226,6 @@ public class DataLoader extends DataConstants {
             }
 
             return projects;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * loads history from json files
-     * takes history info from json and creates history objects
-     * 
-     * @return returns an arraylist of history objects
-     */
-    public ArrayList<History> loadHistory() {
-        try {
-            FileReader reader = new FileReader(TASK_FILE_NAME);
-            JSONParser parser = new JSONParser();
-            JSONArray historiesJSON = (JSONArray) new JSONParser().parse(reader);
-
-            for (int i = 0; i < historiesJSON.size(); i++) {
-                JSONObject historyJSON = (JSONObject) historiesJSON.get(i);
-                String historyID = (String) historyJSON.get(HISTORY_ID);
-                String historyUser = (String) historyJSON.get(HISTORY_USER);
-                String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
-                String recordedDate = (String) historyJSON.get(HISTORY_RECORDED_DATE);
-
-                histories.add(new History(historyUser, historyDetails, recordedDate)); // TODO change History
-                                                                                       // constructor//
-            }
-
-            return histories;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,24 +6,24 @@ package scrumprojectcode;
 import java.util.UUID;
 
 public class History {
-    private UUID user; // Was unable to use User object when loading from task.json so I changed it
-    // to UUID @kuriakm
+    private UUID user;
     private String details;
     private String date;
     private UUID historyUUID;
+    private UserList userList = UserList.getInstance(); // TODO update UML
 
     public History(UUID userID, String date, String details) {
-        this.user = userID;
-        this.date = date;
-        this.details = details;
+        setUser(userID);
+        setDate(date);
+        setDetails(details);
         this.historyUUID = generateUUID();
     }
 
     public History(UUID historyID, UUID userID, String date, String details) {
-        this.historyUUID = historyID;
-        this.user = userID;
-        this.date = date;
-        this.details = details;
+        setHistoryUUID(historyID);
+        setUser(userID);
+        setDate(date);
+        setDetails(details);
     }
 
     public UUID generateUUID() {
@@ -63,6 +63,9 @@ public class History {
     }
 
     public String toString() {
-        for ()
+        return "[Task History]: \n" +
+                "[User]: " + userList.findUser(user).getUsername() + "\n" +
+                "[History Details]: " + details + "\n" +
+                "[Recorded Date]: " + date + "\n";
     }
 }
