@@ -12,7 +12,7 @@ public class ProjectSystemFACADE {
     // Private constructor to prevent direct instantiation
     private ProjectSystemFACADE() {
         this.userList = UserList.getInstance();
-        this.projects = new ArrayList<>();
+        //this.projects = new ArrayList<>();
         this.currentUser = null;
         facade = getFacadeInstance();
     }
@@ -84,24 +84,33 @@ public class ProjectSystemFACADE {
         //projects.add(new Project(projectName));
     }
 
-    public void removeProject(Project project) {
-        projects.remove(project);
+    public boolean removeProject(String projectName) {
+        return currentUser.facadeRemoveProject(projectName);
     }
 
-    public void addColumn(Project project, Column column) {
-        project.addColumn(column);
+    public boolean addColumn(String projectName, String columnName) {
+        if(currentUser != null){
+            return currentUser.findProject(projectName).facadeAddColumn(columnName);
+        }
+        return false;
     }
 
-    public void removeColumn(Project project, Column column) {
-        project.removeColumn(column);
+    public boolean removeColumn(String projectName, String columnName) {
+        return currentUser.findProject(projectName).facadeRemoveColumn(columnName);
     }
 
-    public void addTask(Project project, UUID task, Column column) {
-        project.addTask(task, column);
+////////////////////new addTask
+    public boolean addTask(String projectName, String columnName, String taskName, 
+    String taskDesc, String dueDate, String creationDate){
+        Project project = currentUser.findProject(projectName);
+        Column column = project.findColumn(columnName);
+        return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser.getUserUUID(), taskName, taskDesc, dueDate, creationDate);
     }
 
-    public void removeTask(Project project, UUID task, Column column) {
-        project.removeTask(task, column);
+    public boolean removeTask(String projectName, String columnName, String taskName) {
+        Project project = currentUser.findProject(projectName);
+        Column column = project.findColumn(columnName);
+        return column.facadeRemoveTask(taskName);
     }
 
     public void moveTask(Column sourceColumn, Column targetColumn, UUID task) {

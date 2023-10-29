@@ -89,26 +89,50 @@ public class Project {
         this.assignedUsers = assignedUsers;
     }
 
+    public boolean facadeAddColumn(String columnName){
+        return addColumn(columnName);
+    }
     /**
      * Void method that adds a new Column to the project using the ArrayList.add()
      * method
      * 
      * @param column New Column with ArrayList<Task> for the project tasks
      */
-    private void addColumn(Column column) {
-        this.listOfColumns.add(column);
+    private boolean addColumn(String columnName) {
+        if(findColumn(columnName) == null){
+            Column newColumn = new Column(columnName, projectUUID);
+            this.listOfColumns.add(newColumn);
+            //projectList.saveProjects();       should we save right after modifying?
+            return true;
+        }
+        return false;
     }
 
+    public boolean facadeRemoveColumn(String columnName){
+        return removeColumn(columnName);
+    }
     /**
      * Void method that removes a Column from the project using the
      * ArrayList.remove() method
      * 
      * @param column Column to be removed from the project
      */
-    private void removeColumn(Column column) {
-        this.listOfColumns.remove(column);
+    private boolean removeColumn(String columnName) {
+        if(findColumn(columnName) == null){
+            return false;
+        }
+        listOfColumns.remove(findColumn(columnName));
+        return true;
     }
 
+    public Column findColumn(String columnName){ //can this be public
+        for(Column column : listOfColumns){
+            if(column.getColumnName().equals(columnName)){
+                return column;
+            }
+        }
+        return null;
+    }
     /**
      * String method that prints out the contents of the selected column using
      * ArrayList.forEach() method

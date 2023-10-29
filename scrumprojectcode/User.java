@@ -227,8 +227,7 @@ public class User {
         return true;
     }
 
-
-    private Project findProject(String projectName) {
+    public Project findProject(String projectName) { //TODO: is it ok to keep this public?
         for (Project project : projectList.getListOfProjects()) {
             if (project.getProjectName().equals(projectName)) {
                 return project;

@@ -15,7 +15,7 @@ public class TaskList {
         listOfTasks = tasks;
     }
 
-    public static TaskList getInstance(ArrayList<Task> tasks) {
+    public static TaskList getInstance(ArrayList<Task> tasks) { //why is there a constructor?
         if (taskList == null)
             taskList = new TaskList(tasks);
         return taskList;
