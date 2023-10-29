@@ -255,6 +255,10 @@ public class Task {
         this.columnUUID = UUID.fromString(columnID);
     }
 
+    public void setColumnUUID(UUID columnID){
+        this.columnUUID = columnID;
+    }
+
     public UUID getTaskUUID() {
         return taskUUID;
     }

@@ -1,7 +1,7 @@
 package scrumprojectcode;
 
 //import java.util.ArrayList;
-import java.util.UUID;
+//import java.util.UUID;
 
 public class ProjectSystemFACADE {
     private static ProjectSystemFACADE facade; // Singleton instance
@@ -99,7 +99,6 @@ public class ProjectSystemFACADE {
         return currentUser.findProject(projectName).facadeRemoveColumn(columnName);
     }
 
-////////////////////new addTask
     public boolean addTask(String projectName, String columnName, String taskName, 
     String taskDesc, String dueDate, String creationDate){
         Project project = currentUser.findProject(projectName);
@@ -113,8 +112,9 @@ public class ProjectSystemFACADE {
         return column.facadeRemoveTask(taskName);
     }
 
-    public void moveTask(Column sourceColumn, Column targetColumn, UUID task) {
-        // Implement task moving logic
+    public boolean moveTask(String projectName, String sourceColumn, String targetColumn, String taskName) {
+        Project project = currentUser.findProject(projectName);
+        return project.facadeMoveTask(sourceColumn, targetColumn, taskName);
     }
 
     public void addComment(Task task, String comment) {

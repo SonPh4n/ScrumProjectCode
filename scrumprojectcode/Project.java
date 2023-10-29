@@ -125,6 +125,23 @@ public class Project {
         return true;
     }
 
+    public boolean facadeMoveTask(String sourceColumn, String targetColumn, String taskName){
+        return moveTask(sourceColumn, targetColumn, taskName);
+    }
+
+    private boolean moveTask(String sourceColumn, String targetColumn, String taskName){
+        Column oldColumn = findColumn(sourceColumn);
+        Column newColumn = findColumn(targetColumn);
+        Task task = oldColumn.findTask(taskName);
+        oldColumn.facadeRemoveTask(taskName);
+        task.setColumnUUID(newColumn.getColumnUUID());
+        newColumn.columnTasks.add(task.getTaskUUID());
+        if(newColumn.findTask(taskName) == null){
+            return false;
+        }
+        return true;
+    }
+
     public Column findColumn(String columnName){ //can this be public
         for(Column column : listOfColumns){
             if(column.getColumnName().equals(columnName)){

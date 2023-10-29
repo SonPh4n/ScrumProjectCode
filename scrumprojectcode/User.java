@@ -1,6 +1,6 @@
 package scrumprojectcode;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -24,7 +24,7 @@ public class User {
      * private ArrayList<UUID> myTasks;
      */ // Was unable to use Task and Project object when loading from user.json so I
         // changed these to ArrayList<UUID> @kuriakm
-    private ArrayList<UUID> myProjects;
+    //private ArrayList<UUID> myProjects;
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
