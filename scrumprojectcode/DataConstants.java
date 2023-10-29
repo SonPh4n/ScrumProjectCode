@@ -19,10 +19,12 @@ public class DataConstants {
     protected static final String USER_EMAIL = "email";
     protected static final String USER_PHONE_NUMBER = "phone-number";
     protected static final String USER_TYPE = "type";
-    protected static final String USER_TASKS = "my-tasks";
-    protected static final String USER_TASK_ID = "my-task-id";
-    protected static final String USER_PROJECTS = "my-projects";
-    protected static final String USER_PROJECT_ID = "my-project-id";
+    /*
+     * protected static final String USER_TASKS = "my-tasks";
+     * protected static final String USER_TASK_ID = "my-task-id";
+     * protected static final String USER_PROJECTS = "my-projects";
+     * protected static final String USER_PROJECT_ID = "my-project-id";
+     */
 
     /**
      * column data constants

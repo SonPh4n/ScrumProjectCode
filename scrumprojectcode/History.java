@@ -61,4 +61,8 @@ public class History {
     public void setHistoryUUID(UUID historyUUID) {
         this.historyUUID = historyUUID;
     }
+
+    public String toString() {
+        for ()
+    }
 }

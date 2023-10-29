@@ -12,26 +12,15 @@ public class Column {
     private static TaskList taskList = TaskList.getInstance();
 
     /**
-     * Debugger method, remove in final submission
-     */
-
-/*     Column(Project project) {
-        this.projectUUID = project.getProjectUUID();
-        this.columnUUID = generateUUID();
-        this.columnName = "Test column name";
-        this.columnTasks = new ArrayList<>();
-    } */
-
-    /**
      * Constructor method for a new Column() which initializes the Column attributes
      * 
      * @param columnName
      * @param task
      */
-    public Column(String columnName, UUID projectUUID) { //slightly changed this from String columnName, UUID taskUUID
+    public Column(String columnName, UUID projectUUID) { // slightly changed this from String columnName, UUID taskUUID
         this.createColumn(columnName);
         this.columnTasks = new ArrayList<UUID>();
-        //this.addTask(taskUUID);       I don't think this should be in the constructor
+        // this.addTask(taskUUID); I don't think this should be in the constructor
         this.columnUUID = generateUUID();
         this.projectUUID = projectUUID;
     }
@@ -56,31 +45,35 @@ public class Column {
         this.columnName = columnName;
     }
 
-    public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc, String dueDate, String creationDate){
+    public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+            String dueDate, String creationDate) {
         return addTask(projectUUID, columnUUID, userUUID, taskName, taskDesc, dueDate, creationDate);
     }
+
     /**
      * Void method that adds a new Task to the Column using the ArrayList.add()
      * method
      * 
      * @param task New project Task to be added to columnTasks
      */
-    private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc, String dueDate, String creationDate) {
+    private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+            String dueDate, String creationDate) {
         Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, userUUID, dueDate, creationDate);
         columnTasks.add(newTask.getTaskUUID());
         taskList.getListOfTasks().add(newTask);
         taskList.saveTasks();
-        for(UUID task : columnTasks){
-            if(task.equals(newTask.getTaskUUID())){
+        for (UUID task : columnTasks) {
+            if (task.equals(newTask.getTaskUUID())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean facadeRemoveTask(String taskName){
+    public boolean facadeRemoveTask(String taskName) {
         return removeTask(taskName);
     }
+
     /**
      * Void method that removes a Task from the Column using the ArrayList.remove()
      * method
@@ -88,7 +81,7 @@ public class Column {
      * @param task Task to be removed from the column
      */
     private boolean removeTask(String taskName) {
-        if(findTask(taskName) == null){
+        if (findTask(taskName) == null) {
             return false;
         }
         Task task = findTask(taskName);
@@ -129,16 +122,15 @@ public class Column {
         this.projectUUID = projectUUID;
     }
 
-     
-    public Task findTask(String taskName){
-        for(Task task : taskList.getListOfTasks()){
-            if(task.getProjectUUID().equals(projectUUID) && task.getColumnUUID().equals(columnUUID) && task.getTaskName().equals(taskName)){
+    public Task findTask(String taskName) {
+        for (Task task : taskList.getListOfTasks()) {
+            if (task.getProjectUUID().equals(projectUUID) && task.getColumnUUID().equals(columnUUID)
+                    && task.getTaskName().equals(taskName)) {
                 return task;
             }
         }
         return null;
     }
-    
 
     public String toString() {
         String tasksToString = "";

@@ -92,10 +92,10 @@ public class DataLoader extends DataConstants {
                         UUID moreCommentor = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENTOR));
                         String moreComment = (String) moreCommentJSON.get(TASK_COMMENT);
                         UUID moreCommentUUID = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENT_ID));
-                        Comment aMC = new Comment(moreCommentor, moreComment, moreCommentUUID);
+                        Comment aMC = new Comment(moreCommentUUID, moreCommentor, moreComment);
                         moreComments.add(aMC);
                     }
-                    Comment aC = new Comment(commentor, comment, commentUUID, moreComments);
+                    Comment aC = new Comment(commentUUID, commentor, comment, moreComments);
                     comments.add(aC);
                 }
 
@@ -163,37 +163,7 @@ public class DataLoader extends DataConstants {
                 UUID userID = UUID.fromString((String) userJSON.get(USER_ID));
                 String type = (String) userJSON.get(USER_TYPE);
                 String email = (String) userJSON.get(USER_EMAIL);
-
-                // Convert JSON arrays to JAVA arrayLists
-                ArrayList<UUID> projectsUUID = new ArrayList<UUID>();
-                ArrayList<UUID> tasksUUID = new ArrayList<UUID>();
-
-                // Parse "my-tasks" and "my-projects" as JSON arrays
-                JSONArray projectsJSON = (JSONArray) userJSON.get(USER_PROJECTS);
-                JSONArray tasksJSON = (JSONArray) userJSON.get(USER_TASKS);
-
-                // Included iterators to go through my-project-id and my-task-id @kuriakm
-                Iterator ip = projectsJSON.iterator();
-                Iterator it = tasksJSON.iterator();
-
-                // Iterates through my-project-id and adds it to projectsUUID
-                while (ip.hasNext()) {
-                    JSONObject projectJSON = (JSONObject) ip.next();
-                    UUID projectUUID = UUID.fromString((String) projectJSON.get(USER_PROJECT_ID));
-                    projectsUUID.add(projectUUID);
-                }
-
-                // Iterates through my-task-id and adds it to tasksUUID
-                while (it.hasNext()) {
-                    JSONObject taskJSON = (JSONObject) it.next();
-                    UUID taskUUID = UUID.fromString((String) taskJSON.get(USER_TASK_ID));
-                    tasksUUID.add(taskUUID);
-                }
-
-                // TODO: figure out how to get Objects from UUIDs
-                // TODO: Maybe use ArrayList<UUID> for tasks and projects attribute?
-                User aU = new User(userID, firstName, lastName, userName, password, email, phoneNumber, type, tasksUUID,
-                        projectsUUID);
+                User aU = new User(userID, firstName, lastName, userName, password, email, phoneNumber, type);
                 users.add(aU);
             }
             return users;

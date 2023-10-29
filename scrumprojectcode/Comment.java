@@ -49,10 +49,11 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, String comment, User user, ArrayList<Comment> moreComments) {
+    public Comment(UUID commentID, UUID userUUID, String comment, ArrayList<Comment> moreComments) {
         setCommentUUID(commentID);
         setComment(comment);
-        setUser(user);
+        User findUser = userList.findUser(userUUID);
+        setUser(findUser);
         setMoreComments(moreComments);
         ;
     }
@@ -63,10 +64,11 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, String comment, User user) {
+    public Comment(UUID commentID, UUID userUUID, String comment) {
         setCommentUUID(commentID);
         setComment(comment);
-        setUser(user);
+        User findUser = userList.findUser(userUUID);
+        setUser(findUser);
         this.moreComments = new ArrayList<>();
     }
 
