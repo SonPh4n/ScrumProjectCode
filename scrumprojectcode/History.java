@@ -3,7 +3,6 @@ package scrumprojectcode;
 /**
  * Represents the history of a task in a scrum project.
  */
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class History {

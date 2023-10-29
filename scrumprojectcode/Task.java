@@ -32,26 +32,6 @@ public class Task {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
 
     /**
-     * Debugger method, remove in final submission
-     */
-    /* public Task(UUID user) {
-        this.taskUUID = generateUUID();
-        this.taskName = "Test Task Name";
-        this.taskDescription = "Test Task Description";
-        this.taskComments = new ArrayList<Comment>();
-        taskComments.add(new Comment(user));
-        this.assignedUsers = new ArrayList<UUID>();
-        assignedUsers.add(user);
-        this.taskHistory = new HashMap<String, History>();
-        taskHistory.put(creationDate, new History(user, creationDate, user + " created a task"));
-        LocalDateTime dateNow = LocalDateTime.now();
-        this.creationDate = formatter.format(dateNow);
-        this.taskDueDate = "N/A";
-        this.projectUUID = generateUUID();
-        this.columnUUID = generateUUID();
-    } */
-
-    /**
      * Constructor for Task class.
      *
      * @param taskName        The name of the task.
@@ -73,32 +53,6 @@ public class Task {
         this.columnUUID = columnID;
     }
 
-/**
- * This constructor allows the Bug class to function properly.
- * @param projectID
- * @param columnID
- * @param taskName 
- *   V V V V V V
- *    V V V V V
- *     V V V V
- *      V V V
- *       V V
- *        V
- */
-    public Task(UUID projectID, UUID columnID, String taskName) {
-        this.taskUUID = generateUUID();
-        this.taskName = taskName;
-        this.taskDescription = "Ex:) A bug needs to be fixed!";
-        this.taskComments = new ArrayList<Comment>();
-        this.assignedUsers = new ArrayList<UUID>();
-        this.taskHistory = new HashMap<String, History>();
-        LocalDateTime dateNow = LocalDateTime.now();
-        this.creationDate = formatter.format(dateNow);
-        this.taskDueDate = "probably after the deadline...";
-        this.projectUUID = projectID;
-        this.columnUUID = columnID;
-    }
-    
     /**
      * creates a Task from DataLoader
      * 
@@ -243,19 +197,15 @@ public class Task {
         return projectUUID;
     }
 
-    public void setProjectUUID(String projectID) {
-        this.projectUUID = UUID.fromString(projectID);
+    public void setProjectUUID(UUID projectID) {
+        this.projectUUID = projectID;
     }
 
     public UUID getColumnUUID() {
         return columnUUID;
     }
 
-    public void setColumnUUID(String columnID) {
-        this.columnUUID = UUID.fromString(columnID);
-    }
-
-    public void setColumnUUID(UUID columnID){
+    public void setColumnUUID(UUID columnID) {
         this.columnUUID = columnID;
     }
 
