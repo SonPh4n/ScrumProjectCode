@@ -37,6 +37,7 @@ public class ProjectSystemFACADE {
         User user = userList.findUser(username);
         if (user != null && user.getPassword().equals(password)) {
             currentUser = user;
+            currentUser.facadeLogin(username, password);
             return true;
         }
         return false;
@@ -68,12 +69,7 @@ public class ProjectSystemFACADE {
      * @return returns true of a new user was successfully added, false if not or if already exits
      */
     public boolean register(String firstName, String lastName, String username, String password, String email, String phoneNumber, String type) {
-        User user = new User(firstName, lastName, username, password, email, phoneNumber, type);
-        if (!userList.getListOfUsers().contains(user)) {
-            userList.getListOfUsers().add(user);
-            return true;
-        }
-        return false;
+        return currentUser.facadeRegister(firstName, lastName, username, password, email, phoneNumber, type);
     }
 
     //getter for currentUser
@@ -83,9 +79,9 @@ public class ProjectSystemFACADE {
 
     // Project management methods
 
-    public void addProject(String projectName) {
-        currentUser.addProject()
-        projects.add(new Project(projectName));
+    public boolean addProject(String projectName) {
+        return currentUser.facadeAddProject(projectName);
+        //projects.add(new Project(projectName));
     }
 
     public void removeProject(Project project) {
