@@ -7,8 +7,12 @@ public class UI {
         facade = ProjectSystemFACADE.getFacadeInstance();
     }
 
+    public static void main(String[] args){
+        UI ui = new UI();
+        ui.run();
+    }
+
     public void run() {
-        //facade = ProjectSystemFACADE.getFacadeInstance();
         scenario1();
         scenario2();
     }
@@ -17,12 +21,16 @@ public class UI {
         System.out.println();
 
         // User logs in
-        if (!facade.login("johnny", "8xw0CUeKk")) {
+        /* if (!facade.login("johnny", "8xw0CUeKk")) {
             System.out.println("Sorry we couldn't login.");
             return;
+        } */
+        if(!facade.register("alex", "m", "alexm", "yellow", "alex.com", "1111111111", "user")){
+            System.out.println("Sorry we couldn't register you as a user.");
+            return;
         }
-
-        System.out.println("Johnny Applesause is now logged in.");
+        System.out.println("Alex M is now registered");
+        //System.out.println("Johnny Applesause is now logged in.");
 
         // make a project
         if (!facade.addProject("new project")) {
