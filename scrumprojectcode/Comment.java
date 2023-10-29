@@ -121,16 +121,23 @@ public class Comment {
     @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
         String commentsToString = "";
-        int commentIterator = 0;
-        for (Comment comment : moreComments) {
-            commentsToString = commentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
-                    + comment.getComment() + "\n"
-                    + "\t[User]: " + comment.getUser().getUsername();
-            commentIterator++;
+        for (Comment comment : moreComments) { // TODO: use UserList to convert getUser to User.username
+            commentsToString = printMoreComments(commentsToString, comment);
         }
         return "[Comment]: " + comment + "\n"
                 + "[User]: " + this.user + "\n" + commentsToString; // TODO: Use UserList to access username instead of
                                                                     // userUUID
+    }
+
+    public String printMoreComments(String moreCommentsToString, Comment moreComment) {
+        int commentIterator = 0;
+        moreCommentsToString = moreCommentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
+                + moreComment.getComment() + "\n"
+                + "\t[User]: " + moreComment.getUser();
+        commentIterator++;
+        for (Comment comment : moreComment.moreComments)
+            moreCommentsToString = moreCommentsToString + printMoreComments(moreCommentsToString, comment);
+        return moreCommentsToString;
     }
 
 }
