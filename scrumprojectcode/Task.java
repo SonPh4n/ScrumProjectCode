@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Task {
     private String taskName;
     private String taskDescription;
+    private String taskType;
     private ArrayList<Comment> taskComments;
     private ArrayList<User> assignedUsers; // Since we have UserList available in Task, I changed this to
                                            // ArrayList<User> @kuriakm
@@ -39,11 +40,12 @@ public class Task {
      * @param taskDescription The description of the task.
      * @param timeToComplete  The estimated time to complete the task.
      */
-    public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc,
+    public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc, String taskType,
             UUID userUUID, String taskDueDate) { // TODO: update Task constructor
         this.taskUUID = generateUUID();
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
+        this.taskType = taskType;
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
         User taskUser = userList.findUser(userUUID);
@@ -76,12 +78,13 @@ public class Task {
      * @param taskDueDate
      * @param taskCreationDate
      */
-    public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc,
+    public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc, String taskType,
             ArrayList<UUID> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
             String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
         this.taskUUID = taskID;
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
+        this.taskType = taskType;
         this.taskComments = taskComments;
         this.assignedUsers = new ArrayList<>();
         for (UUID uuid : taskUsers) // Converts taskUsers from UUID to User objects @kuriakm
@@ -141,6 +144,7 @@ public class Task {
         for (Comment comment : taskComments)
             commentsToString = commentsToString + comment.toString();
         return "[Task]: " + this.taskName + "\n"
+                + "[Task Type]: " + this.taskType + "\n"
                 + "[Description]: " + this.taskDescription + "\n"
                 + "[Due Date]: " + this.taskDueDate + "\n"
                 + "[Creation Date]: " + this.creationDate + "\n\n"
@@ -170,6 +174,14 @@ public class Task {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 
     public ArrayList<User> getAssignedUsers() {

@@ -183,7 +183,10 @@ public class Project {
      * @return String value of projectName and listOfColumns
      */
     public String toString() {
+        String columnsToString = "";
+        for (Column column : listOfColumns)
+            columnsToString = columnsToString + column + "\n";
         return "[" + this.projectName + "]:\n"
-                + listOfColumns.toString();
+                + columnsToString;
     }
 }

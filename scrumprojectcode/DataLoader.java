@@ -50,6 +50,7 @@ public class DataLoader extends DataConstants {
                 UUID taskID = UUID.fromString((String) taskJSON.get(TASK_ID));
                 String taskTitle = (String) taskJSON.get(TASK_TITLE);
                 String taskDesc = (String) taskJSON.get(TASK_DESCRIPTION);
+                String taskType = (String) taskJSON.get(TASK_TYPE);
                 String taskDueDate = (String) taskJSON.get(TASK_DUE_DATE);
                 String taskCreationDate = (String) taskJSON.get(TASK_CREATION_DATE);
 
@@ -86,7 +87,8 @@ public class DataLoader extends DataConstants {
                     comments.add(aC);
                 }
 
-                Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, usersUUID, history, comments,
+                Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, taskType, usersUUID, history,
+                        comments,
                         taskDueDate, taskCreationDate);
                 tasks.add(aT);
             }

@@ -50,8 +50,8 @@ public class Column {
     }
 
     public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
-            String dueDate) {
-        return addTask(projectUUID, columnUUID, userUUID, taskName, taskDesc, dueDate);
+            String taskType, String dueDate) {
+        return addTask(projectUUID, columnUUID, userUUID, taskName, taskDesc, taskType, dueDate);
     }
 
     /**
@@ -61,8 +61,8 @@ public class Column {
      * @param task New project Task to be added to columnTasks
      */
     private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
-            String dueDate) {
-        Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, userUUID, dueDate);
+            String taskType, String dueDate) {
+        Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, userUUID, dueDate);
         columnTasks.add(newTask.getTaskUUID());
         taskList.getListOfTasks().add(newTask);
         taskList.saveTasks();

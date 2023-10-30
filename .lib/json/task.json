@@ -20,6 +20,7 @@
             }
         ],
         "task-description": "Test Task Description",
+        "task-type": "task",
         "task-title": "Test Task Name",
         "column-id": "e9a4c1d8-ec0e-427e-a646-eb341bff9e50",
         "due-date": "N\/A",
@@ -56,6 +57,7 @@
             }
         ],
         "task-description": "Test Task Description",
+        "task-type": "bug",
         "task-title": "Test Task Name",
         "column-id": "91864e3a-1b6e-46a5-bc76-4506e2961b52",
         "due-date": "N\/A",
@@ -92,6 +94,7 @@
             }
         ],
         "task-description": "Test Task Description",
+        "task-type": "feature",
         "task-title": "Test Task Name",
         "column-id": "e5d5f9f7-7f46-40b7-9aa9-47a9c51d67de",
         "due-date": "N\/A",
@@ -125,6 +128,7 @@
             }
         ],
         "task-description": "Test Task Description",
+        "task-type": "documentation",
         "task-title": "Test Task Name",
         "column-id": "f20a1b51-cc77-435e-9ed2-9d01eb14ca7e",
         "due-date": "N\/A",
