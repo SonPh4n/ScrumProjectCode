@@ -12,7 +12,6 @@ public class ProjectSystemFACADE {
     private ProjectSystemFACADE() {
         this.userList = UserList.getInstance();
         this.currentUser = null;
-        facade = getFacadeInstance();
     }
 
     // Get the singleton instance

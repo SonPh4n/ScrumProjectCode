@@ -61,12 +61,13 @@ public class UI {
         System.out.println();
 
         // User logs in
-        if (!facade.login("bjones", "dvSGCtX0H")) {
+        if (!facade.login("co_hanna", "123abc")) { // Modified this since Bobby Jones was removed from user.json during
+                                                   // debugging @kuriakm
             System.out.println("Sorry we couldn't login.");
             return;
         }
 
-        System.out.println("Bobby Jones is now logged in.");
+        System.out.println("Johanna Cole is now logged in.");
 
         // comments on a pre-existing task
         /*
