@@ -6,13 +6,11 @@ package scrumprojectcode;
 public class ProjectSystemFACADE {
     private static ProjectSystemFACADE facade; // Singleton instance
     private UserList userList;
-    //private ArrayList<Project> projects;
     private User currentUser; // Track the currently logged-in user
 
     // Private constructor to prevent direct instantiation
     private ProjectSystemFACADE() {
         this.userList = UserList.getInstance();
-        //this.projects = new ArrayList<>();
         this.currentUser = null;
         facade = getFacadeInstance();
     }
@@ -29,9 +27,11 @@ public class ProjectSystemFACADE {
 
     /**
      * logs in a current user
+     * 
      * @param username String of user's username
      * @param password String of user's password
-     * @return returns true if the user was found from current user and updates status of loggedIn to true, returns false if user was not found
+     * @return returns true if the user was found from current user and updates
+     *         status of loggedIn to true, returns false if user was not found
      */
     public boolean login(String username, String password) {
         User user = userList.findUser(username);
@@ -46,10 +46,12 @@ public class ProjectSystemFACADE {
     /**
      * updates status of loggedIn to false
      * currentUser changed to null
-     * @return false if no user is currently logged in, true if user is logged in and was successfully logged out
+     * 
+     * @return false if no user is currently logged in, true if user is logged in
+     *         and was successfully logged out
      */
     public boolean logout() {
-        if(currentUser == null){
+        if (currentUser == null) {
             return false;
         }
         currentUser.logout();
@@ -58,7 +60,9 @@ public class ProjectSystemFACADE {
     }
 
     /**
-     * creates a new User and adds it to the list of users if they don't already exist
+     * creates a new User and adds it to the list of users if they don't already
+     * exist
+     * 
      * @param firstName
      * @param lastName
      * @param username
@@ -66,13 +70,15 @@ public class ProjectSystemFACADE {
      * @param email
      * @param phoneNumber
      * @param type
-     * @return returns true of a new user was successfully added, false if not or if already exits
+     * @return returns true of a new user was successfully added, false if not or if
+     *         already exits
      */
-    public boolean register(String firstName, String lastName, String username, String password, String email, String phoneNumber, String type) {
+    public boolean register(String firstName, String lastName, String username, String password, String email,
+            String phoneNumber, String type) {
         return currentUser.facadeRegister(firstName, lastName, username, password, email, phoneNumber, type);
     }
 
-    //getter for currentUser
+    // getter for currentUser
     public User getCurrentUser() {
         return currentUser;
     }
@@ -81,7 +87,7 @@ public class ProjectSystemFACADE {
 
     public boolean addProject(String projectName) {
         return currentUser.facadeAddProject(projectName);
-        //projects.add(new Project(projectName));
+        // projects.add(new Project(projectName));
     }
 
     public boolean removeProject(String projectName) {
@@ -89,7 +95,7 @@ public class ProjectSystemFACADE {
     }
 
     public boolean addColumn(String projectName, String columnName) {
-        if(currentUser != null){
+        if (currentUser != null) {
             return currentUser.findProject(projectName).facadeAddColumn(columnName);
         }
         return false;
@@ -99,11 +105,12 @@ public class ProjectSystemFACADE {
         return currentUser.findProject(projectName).facadeRemoveColumn(columnName);
     }
 
-    public boolean addTask(String projectName, String columnName, String taskName, 
-    String taskDesc, String dueDate, String creationDate){
+    public boolean addTask(String projectName, String columnName, String taskName,
+            String taskDesc, String dueDate, String creationDate) {
         Project project = currentUser.findProject(projectName);
         Column column = project.findColumn(columnName);
-        return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser.getUserUUID(), taskName, taskDesc, dueDate, creationDate);
+        return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser.getUserUUID(),
+                taskName, taskDesc, dueDate, creationDate);
     }
 
     public boolean removeTask(String projectName, String columnName, String taskName) {

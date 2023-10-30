@@ -12,9 +12,10 @@ import java.util.UUID;
 public class Project {
     public String projectName;
     public ArrayList<Column> listOfColumns;
-    public ArrayList<UUID> assignedUsers;
+    public ArrayList<User> assignedUsers;
     private UUID projectUUID;
-    TaskList taskList = TaskList.getInstance(); // TODO update UML
+    private UserList userList = UserList.getInstance();
+    private TaskList taskList = TaskList.getInstance(); // TODO update UML
 
     /**
      * Constructor method for a new Project that initializes the project attributes
@@ -22,9 +23,10 @@ public class Project {
      * @param projectName String name set by the user for a new project
      */
     public Project(String projectName) {
-        this.projectName = projectName;
+        setProjectName(projectName);
         this.projectUUID = generateUUID();
-        this.listOfColumns = new ArrayList<Column>();
+        this.listOfColumns = new ArrayList<>();
+        this.assignedUsers = new ArrayList<>();
     }
 
     /**
@@ -37,12 +39,21 @@ public class Project {
      * @param projectUUID   UUID generated when project was first created
      */
     public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns,
-            ArrayList<UUID> assignedUsers) {
-        this.projectUUID = projectUUID; // convert String UUID to object UUID
+            ArrayList<UUID> uuidToUser) {
+        this.projectUUID = projectUUID;
         this.projectName = projectName;
-        this.listOfColumns = listOfColumns; // converts arrayList of String UUIDs to Column objects
-        // TODO: Convert ArrayList<String> assignedUsers to ArrayList<User>
-        this.assignedUsers = assignedUsers;
+        this.listOfColumns = listOfColumns;
+        ArrayList<User> usersFromUUID = new ArrayList<>();
+        for (UUID userUUID : uuidToUser) {
+            User assignedUser = userList.findUser(userUUID);
+            usersFromUUID.add(assignedUser);
+        }
+        setAssignedUsers(usersFromUUID);
+        ;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     /**
@@ -81,12 +92,12 @@ public class Project {
         return this.listOfColumns;
     }
 
-    public ArrayList<UUID> getAssignedUsers() {
+    public ArrayList<User> getAssignedUsers() {
         return this.assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
-        this.assignedUsers = assignedUsers;
+    public void setAssignedUsers(ArrayList<User> usersFromUUID) {
+        this.assignedUsers = usersFromUUID;
     }
 
     public boolean facadeAddColumn(String columnName) {
@@ -167,36 +178,6 @@ public class Project {
     }
 
     /**
-     * Void method that adds a new Task in a project column
-     * 
-     * @param task   User made Task to be added to the Projec
-     * @param column Column in the Project's listOfColumns
-     */
-    /*
-     * private void addTask(UUID task, Column column) {
-     * for (int i = 0; i < this.listOfColumns.size(); i++) {
-     * if (this.listOfColumns.get(i) == column)
-     * this.listOfColumns.get(i).columnTasks.add(task);
-     * }
-     * }
-     */
-
-    /**
-     * Void method that removes a Task from a project column
-     * 
-     * @param task   Task to be removed from the Project
-     * @param column Column where the Task was in
-     */
-    /*
-     * private void removeTask(UUID task, Column column) {
-     * for (int i = 0; i < this.listOfColumns.size(); i++) {
-     * if (this.listOfColumns.get(i) == column)
-     * this.listOfColumns.get(i).columnTasks.remove(task);
-     * }
-     * }
-     */
-
-    /**
      * String method that returns the value of projectName with the project columns
      * and tasks underneath
      * 
@@ -206,26 +187,4 @@ public class Project {
         return "[" + this.projectName + "]:\n"
                 + listOfColumns.toString();
     }
-
-    /**
-     * UUID method that converts String columnUUID to a UUID
-     * 
-     * @param columnUUID String to be converted as a UUID
-     * @return Converted columnUUID value
-     */
-    private UUID toUUID(String projectUUId) {
-        // TODO convert string UUID from Dataloader to object UUID
-        return null;
-    }
-
-    /**
-     * ArrayList<Column> method that converts ArrayList<String> to ArrayList<Column>
-     * 
-     * @param columnTasks ArrayList<String> to be converted as ArrayList<Object>
-     * @return ArrayList<Column> to set as Project.listOfColumns
-     */
-    // private ArrayList<Column> UUIDtoColumn(ArrayList<String> listOfColumns) {
-    // TODO convert String UUIDs from DataLoader to Column Objects
-    // return null;
-    // }
 }
