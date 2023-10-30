@@ -58,11 +58,13 @@ public class DataWriter extends DataConstants {
     public static void saveTasks(ArrayList<Task> tasks) {
         JSONArray jsonTasks = new JSONArray();
 
-        /* for (int i = 0; i < tasks.size(); i++) {
-            jsonTasks.add(getTaskJSON(tasks.get(i)));
-        } */
+        /*
+         * for (int i = 0; i < tasks.size(); i++) {
+         * jsonTasks.add(getTaskJSON(tasks.get(i)));
+         * }
+         */
 
-        for(Task task : tasks){ //more efficient i think
+        for (Task task : tasks) { // more efficient i think
             jsonTasks.add(getTaskJSON(task));
         }
 
@@ -76,11 +78,13 @@ public class DataWriter extends DataConstants {
 
     /**
      * Converts a Task object to a JSON object
-     * task Comments are added to task object as an array using getCommentJSON(Comment comment);
+     * task Comments are added to task object as an array using
+     * getCommentJSON(Comment comment);
+     * 
      * @param task
      * @return
      */
-    public static JSONObject getTaskJSON(Task task){
+    public static JSONObject getTaskJSON(Task task) {
         JSONObject taskDetails = new JSONObject();
         taskDetails.put(TASK_PROJECT_ID, task.getProjectUUID().toString());
         taskDetails.put(TASK_COLUMN_ID, task.getColumnUUID().toString());
@@ -91,27 +95,35 @@ public class DataWriter extends DataConstants {
         taskDetails.put(TASK_DUE_DATE, task.getDueDate());
 
         JSONArray arrayComments = new JSONArray();
-        for(Comment comment : task.getTaskComments()){
+        JSONArray arrayHistory = new JSONArray();
+
+        for (Comment comment : task.getTaskComments()) {
             arrayComments.add(getCommentJSON(comment));
         }
+
+        for (HashMap.Entry<String, History> entry : task.getTaskHistory().entrySet()) {
+            arrayHistory.add(getHistoryJSON(entry.getValue()));
+        }
         taskDetails.put(TASK_COMMENT_TITLE, arrayComments);
+        taskDetails.put(TASK_HISTORY, arrayHistory);
 
         return taskDetails;
     }
 
     /**
      * Converts a Comment object to JSON object
+     * 
      * @param comment
      * @return a JSON object representation of a comment
      */
-    public static JSONObject getCommentJSON(Comment comment){
+    public static JSONObject getCommentJSON(Comment comment) {
         JSONObject commentDetails = new JSONObject();
         commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
         commentDetails.put(TASK_COMMENTOR, comment.getUser().toString());
         commentDetails.put(TASK_COMMENT, comment.getComment());
 
         JSONArray arrayMoreComments = new JSONArray();
-        for(Comment moreComment : comment.getMoreComments()){
+        for (Comment moreComment : comment.getMoreComments()) {
             arrayMoreComments.add(getCommentJSON(moreComment));
         }
         commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
@@ -119,67 +131,16 @@ public class DataWriter extends DataConstants {
         return commentDetails;
     }
 
+    public static JSONObject getHistoryJSON(History history) {
+        JSONObject historyDetails = new JSONObject();
+        historyDetails.put(HISTORY_ID, history.getHistoryUUID().toString());
+        historyDetails.put(HISTORY_USER, history.getUser().toString());
+        historyDetails.put(HISTORY_DETAILS, history.getDetails());
+        historyDetails.put(HISTORY_RECORDED_DATE, history.getDate());
 
-//********************************************************************************************************************************************************** */
-    /**
-     * JSONObject method that takes in a Task and adds its attributes to JSONObject
-     * 
-     * @param task Task to be converted into a JSONObject
-     * @return JSONObject to be added to JSONArray
-     */
-    /* public static JSONObject getTaskJSON(Task task) {
-        JSONObject taskDetails = new JSONObject();
-        taskDetails.put(TASK_PROJECT_ID, task.getProjectUUID().toString());
-        taskDetails.put(TASK_COLUMN_ID, task.getColumnUUID().toString());
-        taskDetails.put(TASK_ID, task.getTaskUUID().toString());
-        taskDetails.put(TASK_TITLE, task.getTaskName());
-        taskDetails.put(TASK_DESCRIPTION, task.getTaskDescription());
-        taskDetails.put(TASK_CREATION_DATE, task.getCreationDate());
-        taskDetails.put(TASK_DUE_DATE, task.getDueDate());
+        return historyDetails;
+    }
 
-        JSONArray arrayUsers = new JSONArray();
-        JSONArray arrayComments = new JSONArray();
-        JSONArray arrayMoreComments = new JSONArray(); // TODO: figure out how to save recursive moreComments
-        JSONArray arrayHistory = new JSONArray();
-
-        for (UUID user : task.getAssignedUsers()) {
-            JSONObject userIDDetails = new JSONObject();
-            userIDDetails.put(TASK_USER_ID, user.toString());
-            arrayUsers.add(userIDDetails);
-        }
-
-        for (Comment comment : task.getTaskComments()) {
-            JSONObject commentDetails = new JSONObject();
-            commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
-            commentDetails.put(TASK_COMMENTOR, comment.getUser().toString());
-            commentDetails.put(TASK_COMMENT, comment.getComment().toString());
-
-            int moreCommentsIterator = 0;
-            for (Comment moreComments : task.getTaskComments().get(moreCommentsIterator).getMoreComments()) {
-                if (!task.getTaskComments().get(moreCommentsIterator).getMoreComments().isEmpty()) {
-                    JSONObject moreCommentDetails = new JSONObject();
-                    moreCommentDetails.put(TASK_COMMENT_ID, moreComments.getCommentUUID().toString());
-                    moreCommentDetails.put(TASK_COMMENTOR, moreComments.getUser().toString());
-                    moreCommentDetails.put(TASK_COMMENT, moreComments.getComment().toString());
-                    arrayMoreComments.add(moreCommentDetails);
-                    moreCommentsIterator++;
-                }
-            }
-            commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
-            arrayComments.add(commentDetails);
-        }
-        for (HashMap.Entry<String, History> history : task.getTaskHistory().entrySet()) {
-            JSONObject historyDetails = new JSONObject();
-            historyDetails.put(TASK_HISTORY_ID, history.getValue().getHistoryUUID().toString());
-            arrayHistory.add(historyDetails);
-        }
-        taskDetails.put(TASK_USERS, arrayUsers);
-        taskDetails.put(TASK_COMMENT_TITLE, arrayComments);
-        taskDetails.put(TASK_HISTORY, arrayHistory);
-
-        return taskDetails;
-    } */
-//********************************************************************************************************************************************************** */
     /**
      * Check if saving users is enabled.
      *
@@ -311,9 +272,9 @@ public class DataWriter extends DataConstants {
         JSONArray arrayColumns = new JSONArray();
         JSONArray arrayColumnTasks = new JSONArray();
 
-        for (UUID projectUsers : project.getAssignedUsers()) {
+        for (User projectUsers : project.getAssignedUsers()) {
             JSONObject userIDS = new JSONObject();
-            userIDS.put(PROJECT_USERS_ID, projectUsers.toString());
+            userIDS.put(PROJECT_USERS_ID, projectUsers.getUserUUID().toString());
             arrayUsers.add(userIDS);
         }
         int columnTasksIterator = 0;

@@ -15,7 +15,6 @@ public class Project {
     public ArrayList<User> assignedUsers;
     private UUID projectUUID;
     private UserList userList = UserList.getInstance();
-    private TaskList taskList = TaskList.getInstance(); // TODO update UML
 
     /**
      * Constructor method for a new Project that initializes the project attributes
