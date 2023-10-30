@@ -20,7 +20,6 @@ public class Column {
     public Column(String columnName, UUID projectUUID) { // slightly changed this from String columnName, UUID taskUUID
         this.createColumn(columnName);
         this.columnTasks = new ArrayList<UUID>();
-        // this.addTask(taskUUID); I don't think this should be in the constructor
         this.columnUUID = generateUUID();
         this.projectUUID = projectUUID;
     }
@@ -32,6 +31,11 @@ public class Column {
         this.columnTasks = columnTasks;
     }
 
+    /**
+     * UUID method that generates a unique UUID for Column
+     * 
+     * @return UUID value to be set as the value of columnUUID
+     */
     public UUID generateUUID() {
         return UUID.randomUUID();
     }
@@ -102,6 +106,14 @@ public class Column {
         return this.columnTasks;
     }
 
+    public ArrayList<Task> uuidToTasks() { // I decided to include a method that converts the UUID values in columnTasks
+                                           // to Task objects
+        ArrayList<Task> uuidToColumnTask = new ArrayList<>();
+        for (UUID uuid : columnTasks)
+            uuidToColumnTask.add(findTask(uuid));
+        return uuidToColumnTask;
+    }
+
     public void setColumnTasks(ArrayList<UUID> columnTasks) {
         this.columnTasks = columnTasks;
     }
@@ -132,12 +144,14 @@ public class Column {
         return null;
     }
 
+    public Task findTask(UUID taskUUID) {
+        return taskList.findTask(taskUUID);
+    }
+
     public String toString() {
         String tasksToString = "";
-        /*
-         * for (Task task : columnTasks)
-         * tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
-         */
+        for (Task task : uuidToTasks())
+            tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
         return "--- " + this.columnName + " ---\n" + tasksToString;
     }
 

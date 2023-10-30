@@ -172,8 +172,8 @@ public class Project {
      */
     public String displayColumnTasks(Column column) {
         String tasksToString = "";
-        for (UUID task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
-            tasksToString = tasksToString + "- " + taskList.findTask(task).getTaskName() + "\n";
+        for (Task task : column.uuidToTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
+            tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }
 

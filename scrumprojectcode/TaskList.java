@@ -15,7 +15,7 @@ public class TaskList {
         listOfTasks = tasks;
     }
 
-    public static TaskList getInstance(ArrayList<Task> tasks) { //why is there a constructor?
+    public static TaskList getInstance(ArrayList<Task> tasks) { // why is there a constructor?
         if (taskList == null)
             taskList = new TaskList(tasks);
         return taskList;
@@ -31,12 +31,9 @@ public class TaskList {
         return listOfTasks;
     }
 
-    public Task findTask(UUID uuid/*String projectName, String taskName*/) { // TODO: remember to change task projects
+    public Task findTask(UUID uuid) { // TODO: remember to change task projects
         for (Task task : listOfTasks) {
-            /* if (task.getProjectName().equals(projectName) && task.getTaskName().equals(taskName)) {
-                return true;
-            } */
-            if(task.getTaskUUID().equals(uuid)){
+            if (task.getTaskUUID().equals(uuid)) {
                 return task;
             }
         }
