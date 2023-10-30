@@ -20,11 +20,6 @@ public class User {
     private UUID userUUID;
     private static UserList userList = UserList.getInstance();
     private static ProjectList projectList = ProjectList.getInstance();
-    /*
-     * private ArrayList<UUID> myTasks;
-     */ // Was unable to use Task and Project object when loading from user.json so I
-        // changed these to ArrayList<UUID> @kuriakm
-    //private ArrayList<UUID> myProjects;
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
@@ -139,7 +134,7 @@ public class User {
                 + "Phone Number: " + this.phoneNumber;
     }
 
-    public boolean facadeLogin(String username, String passwork){
+    public boolean facadeLogin(String username, String passwork) {
         return login(username, password);
     }
 
@@ -159,15 +154,15 @@ public class User {
     }
 
     public boolean facadeRegister(String firstName, String lastName, String username, String password, String email,
-            String phoneNumber, String type){
-                return register(firstName, lastName, username, password, email, phoneNumber, type);
-            }
+            String phoneNumber, String type) {
+        return register(firstName, lastName, username, password, email, phoneNumber, type);
+    }
 
     // registers a new user by checking if their UUID already exists, if not, create
     // a new UUID and set their info
     private boolean register(String firstName, String lastName, String username, String password, String email,
             String phoneNumber, String type) {
-        if (userList.findUser(email) == null) { 
+        if (userList.findUser(email) == null) {
             User newUser = new User(firstName, lastName, username, password, email, phoneNumber, type);
             userList.getListOfUsers().add(newUser);
             return true;
@@ -201,11 +196,12 @@ public class User {
      * }
      */
 
-    public boolean facadeAddProject(String projectName){
+    public boolean facadeAddProject(String projectName) {
         return addProject(projectName);
     }
+
     private boolean addProject(String projectName) {
-        if(findProject(projectName) == null){
+        if (findProject(projectName) == null) {
             Project newProject = new Project(projectName);
             projectList.getListOfProjects().add(newProject);
             projectList.saveProjects();
@@ -213,31 +209,30 @@ public class User {
         }
         return false;
     }
-    
-    
-    public boolean facadeRemoveProject(String projectName){
+
+    public boolean facadeRemoveProject(String projectName) {
         return removeProject(projectName);
     }
 
-    private boolean removeProject(String projectName){
-        if(findProject(projectName) == null){
+    private boolean removeProject(String projectName) {
+        if (findProject(projectName) == null) {
             return false;
         }
         projectList.getListOfProjects().remove(findProject(projectName));
         return true;
     }
 
-    public Project findProject(String projectName) { //TODO: is it ok to keep this public?
+    public Project findProject(String projectName) { // TODO: is it ok to keep this public?
         for (Project project : projectList.getListOfProjects()) {
             if (project.getProjectName().equals(projectName)) {
                 return project;
             }
         }
         return null;
-    } 
+    }
 
-
-     /* * 
+    /*
+     * *
      * private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks) {
      * // TODO populate myTasks with Task objects based on the UUIDs from
      * personalTasks
@@ -286,6 +281,6 @@ public class User {
      * // TODO convert string UUID from dataLoader to object UUID
      * return UUID.fromString(userID);
      * }
-     */ 
+     */
 
 }
