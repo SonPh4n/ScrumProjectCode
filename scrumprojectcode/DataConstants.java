@@ -71,6 +71,7 @@ public class DataConstants {
     protected static final String TASK_ID = "task-id";
     protected static final String TASK_TITLE = "task-title";
     protected static final String TASK_DESCRIPTION = "task-description";
+    protected static final String TASK_TYPE = "task-type";
     protected static final String TASK_USERS = "assigned-users";
     protected static final String TASK_USER_ID = "user-id";
     protected static final String TASK_HISTORY = "history";
