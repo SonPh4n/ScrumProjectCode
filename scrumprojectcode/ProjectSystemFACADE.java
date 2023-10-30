@@ -5,12 +5,11 @@ package scrumprojectcode;
 
 public class ProjectSystemFACADE {
     private static ProjectSystemFACADE facade; // Singleton instance
-    private UserList userList;
+    private static UserList userList = UserList.getInstance();
     private User currentUser; // Track the currently logged-in user
 
     // Private constructor to prevent direct instantiation
     private ProjectSystemFACADE() {
-        this.userList = UserList.getInstance();
         this.currentUser = null;
     }
 

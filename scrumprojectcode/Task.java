@@ -113,10 +113,10 @@ public class Task {
      * @param columnName The name of the target column.
      * @return True if the task was successfully moved, false otherwise.
      */
-    public boolean moveTask(String taskName, String columnName) {
+    /* public boolean moveTask(String taskName, String columnName) {
         // Implementation for moving the task to a different column
         return false;
-    }
+    } */
 
     /**
      * Adds a comment to the task.
@@ -129,7 +129,7 @@ public class Task {
      */
     public boolean addComment(String comment, String projectName, String columnName, String taskName) {
         // Implementation for adding a comment to the task
-        return false;
+        return false; //TODO
     }
 
     /**

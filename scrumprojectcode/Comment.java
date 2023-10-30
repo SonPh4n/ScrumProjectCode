@@ -20,7 +20,7 @@ public class Comment {
     /**
      * Debugger method, remove in final submission
      */
-    public Comment(User user) {
+    /* public Comment(User user) {
         this.comment = "Test comment";
         this.user = userList.findUser(user.getUserUUID());
         this.commentUUID = generateUUID();
@@ -28,7 +28,7 @@ public class Comment {
         Comment testMoreComments = new Comment("Test more comments", user);
         testMoreComments.moreComments.add(testMoreComments);
         moreComments.add(testMoreComments);
-    }
+    } */
 
     /**
      * Constructor to create a Comment object.

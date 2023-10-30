@@ -14,7 +14,7 @@ public class Project {
     public ArrayList<Column> listOfColumns;
     public ArrayList<User> assignedUsers;
     private UUID projectUUID;
-    private UserList userList = UserList.getInstance();
+    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor method for a new Project that initializes the project attributes

@@ -10,7 +10,7 @@ public class History {
     private String details;
     private String date;
     private UUID historyUUID;
-    private UserList userList = UserList.getInstance(); // TODO update UML
+    private static UserList userList = UserList.getInstance(); // TODO update UML
 
     public History(UUID userID, String date, String details) {
         setUser(userID);
@@ -26,7 +26,7 @@ public class History {
         setDetails(details);
     }
 
-    public UUID generateUUID() {
+    private UUID generateUUID() {
         return UUID.randomUUID();
     }
 
@@ -34,7 +34,7 @@ public class History {
         return this.user;
     }
 
-    public void setUser(UUID user) {
+    private void setUser(UUID user) {
         this.user = userList.findUser(user);
     }
 
@@ -42,7 +42,7 @@ public class History {
         return this.details;
     }
 
-    public void setDetails(String details) {
+    private void setDetails(String details) {
         this.details = details;
     }
 
@@ -50,7 +50,7 @@ public class History {
         return this.date;
     }
 
-    public void setDate(String date) {
+    private void setDate(String date) {
         this.date = date;
     }
 
@@ -58,7 +58,7 @@ public class History {
         return this.historyUUID;
     }
 
-    public void setHistoryUUID(UUID historyUUID) {
+    private void setHistoryUUID(UUID historyUUID) {
         this.historyUUID = historyUUID;
     }
 
