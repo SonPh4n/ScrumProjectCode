@@ -7,7 +7,7 @@ public class UI {
         facade = ProjectSystemFACADE.getFacadeInstance();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         UI ui = new UI();
         ui.run();
     }
@@ -21,16 +21,18 @@ public class UI {
         System.out.println();
 
         // User logs in
-        /* if (!facade.login("johnny", "8xw0CUeKk")) {
-            System.out.println("Sorry we couldn't login.");
-            return;
-        } */
-        if(!facade.register("alex", "m", "alexm", "yellow", "alex.com", "1111111111", "user")){
+        /*
+         * if (!facade.login("johnny", "8xw0CUeKk")) {
+         * System.out.println("Sorry we couldn't login.");
+         * return;
+         * }
+         */
+        if (!facade.register("alex", "m", "alexm", "yellow", "alex.com", "1111111111", "user")) {
             System.out.println("Sorry we couldn't register you as a user.");
             return;
         }
         System.out.println("Alex M is now registered");
-        //System.out.println("Johnny Applesause is now logged in.");
+        // System.out.println("Johnny Applesause is now logged in.");
 
         // make a project
         if (!facade.addProject("new project")) {
@@ -47,7 +49,7 @@ public class UI {
         }
 
         // create task
-        if (!facade.addTask("new task", "new column", "new task", "this is a task", "11/01/2023", "10/29/2023")) {
+        if (!facade.addTask("new task", "new column", "new task", "this is a task", "11/01/2023")) {
             System.out.println("Sorry we could not create your task.");
         } else {
             System.out.println("new task has been added to new column in new project.");
@@ -67,11 +69,16 @@ public class UI {
         System.out.println("Bobby Jones is now logged in.");
 
         // comments on a pre-existing task
-        /* if (!facade.addComment("Good work", "new project", "new column", "new task")) {
-            System.out.println("Sorry we could not add your comment.");
-        } else {
-            System.out.println("'good work' was was commented on new task in new column in new project.");
-        } */
+        /*
+         * if (!facade.addComment("Good work", "new project", "new column", "new task"))
+         * {
+         * System.out.println("Sorry we could not add your comment.");
+         * } else {
+         * System.out.
+         * println("'good work' was was commented on new task in new column in new project."
+         * );
+         * }
+         */
     }
 
 }

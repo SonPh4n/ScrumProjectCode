@@ -15,9 +15,6 @@ import org.json.simple.JSONObject;
  * @kuriakm
  */
 
-// TODO: fix saveProjects() in main repo
-
-// TODO: Include saveHistory() and saveColumn() methods
 public class DataWriter extends DataConstants {
     // Attributes
     private boolean saveTasks;

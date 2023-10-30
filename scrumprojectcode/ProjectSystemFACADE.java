@@ -106,11 +106,11 @@ public class ProjectSystemFACADE {
     }
 
     public boolean addTask(String projectName, String columnName, String taskName,
-            String taskDesc, String dueDate, String creationDate) {
+            String taskDesc, String dueDate) {
         Project project = currentUser.findProject(projectName);
         Column column = project.findColumn(columnName);
         return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser.getUserUUID(),
-                taskName, taskDesc, dueDate, creationDate);
+                taskName, taskDesc, dueDate);
     }
 
     public boolean removeTask(String projectName, String columnName, String taskName) {

@@ -20,8 +20,8 @@ public class Task {
     private String taskName;
     private String taskDescription;
     private ArrayList<Comment> taskComments;
-    private ArrayList<UUID> assignedUsers; // Was unable to use User object when loading from task.json so I changed it
-                                           // to ArrayList<UUID> @kuriakm
+    private ArrayList<User> assignedUsers; // Since we have UserList available in Task, I changed this to
+                                           // ArrayList<User> @kuriakm
     private HashMap<String, History> taskHistory;
     private String creationDate; // Changed creationDate from Date to String to make it easier to load from file
                                  // @kuriakm
@@ -30,6 +30,7 @@ public class Task {
     private UUID projectUUID;
     private UUID columnUUID;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
+    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor for Task class.
@@ -39,15 +40,23 @@ public class Task {
      * @param timeToComplete  The estimated time to complete the task.
      */
     public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc,
-            UUID userUUID, String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
+            UUID userUUID, String taskDueDate) { // TODO: update Task constructor
         this.taskUUID = generateUUID();
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
-        this.assignedUsers.add(userUUID); // Adds first User that created
+        User taskUser = userList.findUser(userUUID);
+        this.assignedUsers.add(taskUser); // Adds first User that created
         this.taskHistory = new HashMap<String, History>();
-        this.creationDate = taskCreationDate;
+
+        // Adds "User created ..." to taskHistory
+        LocalDateTime now = LocalDateTime.now();
+        String creationDate = formatter.format(now);
+        String historyDetails = taskUser.getUsername() + " created " + taskName;
+        taskHistory.put(creationDate, new History(userUUID, creationDate, historyDetails));
+
+        this.creationDate = creationDate;
         this.taskDueDate = taskDueDate;
         this.projectUUID = projectID;
         this.columnUUID = columnID;
@@ -74,7 +83,9 @@ public class Task {
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
         this.taskComments = taskComments;
-        this.assignedUsers = taskUsers;
+        this.assignedUsers = new ArrayList<>();
+        for (UUID uuid : taskUsers) // Converts taskUsers from UUID to User objects @kuriakm
+            assignedUsers.add(userList.findUser(uuid));
         this.taskHistory = taskHistory;
         this.creationDate = taskCreationDate;
         this.taskDueDate = taskDueDate;
@@ -161,11 +172,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public ArrayList<UUID> getAssignedUsers() {
+    public ArrayList<User> getAssignedUsers() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
+    public void setAssignedUsers(ArrayList<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 
