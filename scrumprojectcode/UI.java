@@ -49,7 +49,7 @@ public class UI {
         }
 
         // create task
-        if (!facade.addTask("new task", "new column", "new task", "this is a task", "11/01/2023")) {
+        if (!facade.addTask("new task", "new column", "new task", "this is a task", "11/\01/\2023")) {
             System.out.println("Sorry we could not create your task.");
         } else {
             System.out.println("new task has been added to new column in new project.");

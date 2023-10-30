@@ -59,12 +59,11 @@ public class DataLoader extends DataConstants {
 
                 JSONArray usersJSON = (JSONArray) taskJSON.get(TASK_USERS);
                 JSONArray commentsJSON = (JSONArray) taskJSON.get(TASK_COMMENT);
-                JSONArray moreCommentsJSON = (JSONArray) taskJSON.get(TASK_MORE_COMMENTS);
                 JSONArray historiesJSON = (JSONArray) taskJSON.get(TASK_HISTORY);
+
                 Iterator iu = usersJSON.iterator();
                 Iterator ih = historiesJSON.iterator();
                 Iterator ic = commentsJSON.iterator();
-                Iterator iMC = moreCommentsJSON.iterator();
 
                 while (iu.hasNext()) {
                     JSONObject userJSON = (JSONObject) iu.next();
@@ -77,25 +76,13 @@ public class DataLoader extends DataConstants {
                     UUID historyUUID = UUID.fromString((String) historyJSON.get(TASK_HISTORY_ID));
                     UUID historyUser = UUID.fromString((String) historyJSON.get(HISTORY_USER));
                     String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
-                    String recordedDate = (String) historyJSON.get(HISTORY_RECORDED_DATE);
-                    history.put(recordedDate, new History(historyUUID, historyUser, recordedDate, historyDetails));
+                    String date = (String) historyJSON.get(HISTORY_RECORDED_DATE);
+                    history.put(date, new History(historyUUID, historyUser, date, historyDetails));
                 }
 
                 while (ic.hasNext()) {
-                    ArrayList<Comment> moreComments = new ArrayList<Comment>();
                     JSONObject commentJSON = (JSONObject) ic.next();
-                    UUID commentor = UUID.fromString((String) commentJSON.get(TASK_COMMENTOR));
-                    String comment = (String) commentJSON.get(TASK_COMMENT);
-                    UUID commentUUID = UUID.fromString((String) commentJSON.get(TASK_COMMENT_ID));
-                    while (iMC.hasNext()) {
-                        JSONObject moreCommentJSON = (JSONObject) iMC.next();
-                        UUID moreCommentor = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENTOR));
-                        String moreComment = (String) moreCommentJSON.get(TASK_COMMENT);
-                        UUID moreCommentUUID = UUID.fromString((String) moreCommentJSON.get(TASK_COMMENT_ID));
-                        Comment aMC = new Comment(moreCommentUUID, moreCommentor, moreComment);
-                        moreComments.add(aMC);
-                    }
-                    Comment aC = new Comment(commentUUID, commentor, comment, moreComments);
+                    Comment aC = getCommentJSON(commentJSON);
                     comments.add(aC);
                 }
 
@@ -110,33 +97,20 @@ public class DataLoader extends DataConstants {
         return null;
     }
 
-    // TODO: Handle getTaskHistory()/loadHistory() methods by either using
-    // TODO: ArrayList<UUID> for taskHistory or loading HashMap<String, History>
-    // TODO: from history.json in loadTasks()
-    private static HashMap<String, History> getTaskHistory(ArrayList<UUID> historyUUID) {
-        HashMap<String, History> history = new HashMap<>();
-        try {
-            FileReader reader = new FileReader(HISTORY_FILE_NAME);
-            JSONParser parser = new JSONParser();
-            JSONArray historiesJSON = (JSONArray) new JSONParser().parse(reader);
+    public static Comment getCommentJSON(JSONObject commentJSON) {
+        UUID commentor = UUID.fromString((String) commentJSON.get(TASK_COMMENTOR));
+        String comment = (String) commentJSON.get(TASK_COMMENT);
+        UUID commentUUID = UUID.fromString((String) commentJSON.get(TASK_COMMENT_ID));
 
-            for (int i = 0; i < historiesJSON.size(); i++) {
-                JSONObject historyJSON = (JSONObject) historiesJSON.get(i);
-                UUID historyID = UUID.fromString((String) historyJSON.get(HISTORY_ID));
-                UUID userID = UUID.fromString((String) historyJSON.get(HISTORY_USER));
-                String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
-                String recordedDate = (String) historyJSON.get(HISTORY_RECORDED_DATE);
-
-                if (historyID.equals(historyUUID.get(i))) {
-                    History aH = new History(historyID, userID, recordedDate, historyDetails);
-                    history.put(recordedDate, aH);
-                }
-            }
-            return history;
-        } catch (Exception e) {
-            e.printStackTrace();
+        JSONArray moreCommentsJSONArray = (JSONArray) commentJSON.get(TASK_MORE_COMMENTS);
+        ArrayList<Comment> moreComments = new ArrayList<>();
+        Iterator iMC = moreCommentsJSONArray.iterator();
+        while (iMC.hasNext()) {
+            JSONObject moreCommentsJSON = (JSONObject) iMC.next();
+            Comment jsonToMoreComments = getCommentJSON(moreCommentsJSON);
+            moreComments.add(jsonToMoreComments);
         }
-        return null;
+        return new Comment(commentor, commentUUID, comment, moreComments);
     }
 
     /**
@@ -233,5 +207,4 @@ public class DataLoader extends DataConstants {
 
         return null;
     }
-
 }
