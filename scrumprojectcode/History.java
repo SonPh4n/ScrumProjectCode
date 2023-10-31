@@ -6,7 +6,7 @@ package scrumprojectcode;
 import java.util.UUID;
 
 public class History {
-    private User user;
+    private UUID user;
     private String details;
     private String date;
     private UUID historyUUID;
@@ -31,11 +31,15 @@ public class History {
     }
 
     public User getUser() {
+        return userList.findUser(this.user);
+    }
+
+    public UUID getUserUUID() {
         return this.user;
     }
 
     private void setUser(UUID user) {
-        this.user = userList.findUser(user);
+        this.user = user;
     }
 
     public String getDetails() {
@@ -64,7 +68,7 @@ public class History {
 
     public String toString() {
         return "[Task History]: \n" +
-                "[User]: " + user.getUsername() + "\n" +
+                "[User]: " + userList.findUser(user).getUsername() + "\n" +
                 "[History Details]: " + details + "\n" +
                 "[Recorded Date]: " + date + "\n";
     }
