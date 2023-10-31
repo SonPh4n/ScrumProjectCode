@@ -27,19 +27,32 @@ public class UI {
          * return;
          * }
          */
-        if (!facade.register("alex", "m", "alexm", "yellow", "alex.com", "1111111111", "user")) {
+        if (!facade.register("Atticus", "Madden", "AtticusM", "yellow", "AtticusMadden@", "1111111111", "user")) {
             System.out.println("Sorry we couldn't register you as a user.");
             return;
         }
-        System.out.println("Alex M is now registered");
+        System.out.println("Atticus Madden is now registered");
         // System.out.println("Johnny Applesause is now logged in.");
 
         // make a project
-        if (!facade.addProject("new project")) {
+        if (!facade.addProject("Electric Missile")) {
             System.out.println("Sorry we couldn't create your project.");
         } else {
-            System.out.println("'New Project' has been successfully created.");
+            System.out.println("'Electric Missile' has been successfully created.");
         }
+        // make a project
+        if (!facade.addProject("Soap Free Washers")) {
+            System.out.println("Sorry we couldn't create your project.");
+        } else {
+            System.out.println("'Soap Free Washers' has been successfully created.");
+        }
+        // make a project
+        if (!facade.addProject("Air Computers")) {
+            System.out.println("Sorry we couldn't create your project.");
+        } else {
+            System.out.println("'Air Computers' has been successfully created.");
+        }
+
 
         // create column
         if (!facade.addColumn("new column", "new project")) {
