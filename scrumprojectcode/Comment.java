@@ -10,7 +10,7 @@ public class Comment {
 
     // Attributes
     private String comment; // Stores the comment text
-    private User user; // Represents the user associated with the comment
+    private UUID user; // Represents the user associated with the comment
     // Was unable to use User object when loading from task.json so I changed it
     // to UUID @kuriakm
     private ArrayList<Comment> moreComments; // Stores Array of comments
@@ -20,15 +20,17 @@ public class Comment {
     /**
      * Debugger method, remove in final submission
      */
-    /* public Comment(User user) {
-        this.comment = "Test comment";
-        this.user = userList.findUser(user.getUserUUID());
-        this.commentUUID = generateUUID();
-        this.moreComments = new ArrayList<>();
-        Comment testMoreComments = new Comment("Test more comments", user);
-        testMoreComments.moreComments.add(testMoreComments);
-        moreComments.add(testMoreComments);
-    } */
+    /*
+     * public Comment(User user) {
+     * this.comment = "Test comment";
+     * this.user = userList.findUser(user.getUserUUID());
+     * this.commentUUID = generateUUID();
+     * this.moreComments = new ArrayList<>();
+     * Comment testMoreComments = new Comment("Test more comments", user);
+     * testMoreComments.moreComments.add(testMoreComments);
+     * moreComments.add(testMoreComments);
+     * }
+     */
 
     /**
      * Constructor to create a Comment object.
@@ -36,7 +38,7 @@ public class Comment {
      * @param comment The comment text.
      * @param user    The user associated with the comment.
      */
-    public Comment(String comment, User user) {
+    public Comment(String comment, UUID user) {
         // Constructor logic
         setComment(comment);
         setUser(user);
@@ -52,8 +54,7 @@ public class Comment {
     public Comment(UUID commentID, UUID userUUID, String comment, ArrayList<Comment> moreComments) {
         setCommentUUID(commentID);
         setComment(comment);
-        User findUser = userList.findUser(userUUID);
-        setUser(findUser);
+        setUser(userUUID);
         setMoreComments(moreComments);
         ;
     }
@@ -67,8 +68,7 @@ public class Comment {
     public Comment(UUID commentID, UUID userUUID, String comment) {
         setCommentUUID(commentID);
         setComment(comment);
-        User findUser = userList.findUser(userUUID);
-        setUser(findUser);
+        setUser(userUUID);
         this.moreComments = new ArrayList<>();
     }
 
@@ -92,10 +92,10 @@ public class Comment {
     }
 
     public User getUser() {
-        return this.user;
+        return userList.findUser(this.user);
     }
 
-    public void setUser(User user) {
+    public void setUser(UUID user) {
         this.user = user;
     }
 
