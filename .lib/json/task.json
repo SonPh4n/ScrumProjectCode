@@ -67,7 +67,7 @@
                 "history-id": "a80acec2-90f1-4fed-b89b-a46ac310189f",
                 "history-user": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
                 "history-details": "Bob Jones made a comment",
-                "recorded-date": "09/28/2023"
+                "recorded-date": "10/28/2023"
             }
         ],
         "project-id": "99f41ae5-8b31-42da-adc0-381db07828b3",
@@ -101,7 +101,10 @@
         "creation-date": "10\/23\/2023",
         "history": [
             {
-                "history-id": "70d1d9bd-deb8-4b77-93be-317ecc1b679f"
+                "history-id": "70d1d9bd-deb8-4b77-93be-317ecc1b679f",
+                "history-user": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
+                "history-details": "Bob Jones made a comment",
+                "recorded-date": "11/28/2023"
             }
         ],
         "project-id": "a45262b0-ce58-4fcb-a7f2-9183522de5f4",
@@ -135,7 +138,10 @@
         "creation-date": "10\/23\/2023",
         "history": [
             {
-                "history-id": "dc22658d-5f29-48ca-9f5f-9f1bf05487f5"
+                "history-id": "dc22658d-5f29-48ca-9f5f-9f1bf05487f5",
+                "history-user": "aa495da8-e871-4b0a-827e-7c67e51f4e6b",
+                "history-details": "Bob Jones created a task",
+                "recorded-date": "10/27/2023"
             }
         ],
         "project-id": "b79e65f8-0470-4aa6-9fbc-de524d862f69",
