@@ -125,4 +125,10 @@ public class ProjectSystemFACADE {
     public void addComment(Task task, String comment) {
         task.addComment(comment, comment, comment, comment);
     }
+
+    public boolean assignUser(String projectName, String columnName, String taskName) {
+        task.assignUser();
+    }
+
+    
 }

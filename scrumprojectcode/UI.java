@@ -55,18 +55,51 @@ public class UI {
 
 
         // create column
-        if (!facade.addColumn("new column", "new project")) {
+        if (!facade.addColumn("Electric Missile", "back log")) {
             System.out.println("Sorry we couln't create your column.");
         } else {
-            System.out.println("new column has been added to new project");
+            System.out.println("new column has been added to Electric Missile");
         }
+        // create column
+        if (!facade.addColumn("Electric Missile", "To Do")) {
+            System.out.println("Sorry we couln't create your column.");
+        } else {
+            System.out.println("new column has been added to Electric Missile");
+        }
+        
 
         // create task
-        if (!facade.addTask("new task", "new column", "new task", "this is a task", "task", "11/\01/\2023")) {
+        if (!facade.addTask("Electric Missile", "back log", "task2", "Initialize super algorithm to detonate at warp speed", "task", "11/\01/\2023")) {
             System.out.println("Sorry we could not create your task.");
         } else {
             System.out.println("new task has been added to new column in new project.");
         }
+        // create task
+        if (!facade.addTask("Electric Missile", "back log", "task1", "Curve the metal to make a cylindrical shape", "task", "11/\01/\2023")) {
+            System.out.println("Sorry we could not create your task.");
+        } else {
+            System.out.println("new task has been added to new column in new project.");
+        }
+
+        if(!facade.assignUser("Electric Missile", "back log","task2"))
+        {
+            System.out.println("Sorry we could not add an assigned user");
+        } else {
+            System.out.println("Assigned task to Jeff Goldblum");
+        }
+
+        if(!facade.addComment("new task", "Avoid civilians Jeff!"))
+        {
+            System.out.println("Sorry we could not add your comment to the task");
+        } else {
+            System.out.println("new comment has been added to the task");
+        }
+
+        if(!facade.moveTask("Electric Missile", "back log", "To Do", "task1"))
+        {
+
+        }
+
 
     }
 
