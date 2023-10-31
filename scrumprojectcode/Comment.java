@@ -95,6 +95,10 @@ public class Comment {
         return userList.findUser(this.user);
     }
 
+    public UUID getUserUUID() {
+        return this.user;
+    }
+
     public void setUser(UUID user) {
         this.user = user;
     }
