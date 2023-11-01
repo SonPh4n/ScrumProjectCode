@@ -77,10 +77,8 @@ public class Comment {
      *
      * @return The generated UUID.
      */
-    private UUID generateUUID() {
-        // UUID generation logic (to be implemented)
-        // This method should return a unique UUID for the comment
-        return UUID.randomUUID(); // Replace with actual logic
+    private void generateUUID() {
+        this.commentUUID = UUID.randomUUID();
     }
 
     public String getComment() {
@@ -126,6 +124,8 @@ public class Comment {
      */
     @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
+        if (this.comment == null)
+            return "No comments for this task";
         String commentsToString = "";
         for (Comment comment : moreComments) { // TODO: use UserList to convert getUser to User.username
             commentsToString = printMoreComments(commentsToString, comment);

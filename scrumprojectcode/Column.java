@@ -62,16 +62,13 @@ public class Column {
      */
     private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
             String taskType, String dueDate) {
+        if (taskList.findTask(taskName) != null)
+            return false;
         Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, userUUID, dueDate);
         columnTasks.add(newTask.getTaskUUID());
         taskList.getListOfTasks().add(newTask);
         taskList.saveTasks();
-        for (UUID task : columnTasks) {
-            if (task.equals(newTask.getTaskUUID())) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     public boolean facadeRemoveTask(String taskName) {
@@ -152,7 +149,6 @@ public class Column {
         String tasksToString = "";
         for (Task task : uuidToTasks())
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
-        return "--- " + this.columnName + " ---\n" + tasksToString;
+        return "--- " + this.columnName + " ---\n" + (tasksToString == null ? "" : tasksToString);
     }
-
 }

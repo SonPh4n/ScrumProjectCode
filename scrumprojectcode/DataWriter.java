@@ -21,6 +21,16 @@ public class DataWriter extends DataConstants {
     private boolean saveUsers;
     private boolean saveProjects;
 
+    /*
+     * public static void main(String[] args) {
+     * DataLoader dataLoader = DataLoader.getInstance();
+     * User user1 = new User("test", "user1", "username1", "password1", "email1",
+     * "number1", "user");
+     * ArrayList<User> testusers = new ArrayList();
+     * testusers.add(user1);
+     * saveUsers(testusers);
+     * }
+     */
     // Constructor
     public DataWriter(boolean saveTasks, boolean saveUsers, boolean saveProjects) {
         this.saveTasks = saveTasks;
@@ -88,19 +98,28 @@ public class DataWriter extends DataConstants {
         taskDetails.put(TASK_ID, task.getTaskUUID().toString());
         taskDetails.put(TASK_TITLE, task.getTaskName());
         taskDetails.put(TASK_DESCRIPTION, task.getTaskDescription());
+        taskDetails.put(TASK_TYPE, task.getTaskType());
         taskDetails.put(TASK_CREATION_DATE, task.getCreationDate());
         taskDetails.put(TASK_DUE_DATE, task.getDueDate());
 
         JSONArray arrayComments = new JSONArray();
         JSONArray arrayHistory = new JSONArray();
+        JSONArray arrayUser = new JSONArray();
 
-        for (Comment comment : task.getTaskComments()) {
-            arrayComments.add(getCommentJSON(comment));
+        if (arrayComments != null) {
+            for (Comment comment : task.getTaskComments())
+                arrayComments.add(getCommentJSON(comment));
         }
 
-        for (HashMap.Entry<String, History> entry : task.getTaskHistory().entrySet()) {
+        for (HashMap.Entry<String, History> entry : task.getTaskHistory().entrySet())
             arrayHistory.add(getHistoryJSON(entry.getValue()));
+
+        for (UUID user : task.getAssignedUsersUUID()) {
+            JSONObject userIDs = new JSONObject();
+            userIDs.put(TASK_USER_ID, user.toString());
+            arrayUser.add(userIDs);
         }
+        taskDetails.put(TASK_USERS, arrayUser);
         taskDetails.put(TASK_COMMENT_TITLE, arrayComments);
         taskDetails.put(TASK_HISTORY, arrayHistory);
 
@@ -115,15 +134,18 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getCommentJSON(Comment comment) {
         JSONObject commentDetails = new JSONObject();
-        commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
-        commentDetails.put(TASK_COMMENTOR, comment.getUser().toString());
-        commentDetails.put(TASK_COMMENT, comment.getComment());
+        if (commentDetails != null) {
+            // System.out.println(comment.getUserUUID().toString());
+            commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
+            commentDetails.put(TASK_COMMENTOR, comment.getUserUUID().toString());
+            commentDetails.put(TASK_COMMENT, comment.getComment().toString());
 
-        JSONArray arrayMoreComments = new JSONArray();
-        for (Comment moreComment : comment.getMoreComments()) {
-            arrayMoreComments.add(getCommentJSON(moreComment));
+            JSONArray arrayMoreComments = new JSONArray();
+            for (Comment moreComment : comment.getMoreComments()) {
+                arrayMoreComments.add(getCommentJSON(moreComment));
+            }
+            commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
         }
-        commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
 
         return commentDetails;
     }
@@ -131,7 +153,7 @@ public class DataWriter extends DataConstants {
     public static JSONObject getHistoryJSON(History history) {
         JSONObject historyDetails = new JSONObject();
         historyDetails.put(HISTORY_ID, history.getHistoryUUID().toString());
-        historyDetails.put(HISTORY_USER, history.getUser().toString());
+        historyDetails.put(HISTORY_USER, history.getUserUUID().toString());
         historyDetails.put(HISTORY_DETAILS, history.getDetails());
         historyDetails.put(HISTORY_RECORDED_DATE, history.getDate());
 
@@ -266,30 +288,35 @@ public class DataWriter extends DataConstants {
         projectDetails.put(PROJECT_TITLE, project.getProjectName());
 
         JSONArray arrayUsers = new JSONArray();
-        JSONArray arrayColumns = new JSONArray();
-        JSONArray arrayColumnTasks = new JSONArray();
+        JSONArray arrayProjects = new JSONArray();
 
-        for (User projectUsers : project.getAssignedUsers()) {
-            JSONObject userIDS = new JSONObject();
-            userIDS.put(PROJECT_USERS_ID, projectUsers.getUserUUID().toString());
-            arrayUsers.add(userIDS);
-        }
-        int columnTasksIterator = 0;
-        for (Column projectColumns : project.getListOfColumns()) {
-            JSONObject projectColumn = new JSONObject();
-            projectColumn.put(COLUMN_ID, projectColumns.getColumnUUID().toString());
-            projectColumn.put(COLUMN_TITLE, projectColumns.getColumnName());
-            for (UUID columnTaskIDs : project.getListOfColumns().get(columnTasksIterator).getColumnTasks()) {
-                JSONObject columnTaskID = new JSONObject();
-                columnTaskID.put(COLUMN_TASK_ID, columnTaskIDs.toString());
-                arrayColumnTasks.add(columnTaskID);
+        for (UUID projectUser : project.getAssignedUsersUUID()) {
+            if (projectUser != null) {
+                JSONObject user = new JSONObject();
+                user.put(PROJECT_USERS_ID, projectUser.toString());
+                arrayUsers.add(user);
             }
-            projectColumn.put(COLUMN, arrayColumnTasks);
-            arrayColumns.add(arrayColumnTasks);
+        }
+
+        JSONArray projectColumns = new JSONArray();
+        for (Column column : project.getListOfColumns()) {
+            JSONObject projectColumn = new JSONObject();
+            projectColumn.put(COLUMN_ID, column.getColumnUUID().toString());
+            projectColumn.put(COLUMN_TITLE, column.getColumnName());
+
+            JSONArray columnTasks = new JSONArray();
+            for (UUID columnTaskID : column.getColumnTasks()) {
+                JSONObject columnTask = new JSONObject();
+                columnTask.put(COLUMN_TASK_ID, columnTaskID.toString());
+                columnTasks.add(columnTask);
+            }
+            projectColumn.put(COLUMN_TASKS, columnTasks);
+            projectColumns.add(projectColumn);
         }
 
         projectDetails.put(PROJECT_USERS, arrayUsers);
-        projectDetails.put(PROJECT_COLUMNS, arrayColumns);
+        projectDetails.put(PROJECT_COLUMNS, projectColumns);
+        // arrayProjects.add(projectDetails);
 
         return projectDetails;
     }

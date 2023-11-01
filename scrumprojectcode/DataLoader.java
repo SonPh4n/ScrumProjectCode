@@ -10,6 +10,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+//TODO: make DataLoader singleton
+
 /**
  * @author jedalto
  * @author kuriakm
@@ -20,6 +22,23 @@ public class DataLoader extends DataConstants {
     private static ArrayList<Project> projects;
     private static ArrayList<Column> columns;
     private static ArrayList<History> histories;
+
+    private static DataLoader dataLoader;
+
+    public static DataLoader getInstance() { // why is there a constructor?
+        if (dataLoader == null)
+            dataLoader = new DataLoader();
+        return dataLoader;
+    }
+
+    /*
+     * public static void main(String[] args) {
+     * DataLoader dl = DataLoader.getInstance();
+     * dl.tasks = loadTasks();
+     * dl.users = loadUsers();
+     * dl.projects = loadProjects();
+     * }
+     */
 
     public DataLoader() {
         tasks = new ArrayList<>();
@@ -88,8 +107,7 @@ public class DataLoader extends DataConstants {
                 }
 
                 Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, taskType, usersUUID, history,
-                        comments,
-                        taskDueDate, taskCreationDate);
+                        comments, taskDueDate, taskCreationDate);
                 tasks.add(aT);
             }
             return tasks;
@@ -107,12 +125,16 @@ public class DataLoader extends DataConstants {
         JSONArray moreCommentsJSONArray = (JSONArray) commentJSON.get(TASK_MORE_COMMENTS);
         ArrayList<Comment> moreComments = new ArrayList<>();
         Iterator iMC = moreCommentsJSONArray.iterator();
-        while (iMC.hasNext()) {
-            JSONObject moreCommentsJSON = (JSONObject) iMC.next();
-            Comment jsonToMoreComments = getCommentJSON(moreCommentsJSON);
-            moreComments.add(jsonToMoreComments);
+        if (commentJSON.containsKey(TASK_MORE_COMMENTS) && commentJSON.get(TASK_MORE_COMMENTS) instanceof JSONArray) {
+            moreCommentsJSONArray = (JSONArray) commentJSON.get(TASK_MORE_COMMENTS);
+        } else {
+            while (iMC.hasNext()) {
+                JSONObject moreCommentsJSON = (JSONObject) iMC.next();
+                Comment jsonToMoreComments = getCommentJSON(moreCommentsJSON);
+                moreComments.add(jsonToMoreComments);
+            }
         }
-        return new Comment(commentor, commentUUID, comment, moreComments);
+        return new Comment(commentUUID, commentor, comment, moreComments);
     }
 
     /**
@@ -142,6 +164,7 @@ public class DataLoader extends DataConstants {
                 User aU = new User(userID, firstName, lastName, userName, password, email, phoneNumber, type);
                 users.add(aU);
             }
+            reader.close();
             return users;
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,49 +179,58 @@ public class DataLoader extends DataConstants {
      * @return returns an arraylist of project objects
      */
     public static ArrayList<Project> loadProjects() {
+        ArrayList<Project> projects = new ArrayList<>();
+
         try {
             FileReader reader = new FileReader(PROJECT_FILE_NAME);
             JSONParser parser = new JSONParser();
-            JSONArray projectsJSON = (JSONArray) new JSONParser().parse(reader);
+            JSONArray projectsJSON = (JSONArray) parser.parse(reader);
 
             for (int i = 0; i < projectsJSON.size(); i++) {
-                JSONObject projectJSON = (JSONObject) projectsJSON.get(i);
+                JSONObject projectJSON = ((JSONObject) projectsJSON.get(i));
+
                 UUID projectID = UUID.fromString((String) projectJSON.get(PROJECT_ID));
                 String projectTitle = (String) projectJSON.get(PROJECT_TITLE);
 
-                // Parse "assigned-users" and "project-columns" as JSON arrays
+                // Parse assigned users
                 JSONArray assignedUsersJSON = (JSONArray) projectJSON.get(PROJECT_USERS);
-                JSONArray projectColumnsJSON = (JSONArray) projectJSON.get(PROJECT_COLUMNS);
-
-                // Convert JSON arrays to JAVA arrayLists
                 ArrayList<UUID> assignedUsers = new ArrayList<>();
+                for (Object userObj : assignedUsersJSON) {
+                    JSONObject userJSON = (JSONObject) userObj;
+                    if (userJSON != null) {
+                        UUID userUUID = UUID.fromString((String) userJSON.get(PROJECT_USERS_ID));
+                        assignedUsers.add(userUUID);
+                    }
+                }
+
+                // Parse project columns
+                JSONArray projectColumnsJSON = (JSONArray) projectJSON.get(PROJECT_COLUMNS);
                 ArrayList<Column> projectColumns = new ArrayList<>();
 
-                Iterator iU = assignedUsersJSON.iterator();
-                Iterator iPC = projectColumnsJSON.iterator();
+                for (int j = 0; j < projectColumnsJSON.size(); j++) {
+                    JSONObject columnJSON = (JSONObject) projectColumnsJSON.get(j);
 
-                while (iU.hasNext()) {
-                    JSONObject userJSON = (JSONObject) iU.next();
-                    UUID userUUID = UUID.fromString((String) userJSON.get(PROJECT_USERS_ID));
-                    assignedUsers.add(userUUID);
-                }
+                    UUID columnID = UUID.fromString((String) columnJSON.get("column-id"));
+                    String columnTitle = (String) columnJSON.get("column-title");
 
-                while (iPC.hasNext()) {
-                    JSONObject columnJSON = (JSONObject) iPC.next();
-                    UUID columnUUID = UUID.fromString((String) columnJSON.get(COLUMN_ID));
-                    String columnTitle = (String) columnJSON.get(COLUMN_TITLE);
-                    JSONArray columnTasksJSON = (JSONArray) columnJSON.get(COLUMN_TASKS);
+                    JSONArray columnTasksJSON = (JSONArray) columnJSON.get("column-tasks");
+
                     ArrayList<UUID> columnTasks = new ArrayList<>();
-                    Iterator iCT = columnTasksJSON.iterator();
-                    while (iCT.hasNext()) {
-                        JSONObject columnTaskJSON = (JSONObject) iCT.next();
-                        UUID taskUUID = UUID.fromString((String) columnTaskJSON.get(COLUMN_TASK_ID));
-                        columnTasks.add(taskUUID);
+                    if (columnTasksJSON != null) {
+                        for (int k = 0; k < columnTasksJSON.size(); k++) {
+                            JSONObject columnTaskJSON = (JSONObject) columnTasksJSON.get(k);
+                            UUID taskUUID = UUID.fromString((String) columnTaskJSON.get("column-task-id"));
+                            columnTasks.add(taskUUID);
+                        }
                     }
-                    projectColumns.add(new Column(projectID, columnUUID, columnTitle, columnTasks));
+
+                    Column column = new Column(projectID, columnID, columnTitle, columnTasks);
+                    projectColumns.add(column);
                 }
 
-                projects.add(new Project(projectID, projectTitle, projectColumns, assignedUsers));
+                Project project = new Project(projectID, projectTitle, projectColumns, assignedUsers);
+                projects.add(project);
+
             }
 
             return projects;

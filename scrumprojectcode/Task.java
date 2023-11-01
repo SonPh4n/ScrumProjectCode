@@ -1,5 +1,6 @@
 package scrumprojectcode;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime; // Handles creationDate attribute @kuriakm
 import java.time.format.DateTimeFormatter; // Formats creationDate to MM/dd/YYYY @kuriakm
 import java.util.ArrayList;
@@ -10,18 +11,12 @@ import java.util.UUID;
  * Represents a task in a project management system.
  */
 
-/*
- * TODO: Update classes that use getters/setters for Column, Project,
- * ArrayList<User> assignedUser, HashMap<Date, History> taskHistory, Date
- * creationDate, String timeToComplete to new attribute types
- */
-
 public class Task {
     private String taskName;
     private String taskDescription;
     private String taskType;
     private ArrayList<Comment> taskComments;
-    private ArrayList<User> assignedUsers; // Since we have UserList available in Task, I changed this to
+    private ArrayList<UUID> assignedUsers; // Since we have UserList available in Task, I changed this to
                                            // ArrayList<User> @kuriakm
     private HashMap<String, History> taskHistory;
     private String creationDate; // Changed creationDate from Date to String to make it easier to load from file
@@ -48,14 +43,13 @@ public class Task {
         this.taskType = taskType;
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
-        User taskUser = userList.findUser(userUUID);
-        this.assignedUsers.add(taskUser); // Adds first User that created
+        this.assignedUsers.add(userUUID); // Adds first User that created
         this.taskHistory = new HashMap<String, History>();
 
         // Adds "User created ..." to taskHistory
         LocalDateTime now = LocalDateTime.now();
         String creationDate = formatter.format(now);
-        String historyDetails = taskUser.getUsername() + " created " + taskName;
+        String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
         taskHistory.put(creationDate, new History(userUUID, creationDate, historyDetails));
 
         this.creationDate = creationDate;
@@ -87,8 +81,6 @@ public class Task {
         this.taskType = taskType;
         this.taskComments = taskComments;
         this.assignedUsers = new ArrayList<>();
-        for (UUID uuid : taskUsers) // Converts taskUsers from UUID to User objects @kuriakm
-            assignedUsers.add(userList.findUser(uuid));
         this.taskHistory = taskHistory;
         this.creationDate = taskCreationDate;
         this.taskDueDate = taskDueDate;
@@ -113,10 +105,12 @@ public class Task {
      * @param columnName The name of the target column.
      * @return True if the task was successfully moved, false otherwise.
      */
-    /* public boolean moveTask(String taskName, String columnName) {
-        // Implementation for moving the task to a different column
-        return false;
-    } */
+    /*
+     * public boolean moveTask(String taskName, String columnName) {
+     * // Implementation for moving the task to a different column
+     * return false;
+     * }
+     */
 
     /**
      * Adds a comment to the task.
@@ -127,9 +121,44 @@ public class Task {
      * @param taskName    The name of the task.
      * @return True if the comment was successfully added, false otherwise.
      */
-    public boolean addComment(String comment, String projectName, String columnName, String taskName) {
-        // Implementation for adding a comment to the task
-        return false; //TODO
+    public boolean addComment(User user, String comment) {
+        Comment newComment = new Comment(comment, user.getUserUUID());
+        if (newComment == null)
+            return false;
+        taskComments.add(newComment);
+        LocalDate now = LocalDate.now();
+        String date = formatter.format(now);
+        History addUserHistory = new History(user.getUserUUID(), date,
+                user.getUsername() + "added a comment to " + getTaskName());
+        taskHistory.put(date, addUserHistory);
+        return true;
+    }
+
+    public boolean addReplyComment(User moreUser, String moreComment, User originalUser, String originalComment) {
+        for (Comment commentToFind : taskComments) {
+            if (findComment(originalComment).equals(commentToFind)) {
+                Comment newComment = new Comment(moreComment, moreUser.getUserUUID());
+                if (newComment == null)
+                    return false;
+                commentToFind.getMoreComments().add(newComment);
+                LocalDate now = LocalDate.now();
+                String date = formatter.format(now);
+                History addUserHistory = new History(moreUser.getUserUUID(), date,
+                        moreUser.getUsername() + " added a comment to " + originalUser.getUsername() + "'s comment");
+                taskHistory.put(date, addUserHistory);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Comment findComment(String comment) { // Add functionality to add a comment to a comment to
+                                                 // a comment ... @kuriakm
+        for (Comment findComment : taskComments) {
+            if (findComment.getComment().equals(comment))
+                return findComment;
+        }
+        return null;
     }
 
     /**
@@ -185,10 +214,19 @@ public class Task {
     }
 
     public ArrayList<User> getAssignedUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        for (UUID userUUID : assignedUsers) {
+            User uuidToUser = userList.findUser(userUUID);
+            users.add(uuidToUser);
+        }
+        return users;
+    }
+
+    public ArrayList<UUID> getAssignedUsersUUID() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<User> assignedUsers) {
+    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 
@@ -236,8 +274,47 @@ public class Task {
         return taskUUID;
     }
 
-    public void setTaskUUID(String taskID) {
-        this.taskUUID = UUID.fromString(taskID);
+    public void setTaskUUID(UUID taskID) {
+        this.taskUUID = taskID;
     }
 
+    public boolean addUser(User user) {
+        this.assignedUsers.add(user.getUserUUID());
+        // Create History object with the description "(username) was added to (task
+        // name)" and adds it to taskHistory
+        LocalDate now = LocalDate.now();
+        String date = formatter.format(now);
+        History addUserHistory = new History(user.getUserUUID(), date,
+                user.getUsername() + " was added to " + getTaskName());
+        taskHistory.put(date, addUserHistory);
+        return true;
+    }
+
+    public boolean removeUser(User user) {
+        if (user == null)
+            return false;
+        this.assignedUsers.remove(user.getUserUUID());
+        // Create History object with the description "(username) was removed from (task
+        // name)" and adds it to taskHistory
+        LocalDate now = LocalDate.now();
+        String date = formatter.format(now);
+        History addUserHistory = new History(user.getUserUUID(), date,
+                user.getUsername() + " was removed from " + getTaskName());
+        taskHistory.put(date, addUserHistory);
+        return true;
+    }
+
+    public boolean facadePrintComments() {
+        return printComments();
+    }
+
+    // Temporarily using System.out.println() to test if comments are being added
+    // correctly from DataLoader @kuriakm
+    public boolean printComments() {
+        if (taskComments.isEmpty() || taskComments == null)
+            return false;
+        for (Comment comment : taskComments)
+            System.out.println(comment);
+        return true;
+    }
 }

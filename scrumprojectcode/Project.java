@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Project {
     public String projectName;
     public ArrayList<Column> listOfColumns;
-    public ArrayList<User> assignedUsers;
+    public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
     private static UserList userList = UserList.getInstance();
 
@@ -42,13 +42,7 @@ public class Project {
         this.projectUUID = projectUUID;
         this.projectName = projectName;
         this.listOfColumns = listOfColumns;
-        ArrayList<User> usersFromUUID = new ArrayList<>();
-        for (UUID userUUID : uuidToUser) {
-            User assignedUser = userList.findUser(userUUID);
-            usersFromUUID.add(assignedUser);
-        }
-        setAssignedUsers(usersFromUUID);
-        ;
+        setAssignedUsers(uuidToUser);
     }
 
     public void setProjectName(String projectName) {
@@ -92,11 +86,20 @@ public class Project {
     }
 
     public ArrayList<User> getAssignedUsers() {
+        ArrayList<User> usersFromUUID = new ArrayList<>();
+        for (UUID userUUID : assignedUsers) {
+            User assignedUser = userList.findUser(userUUID);
+            usersFromUUID.add(assignedUser);
+        }
+        return usersFromUUID;
+    }
+
+    public ArrayList<UUID> getAssignedUsersUUID() {
         return this.assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<User> usersFromUUID) {
-        this.assignedUsers = usersFromUUID;
+    public void setAssignedUsers(ArrayList<UUID> userUUID) {
+        this.assignedUsers = userUUID;
     }
 
     public boolean facadeAddColumn(String columnName) {
@@ -163,6 +166,10 @@ public class Project {
         return null;
     }
 
+    public String facadePrintProject() {
+        return toString();
+    }
+
     /**
      * String method that prints out the contents of the selected column using
      * ArrayList.forEach() method
@@ -185,8 +192,22 @@ public class Project {
     public String toString() {
         String columnsToString = "";
         for (Column column : listOfColumns)
-            columnsToString = columnsToString + column + "\n";
+            columnsToString = columnsToString + column.toString() + "\n\n";
         return "[" + this.projectName + "]:\n"
-                + columnsToString;
+                + (columnsToString == null ? "" : columnsToString);
+    }
+
+    public boolean addUser(User user) {
+        if (user == null)
+            return false;
+        this.assignedUsers.add(user.getUserUUID());
+        return true;
+    }
+
+    public boolean removeUser(User user) {
+        if (user == null)
+            return false;
+        this.assignedUsers.remove(user.getUserUUID());
+        return true;
     }
 }

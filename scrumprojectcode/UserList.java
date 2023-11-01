@@ -4,16 +4,23 @@
 
 package scrumprojectcode;
 
+/**
+ * @author Jane Dalton
+ */
+
 import java.util.ArrayList;
 import java.util.UUID;
+
+import javax.xml.crypto.Data;
 
 public class UserList {
     private static UserList userList = null;
     private static ArrayList<User> listOfUsers; // @kuriakm: Allows UserList to create
                                                 // an instance without an ArrayList
+    private static DataLoader dl = DataLoader.getInstance();
 
     private UserList() {
-        listOfUsers = DataLoader.loadUsers();
+        listOfUsers = dl.loadUsers();
     }
 
     private UserList(ArrayList<User> users) {
@@ -51,16 +58,30 @@ public class UserList {
         return null;
     }
 
-    public User findUser(String email) {
+    public User findUser(String username, String password) {
         for (User user : listOfUsers) {
-            if (user.getEmail().equals(email)) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password))
                 return user;
-            }
+        }
+        return null;
+    }
+
+    public User findUser(String username) {
+        for (User user : listOfUsers) {
+            if (user.getUsername().equals(username))
+                return user;
         }
         return null;
     }
 
     public void saveUsers() {
         DataWriter.saveUsers(listOfUsers);
+    }
+
+    public String toString() {
+        String toString = "";
+        for (User user : listOfUsers)
+            toString = toString + user + "\n";
+        return toString;
     }
 }

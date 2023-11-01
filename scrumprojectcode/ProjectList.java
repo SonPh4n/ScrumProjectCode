@@ -6,9 +6,10 @@ import java.util.UUID;
 public class ProjectList {
     private static ProjectList projectList = null;
     private static ArrayList<Project> listOfProjects;
+    private static DataLoader dl = DataLoader.getInstance();
 
     private ProjectList() {
-        listOfProjects = DataLoader.loadProjects();
+        listOfProjects = dl.loadProjects();
     }
 
     private ProjectList(ArrayList<Project> projects) {
@@ -31,16 +32,25 @@ public class ProjectList {
         return listOfProjects;
     }
 
-    public Project findProject(UUID uuid){
-        for(Project project : listOfProjects){
-            if(project.getProjectUUID().equals(uuid)){
+    public Project findProject(UUID uuid) {
+        for (Project project : listOfProjects) {
+            if (project.getProjectUUID().equals(uuid)) {
                 return project;
             }
         }
         return null;
     }
 
-    public void saveProjects() { 
+    public Project findProject(String projectName) {
+        for (Project project : listOfProjects) {
+            if (project.getProjectName().equals(projectName)) {
+                return project;
+            }
+        }
+        return null;
+    }
+
+    public void saveProjects() {
         DataWriter.saveProjects(listOfProjects);
     }
 }

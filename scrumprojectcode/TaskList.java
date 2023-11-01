@@ -6,9 +6,10 @@ import java.util.UUID;
 public class TaskList {
     private static TaskList taskList = null;
     private static ArrayList<Task> listOfTasks;
+    private static DataLoader dl = DataLoader.getInstance();
 
     private TaskList() {
-        listOfTasks = DataLoader.loadTasks();
+        listOfTasks = dl.loadTasks();
     }
 
     private TaskList(ArrayList<Task> tasks) {
@@ -34,6 +35,16 @@ public class TaskList {
     public Task findTask(UUID uuid) { // TODO: remember to change task projects
         for (Task task : listOfTasks) {
             if (task.getTaskUUID().equals(uuid)) {
+                return task;
+            }
+        }
+        return null;
+    }
+
+    public Task findTask(String taskName) { // Takes in a String value taskName and finds a Task with the same taskName
+                                            // @kuriakm
+        for (Task task : listOfTasks) {
+            if (task.getTaskName().equals(taskName)) {
                 return task;
             }
         }

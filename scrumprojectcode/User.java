@@ -1,6 +1,7 @@
 package scrumprojectcode;
 
 //import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -20,6 +21,7 @@ public class User {
     private UUID userUUID;
     private static UserList userList = UserList.getInstance();
     private static ProjectList projectList = ProjectList.getInstance();
+    private static TaskList taskList = TaskList.getInstance();
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
@@ -134,17 +136,16 @@ public class User {
                 + "Phone Number: " + this.phoneNumber;
     }
 
-    public boolean facadeLogin(String username, String passwork) {
+    public boolean facadeLogin(String username, String password) {
         return login(username, password);
     }
 
     // checks if the username and password match to login
     private boolean login(String username, String passsword) {
         if (this.username.equals(username) && this.password.equals(password)) {
-            loggedIn = true;
-            return true;
+            return loggedIn = true;
         }
-        return false;
+        return loggedIn = false;
     }
 
     // logs out the user
@@ -162,9 +163,10 @@ public class User {
     // a new UUID and set their info
     private boolean register(String firstName, String lastName, String username, String password, String email,
             String phoneNumber, String type) {
-        if (userList.findUser(email) == null) {
+        if (userList.findUser(username, password) == null) {
             User newUser = new User(firstName, lastName, username, password, email, phoneNumber, type);
             userList.getListOfUsers().add(newUser);
+            userList.saveUsers();
             return true;
         }
         return false;
@@ -231,56 +233,79 @@ public class User {
         return null;
     }
 
-    /*
-     * *
-     * private ArrayList<Task> UUIDtoTasks(ArrayList<String> personalTasks) {
-     * // TODO populate myTasks with Task objects based on the UUIDs from
-     * personalTasks
-     * ArrayList<Task> tasks = new ArrayList<>();
-     * for (String taskUUID : personalTasks) {
-     * Task task = findTaskByUUID(taskUUID);
-     * if (task != null) {
-     * tasks.add(task);
-     * }
-     * }
-     * return tasks;
-     * }
-     * 
-     * private Task findTaskByUUID(String taskUUID) {
-     * for (Task task : myTasks) {
-     * if (task.getTaskUUID().toString().equals(taskUUID)) {
-     * return task;
-     * }
-     * }
-     * return null;
-     * }
-     * 
-     * private ArrayList<Project> UUIDtoProjects(ArrayList<String> listOfProjects) {
-     * // TODO populate myProjects with Project objects based on the UUIDs from
-     * // listOfProjects
-     * ArrayList<Project> projects = new ArrayList<>();
-     * for (String projectUUID : listOfProjects) {
-     * Project project = findProjectByUUID(projectUUID);
-     * if (project != null) {
-     * projects.add(project);
-     * }
-     * }
-     * return null;
-     * }
-     * 
-     * private Project findProjectByUUID(String projectUUID) {
-     * for (Project project : myProjects) {
-     * if (project.getProjectUUID().toString().equals(projectUUID)) {
-     * return project;
-     * }
-     * }
-     * return null;
-     * }
-     * 
-     * private UUID toUUID(String userID) {
-     * // TODO convert string UUID from dataLoader to object UUID
-     * return UUID.fromString(userID);
-     * }
-     */
+    public boolean facadeAddUserToTask(String username, String taskName) {
+        return addUserToTask(username, taskName);
+    }
 
+    public boolean facadeRemoveUserToTask(String username, String taskName) {
+        return removeUserFromTask(username, taskName);
+    }
+
+    public boolean addUserToTask(String username, String taskName) {
+        Task task = taskList.findTask(taskName);
+        User user = userList.findUser(username);
+        if (user == null || task == null)
+            return false;
+        return task.addUser(user);
+    }
+
+    public boolean removeUserFromTask(String username, String taskName) {
+        Task task = taskList.findTask(taskName);
+        User user = userList.findUser(username);
+        if (user == null || task == null)
+            return false;
+        return task.removeUser(user);
+    }
+
+    public boolean facadeAddUserToProject(String username, String projectName) {
+        return addUserToProject(username, projectName);
+    }
+
+    public boolean facadeRemoveUserFromProject(String username, String projectName) {
+        return removeUserFromProject(username, projectName);
+    }
+
+    public boolean addUserToProject(String username, String projectName) {
+        Project project = projectList.findProject(projectName);
+        User user = userList.findUser(username);
+        if (user == null || project == null)
+            return false;
+        return project.addUser(user);
+    }
+
+    public boolean removeUserFromProject(String username, String projectName) {
+        Project project = projectList.findProject(projectName);
+        User user = userList.findUser(username);
+        if (user == null || project == null)
+            return false;
+        return project.removeUser(user);
+
+    }
+
+    public boolean facadeAddComment(String username, String taskName, String comment) {
+        return addComment(username, taskName, comment);
+    }
+
+    public boolean addComment(String username, String taskName, String comment) {
+        User user = userList.findUser(username);
+        Task task = taskList.findTask(taskName);
+        if (user == null || task == null)
+            return false;
+        return task.addComment(user, comment);
+    }
+
+    public boolean facadeAddReplyComment(String username, String taskName, String comment, String originalUsername,
+            String originalComment) {
+        return addReplyComment(username, taskName, comment, originalUsername, originalComment);
+    }
+
+    public boolean addReplyComment(String username, String taskName, String comment, String originalUsername,
+            String originalComment) {
+        User replyUser = userList.findUser(username);
+        Task task = taskList.findTask(taskName);
+        User originalUser = userList.findUser(originalUsername);
+        if (replyUser == null || task == null || originalUser == null)
+            return false;
+        return task.addReplyComment(replyUser, comment, originalUser, originalComment);
+    }
 }
