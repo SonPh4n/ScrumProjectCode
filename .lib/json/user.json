@@ -18,5 +18,15 @@
         "first-name": "Johanna",
         "email": "jcole@email.edu",
         "last-name": "Cole"
+    },
+    {
+        "phone-number": "333-333-3333",
+        "password": "N17SfEN",
+        "user-name": "gold_j",
+        "user-id": "58a0aa11-221e-4a93-a4a0-f5466af47d13",
+        "type": "user",
+        "first-name": "Jeff",
+        "email": "jeff_goldblum@codemissionpossible.com",
+        "last-name": "Goldblum"
     }
 ]
