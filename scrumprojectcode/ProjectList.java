@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * This class represents a list of projects. It is a singleton class that can be accessed through the getInstance() method.
- * It contains methods to get the list of projects, find a project by UUID or project name, and save the list of projects.
+ * This class represents a list of projects. It is a singleton class that can be
+ * accessed through the getInstance() method.
+ * It contains methods to get the list of projects, find a project by UUID or
+ * project name, and save the list of projects.
  */
 public class ProjectList {
     private static ProjectList projectList = null;
     private static ArrayList<Project> listOfProjects;
-    private static DataLoader dl = DataLoader.getInstance();
 
     private ProjectList() {
-        listOfProjects = dl.loadProjects();
+        listOfProjects = DataLoader.loadProjects();
     }
 
     private ProjectList(ArrayList<Project> projects) {

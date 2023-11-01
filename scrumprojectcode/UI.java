@@ -27,11 +27,10 @@ public class UI {
          * return;
          * }
          */
-        if (!facade.register("Atticus", "Madden", "a_madden", "O4r40Rs", "atticus_madden@codemissionpossible.com",
-                "555-555-5555", "user")) {
-            System.out.println("Sorry we couldn't register you as a user.");
+        if (!facade.login("a_madden", "O4r40Rs")) {
+            System.out.println("Sorry we couldn't log you in.");
         } else {
-            System.out.println("Atticus Madden is now registered");
+            System.out.println("Atticus Madden is now logged in");
         }
         // System.out.println("Johnny Applesause is now logged in.");
 
@@ -107,8 +106,12 @@ public class UI {
         }
 
         if (!facade.moveTask("Electric Missile", "Back Log", "To Do", "task1")) {
-
+            System.out.println("Sorry, we could not move your task to the column");
+        } else {
+            System.out.println("'task has been moved to 'To Do' column");
         }
+
+        facade.logout();
 
     }
 

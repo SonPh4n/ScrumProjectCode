@@ -55,13 +55,7 @@ public class DataWriter extends DataConstants {
     public static void saveTasks(ArrayList<Task> tasks) {
         JSONArray jsonTasks = new JSONArray();
 
-        /*
-         * for (int i = 0; i < tasks.size(); i++) {
-         * jsonTasks.add(getTaskJSON(tasks.get(i)));
-         * }
-         */
-
-        for (Task task : tasks) { 
+        for (Task task : tasks) {
             jsonTasks.add(getTaskJSON(task));
         }
 
@@ -96,10 +90,8 @@ public class DataWriter extends DataConstants {
         JSONArray arrayHistory = new JSONArray();
         JSONArray arrayUser = new JSONArray();
 
-        if (arrayComments != null) {
-            for (Comment comment : task.getTaskComments())
-                arrayComments.add(getCommentJSON(comment));
-        }
+        for (Comment comment : task.getTaskComments())
+            arrayComments.add(getCommentJSON(comment));
 
         for (HashMap.Entry<String, History> entry : task.getTaskHistory().entrySet())
             arrayHistory.add(getHistoryJSON(entry.getValue()));
@@ -124,19 +116,19 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getCommentJSON(Comment comment) {
         JSONObject commentDetails = new JSONObject();
-        if (commentDetails != null) {
-            // System.out.println(comment.getUserUUID().toString());
+        if (comment != null) {
             commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
             commentDetails.put(TASK_COMMENTOR, comment.getUserUUID().toString());
-            commentDetails.put(TASK_COMMENT, comment.getComment().toString());
+            commentDetails.put(TASK_COMMENT, comment.getComment());
 
             JSONArray arrayMoreComments = new JSONArray();
-            for (Comment moreComment : comment.getMoreComments()) {
-                arrayMoreComments.add(getCommentJSON(moreComment));
+            if (!comment.getMoreComments().isEmpty()) {
+                for (Comment moreComment : comment.getMoreComments()) {
+                    arrayMoreComments.add(getCommentJSON(moreComment));
+                }
             }
             commentDetails.put(TASK_MORE_COMMENTS, arrayMoreComments);
         }
-
         return commentDetails;
     }
 
@@ -207,24 +199,6 @@ public class DataWriter extends DataConstants {
         userDetails.put(USER_PHONE_NUMBER, user.getPhoneNumber());
         userDetails.put(USER_TYPE, user.getUserType());
 
-        JSONArray arrayProjects = new JSONArray();
-        JSONArray arrayTasks = new JSONArray();
-
-        /*
-         * for (UUID project : user.getMyProjects()) {
-         * JSONObject projectIDs = new JSONObject();
-         * projectIDs.put(USER_PROJECT_ID, project.toString());
-         * arrayProjects.add(projectIDs);
-         * }
-         * for (UUID task : user.getMyTasks()) {
-         * JSONObject taskIDs = new JSONObject();
-         * taskIDs.put(USER_TASK_ID, task.toString());
-         * arrayTasks.add(taskIDs);
-         * }
-         * userDetails.put(USER_PROJECTS, arrayProjects);
-         * userDetails.put(USER_TASKS, arrayTasks);
-         */
-
         return userDetails;
     }
 
@@ -278,7 +252,7 @@ public class DataWriter extends DataConstants {
         projectDetails.put(PROJECT_TITLE, project.getProjectName());
 
         JSONArray arrayUsers = new JSONArray();
-        JSONArray arrayProjects = new JSONArray();
+        JSONArray projectColumns = new JSONArray();
 
         for (UUID projectUser : project.getAssignedUsersUUID()) {
             if (projectUser != null) {
@@ -288,7 +262,6 @@ public class DataWriter extends DataConstants {
             }
         }
 
-        JSONArray projectColumns = new JSONArray();
         for (Column column : project.getListOfColumns()) {
             JSONObject projectColumn = new JSONObject();
             projectColumn.put(COLUMN_ID, column.getColumnUUID().toString());

@@ -11,16 +11,13 @@ package scrumprojectcode;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import javax.xml.crypto.Data;
-
 public class UserList {
     private static UserList userList = null;
     private static ArrayList<User> listOfUsers; // @kuriakm: Allows UserList to create
                                                 // an instance without an ArrayList
-    private static DataLoader dl = DataLoader.getInstance();
 
     private UserList() {
-        listOfUsers = dl.loadUsers();
+        listOfUsers = DataLoader.loadUsers();
     }
 
     private UserList(ArrayList<User> users) {

@@ -24,7 +24,7 @@ public class Comment {
     public Comment(String comment, UUID user) {
         setComment(comment);
         setUser(user);
-        generateUUID(); 
+        generateUUID();
         this.moreComments = new ArrayList<>();
     }
 
@@ -106,6 +106,7 @@ public class Comment {
      */
     @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
+        userList = UserList.getInstance();
         if (this.comment == null)
             return "No comments for this task";
         String commentsToString = "";
@@ -113,15 +114,18 @@ public class Comment {
             commentsToString = printMoreComments(commentsToString, comment);
         }
         return "[Comment]: " + comment + "\n"
-                + "[User]: " + this.user + "\n" + commentsToString; // TODO: Use UserList to access username instead of
-                                                                    // userUUID
+                + "[User]: " + userList.findUser(this.user).getUsername() + "\n" + commentsToString; // TODO: Use
+                                                                                                     // UserList to
+                                                                                                     // access username
+                                                                                                     // instead of
+        // userUUID
     }
 
     public String printMoreComments(String moreCommentsToString, Comment moreComment) {
         int commentIterator = 0;
         moreCommentsToString = moreCommentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
                 + moreComment.getComment() + "\n"
-                + "\t[User]: " + moreComment.getUser();
+                + "\t[User]: " + userList.findUser(moreComment.getUserUUID()).getUsername();
         commentIterator++;
         for (Comment comment : moreComment.moreComments)
             moreCommentsToString = moreCommentsToString + printMoreComments(moreCommentsToString, comment);

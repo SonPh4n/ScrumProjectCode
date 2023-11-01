@@ -21,24 +21,9 @@ public class DataLoader extends DataConstants {
     private static ArrayList<Column> columns;
     private static ArrayList<History> histories;
 
-    private static DataLoader dataLoader;
-
-    public static DataLoader getInstance() { 
-        if (dataLoader == null)
-            dataLoader = new DataLoader();
-        return dataLoader;
-    }
-
     /**
      * loads all data from json files
      */
-    public DataLoader() {
-        tasks = new ArrayList<>();
-        users = new ArrayList<>();
-        projects = new ArrayList<>();
-        columns = new ArrayList<>();
-        histories = new ArrayList<>();
-    }
 
     /**
      * loads tasks from json files
@@ -70,7 +55,7 @@ public class DataLoader extends DataConstants {
                 HashMap<String, History> history = new HashMap<>();
 
                 JSONArray usersJSON = (JSONArray) taskJSON.get(TASK_USERS);
-                JSONArray commentsJSON = (JSONArray) taskJSON.get(TASK_COMMENT);
+                JSONArray commentsJSON = (JSONArray) taskJSON.get(TASK_COMMENT_TITLE);
                 JSONArray historiesJSON = (JSONArray) taskJSON.get(TASK_HISTORY);
 
                 Iterator iu = usersJSON.iterator();
@@ -94,8 +79,9 @@ public class DataLoader extends DataConstants {
 
                 while (ic.hasNext()) {
                     JSONObject commentJSON = (JSONObject) ic.next();
-                    Comment aC = getCommentJSON(commentJSON);
-                    comments.add(aC);
+                    Comment aC = (getCommentJSON(commentJSON) == null ? null : getCommentJSON(commentJSON));
+                    if (aC != null)
+                        comments.add(aC);
                 }
 
                 Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, taskType, usersUUID, history,

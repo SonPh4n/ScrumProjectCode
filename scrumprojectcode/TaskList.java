@@ -6,10 +6,9 @@ import java.util.UUID;
 public class TaskList {
     private static TaskList taskList = null;
     private static ArrayList<Task> listOfTasks;
-    private static DataLoader dl = DataLoader.getInstance();
 
     private TaskList() {
-        listOfTasks = dl.loadTasks();
+        listOfTasks = DataLoader.loadTasks();
     }
 
     private TaskList(ArrayList<Task> tasks) {

@@ -54,6 +54,7 @@ public class Task {
         this.assignedUsers.add(userUUID);
         this.taskHistory = new HashMap<String, History>();
 
+        userList = UserList.getInstance();
         LocalDateTime now = LocalDateTime.now();
         String creationDate = formatter.format(now);
         String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
@@ -121,7 +122,7 @@ public class Task {
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
         History addUserHistory = new History(user.getUserUUID(), date,
-                user.getUsername() + "added a comment to " + getTaskName());
+                user.getUsername() + " added a comment to " + getTaskName());
         taskHistory.put(date, addUserHistory);
         return true;
     }

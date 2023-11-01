@@ -103,7 +103,7 @@ public class Column {
         return this.columnTasks;
     }
 
-    public ArrayList<Task> uuidToTasks() { 
+    public ArrayList<Task> uuidToTasks() {
         ArrayList<Task> uuidToColumnTask = new ArrayList<>();
         for (UUID uuid : columnTasks)
             uuidToColumnTask.add(findTask(uuid));
@@ -132,8 +132,7 @@ public class Column {
 
     public Task findTask(String taskName) {
         for (Task task : taskList.getListOfTasks()) {
-            if (task.getProjectUUID().equals(projectUUID) && task.getColumnUUID().equals(columnUUID)
-                    && task.getTaskName().equals(taskName)) {
+            if (task.getTaskName().equals(taskName)) {
                 return task;
             }
         }

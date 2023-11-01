@@ -184,20 +184,6 @@ public class User {
                 this.type.equals(aU.getUserType());
     }
 
-    /*
-     * public ArrayList<Project> UUIDtoProjects(ArrayList<UUID> projectsUUID) {
-     * Project testProject = new Project();
-     * myProjects.add(testProject);
-     * return myProjects;
-     * }
-     * 
-     * public ArrayList<Task> UUIDtoTasks(ArrayList<UUID> tasksUUID) {
-     * Task testTask = new Task();
-     * myTasks.add(testTask);
-     * return myTasks;
-     * }
-     */
-
     public boolean facadeAddProject(String projectName) {
         return addProject(projectName);
     }
@@ -225,6 +211,7 @@ public class User {
     }
 
     public Project findProject(String projectName) { // TODO: is it ok to keep this public?
+        projectList = ProjectList.getInstance();
         for (Project project : projectList.getListOfProjects()) {
             if (project.getProjectName().equals(projectName)) {
                 return project;
@@ -287,6 +274,8 @@ public class User {
     }
 
     public boolean addComment(String username, String taskName, String comment) {
+        userList = UserList.getInstance();
+        taskList = TaskList.getInstance();
         User user = userList.findUser(username);
         Task task = taskList.findTask(taskName);
         if (user == null || task == null)
@@ -301,6 +290,8 @@ public class User {
 
     public boolean addReplyComment(String username, String taskName, String comment, String originalUsername,
             String originalComment) {
+        userList = UserList.getInstance();
+        taskList = TaskList.getInstance();
         User replyUser = userList.findUser(username);
         Task task = taskList.findTask(taskName);
         User originalUser = userList.findUser(originalUsername);

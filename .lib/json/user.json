@@ -28,5 +28,25 @@
         "first-name": "Jeff",
         "email": "jeff_goldblum@codemissionpossible.com",
         "last-name": "Goldblum"
+    },
+    {
+        "phone-number": "555-555-5555",
+        "password": "O4r40Rs",
+        "user-name": "a_madden",
+        "user-id": "ba111e96-2bf2-4382-82a2-7b80bc199583",
+        "type": "user",
+        "first-name": "Atticus",
+        "email": "atticus_madden@codemissionpossible.com",
+        "last-name": "Madden"
+    },
+    {
+        "phone-number": "1111111111",
+        "password": "yellow",
+        "user-name": "alexm",
+        "user-id": "50b28086-e57c-4aea-bfad-9edcca38ca51",
+        "type": "user",
+        "first-name": "alex",
+        "email": "alex.com",
+        "last-name": "m"
     }
 ]
