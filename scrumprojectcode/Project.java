@@ -161,7 +161,7 @@ public class Project {
         Column oldColumn = findColumn(sourceColumn);
         Column newColumn = findColumn(targetColumn);
         Task task = oldColumn.findTask(taskName);
-        oldColumn.facadeRemoveTask(taskName);
+        oldColumn.getColumnTasks().remove(task.getTaskUUID());
         task.setColumnUUID(newColumn.getColumnUUID());
         newColumn.columnTasks.add(task.getTaskUUID());
         if (newColumn.findTask(taskName) == null) {
