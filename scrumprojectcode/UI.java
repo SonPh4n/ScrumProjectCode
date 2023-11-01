@@ -14,33 +14,23 @@ public class UI {
 
     public void run() {
         scenario1();
-        scenario2();
+        // scenario2();
     }
 
     public void scenario1() {
         System.out.println();
 
-        // User logs in
-        /*
-         * if (!facade.login("johnny", "8xw0CUeKk")) {
-         * System.out.println("Sorry we couldn't login.");
-         * return;
-         * }
-         */
-        if (!facade.login("a_madden", "O4r40Rs")) {
-            System.out.println("Sorry we couldn't log you in.");
-        } else {
-            System.out.println("Atticus Madden is now logged in");
-        }
-        // System.out.println("Johnny Applesause is now logged in.");
+        if (!facade.login("a_madden", "O4r40Rs"))
+            System.out.println("Sorry we couldn't log you in");
+        else
+            System.out.println("Atticus Madden has successfully logged in.");
 
-        // make a project
         if (!facade.addProject("Electric Missile")) {
             System.out.println("Sorry we couldn't create your project.");
         } else {
             System.out.println("'Electric Missile' has been successfully created.");
         }
-        // make a project
+
         if (!facade.addProject("Soap Free Washers")) {
             System.out.println("Sorry we couldn't create your project.");
         } else {
@@ -53,63 +43,105 @@ public class UI {
             System.out.println("'Air Computers' has been successfully created.");
         }
 
-        // create column
-        if (!facade.addColumn("Electric Missile", "Back Log")) {
+        if (!facade.addColumn("Electric Missile", "Back Log") && !facade.addColumn("Electric Missile", "Doing")) {
             System.out.println("Sorry we couln't create your column.");
         } else {
-            System.out.println("Back Log has been added to Electric Missile");
-        }
-        // create column
-        if (!facade.addColumn("Electric Missile", "To Do")) {
-            System.out.println("Sorry we couln't create your column.");
-        } else {
-            System.out.println("To Do has been added to Electric Missile");
+            System.out.println("'Back Log' and 'Doing' has been added to 'Electric Missile'");
         }
 
-        // create task
+        if (!facade.addTask("Electric Missile", "Back Log", "task1",
+                "Curve the metal to make a cylindrical shape", "task", "11/\\01/\\2023")) {
+            System.out.println("Sorry we could not create your task.");
+        } else {
+            System.out.println("A task has been added to 'Back Log' in 'Electric Missile'.");
+        }
+
+        if (!facade.addComment("a_madden", "task1", "What's a cylinder"))
+            System.out.println("Sorry, we couldn't add comments to the task");
+        else
+            System.out.println("Comments were added to task");
+
+        if (!facade.addComment("gold_j", "task1", "Not cylindrical enough"))
+            System.out.println("Sorry, we couldn't add comments to the task");
+        else
+            System.out.println("Comments were added to task");
+
         if (!facade.addTask("Electric Missile", "Back Log", "task2",
                 "Initialize super algorithm to detonate at warp speed", "task", "11/\\01/\\2023")) {
-            System.out.println("Sorry, we could not create your task.");
+            System.out.println("Sorry we could not create your task.");
         } else {
-            System.out.println("A task has been added to Back Log in Electric Missile.");
-        }
-        // create task
-        if (!facade.addTask("Electric Missile", "Back Log", "task1", "Curve the metal to make a cylindrical shape",
-                "task", "11/\\01/\\2023")) {
-            System.out.println("Sorry, we could not create your task.");
-        } else {
-            System.out.println("A task has been added to Back Log in Electric Missile.");
+            System.out.println("A task has been added to 'Back Log' in 'Electric Missile'.");
         }
 
-        if (!facade.removeUserFromTask("a_madden", "task2") && !facade.addUserToTask("gold_j", "task2")) {
-            System.out.println("Sorry, we could not add an assigned user");
+        if (!facade.addUserToProject("a_madden", "Electric Missile")) {
+            System.out.println("Sorry we could not add you to 'Electric Missile'");
         } else {
-            System.out.println("Assigned task to Jeff Goldblum");
+            System.out.println("Atticus Madden was added to 'Electric Missile'");
+        }
+        if (!facade.addUserToProject("gold_j", "Electric Missile")) {
+            System.out.println("Sorry we could not add you to 'Electric Missile'");
+        } else {
+            System.out.println("Jeff Goldblum was added to 'Electric Missile'");
         }
 
-        if (!facade.addComment("gold_j", "task1", "Not cylindrical enough")) {
-            System.out.println("Sorry, we could not add your comment to the task");
+        if (!facade.addUserToTask("a_madden", "task1") && !facade.addUserToTask("a_madden", "task2")) {
+            System.out.println("Sorry we could not add you to task");
         } else {
-            System.out.println("new comment has been added to the task");
+            System.out.println("Atticus Madden was added to task");
         }
 
-        if (!facade.addComment("a_madden", "task1", "What's a cylinder")) {
-            System.out.println("Sorry, we could not add your comment to the task");
+        if (!facade.addUserToTask("gold_j", "task2")) {
+            System.out.println("Sorry we could not add you to task");
         } else {
-            System.out.println("new comment has been added to the task");
+            System.out.println("Jeff Goldblum was added to task");
         }
 
-        if (!facade.addReplyComment("a_madden", "task1", "Avoid civilians Jeff!", "gold_j", "Not cylindrical enough")) {
-            System.out.println("Sorry, we could not add your comment to the task");
+        if (!facade.addComment("a_madden", "task2", "Avoid civilians Jeff!")) {
+            System.out.println("Sorry we could not add your comment to task");
         } else {
-            System.out.println("new comment has been added to the task");
+            System.out.println("Atticus Madden added a comment to task");
         }
 
-        if (!facade.moveTask("Electric Missile", "Back Log", "To Do", "task1")) {
-            System.out.println("Sorry, we could not move your task to the column");
+        if (!facade.addReplyComment("a_madden", "task1", "How about you do it jeff", "gold_j",
+                "Not cylindrical enough")) {
+            System.out.println("Sorry we could not add your comment to 'new task'");
         } else {
-            System.out.println("'task has been moved to 'To Do' column");
+            System.out.println("Atticus added a comment to Jeff Goldblum's comment");
         }
+
+        if (!facade.removeUserFromTask("a_madden", "task1")) {
+            System.out.println("Sorry we could not remove you from the task");
+        } else {
+            System.out.println("Atticus Madden was removed from a task");
+        }
+
+        if (!facade.addUserToTask("gold_j", "task1")) {
+            System.out.println("Sorry we could not add you to task");
+        } else {
+            System.out.println("Jeff Goldblum was added to task");
+        }
+
+        if (!facade.moveTask("Electric Missile", "Back Log", "Doing", "task1"))
+            System.out.println("Sorry we could not move this task");
+        else
+            System.out.println("Task has been moved from 'Back Log' to 'Doing'");
+
+        if (!facade.addTask("Electric Missile", "Back Log", "task3",
+                "Make impossible burger possible", "task", "11/\\01/\\2023")) {
+            System.out.println("Sorry we could not create your task.");
+        } else {
+            System.out.println("A task has been added to 'Back Log' in 'Electric Missile'.");
+        }
+
+        if (!facade.addColumn("Electric Missile", "Abandoned"))
+            System.out.println("Sorry, we could not create this column");
+        else
+            System.out.println("'Abandoned' was created in 'Electric Missile'");
+
+        if (!facade.moveTask("Electric Missile", "Back Log", "Abandoned", "task3"))
+            System.out.println("Sorry we could not move this task");
+        else
+            System.out.println("Task has been moved from 'Back Log' to 'Abandoned'");
 
         facade.logout();
 

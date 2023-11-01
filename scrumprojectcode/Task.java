@@ -51,7 +51,6 @@ public class Task {
         this.taskType = taskType;
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
-        this.assignedUsers.add(userUUID);
         this.taskHistory = new HashMap<String, History>();
 
         userList = UserList.getInstance();
@@ -129,17 +128,20 @@ public class Task {
 
     public boolean addReplyComment(User moreUser, String moreComment, User originalUser, String originalComment) {
         for (Comment commentToFind : taskComments) {
-            if (findComment(originalComment).equals(commentToFind)) {
-                Comment newComment = new Comment(moreComment, moreUser.getUserUUID());
-                if (newComment == null)
-                    return false;
-                commentToFind.getMoreComments().add(newComment);
-                LocalDate now = LocalDate.now();
-                String date = formatter.format(now);
-                History addUserHistory = new History(moreUser.getUserUUID(), date,
-                        moreUser.getUsername() + " added a comment to " + originalUser.getUsername() + "'s comment");
-                taskHistory.put(date, addUserHistory);
-                return true;
+            if (findComment(originalComment) != null) {
+                if (findComment(originalComment).getComment().equals(originalComment)) {
+                    Comment newComment = new Comment(moreComment, moreUser.getUserUUID());
+                    if (newComment == null)
+                        return false;
+                    commentToFind.getMoreComments().add(newComment);
+                    LocalDate now = LocalDate.now();
+                    String date = formatter.format(now);
+                    History addUserHistory = new History(moreUser.getUserUUID(), date,
+                            moreUser.getUsername() + " added a comment to " + originalUser.getUsername()
+                                    + "'s comment");
+                    taskHistory.put(date, addUserHistory);
+                    return true;
+                }
             }
         }
         return false;

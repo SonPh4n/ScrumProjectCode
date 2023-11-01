@@ -57,7 +57,7 @@ public class DataConstants {
      * task data constants
      */
     protected static final String TASK_FILE_NAME = ".\\.lib\\json\\task.json"; // Included file path for task.json
-                                                                               // @kuriakm
+    // @kuriakm
     protected static final String TASK_PROJECT_ID = "project-id";
     protected static final String TASK_COLUMN_ID = "column-id";
     protected static final String TASK_ = "task";
