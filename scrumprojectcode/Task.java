@@ -5,29 +5,30 @@ package scrumprojectcode;
  */
 
 import java.time.LocalDate;
-import java.time.LocalDateTime; 
-import java.time.format.DateTimeFormatter; 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-
 /**
- * The Task class represents a task in a project management system. 
- * It contains information about the task such as its 
- * name, description, type, comments, assigned users, history, creation date, due date, and UUID. 
- * It also provides methods to add comments and reply to comments, 
- * find a specific comment, and generate a UUID for the task. 
- * The class overrides the toString() method to provide a string representation of the task.
+ * The Task class represents a task in a project management system.
+ * It contains information about the task such as its
+ * name, description, type, comments, assigned users, history, creation date,
+ * due date, and UUID.
+ * It also provides methods to add comments and reply to comments,
+ * find a specific comment, and generate a UUID for the task.
+ * The class overrides the toString() method to provide a string representation
+ * of the task.
  */
 public class Task {
     private String taskName;
     private String taskDescription;
     private String taskType;
     private ArrayList<Comment> taskComments;
-    private ArrayList<UUID> assignedUsers; 
+    private ArrayList<UUID> assignedUsers;
     private HashMap<String, History> taskHistory;
-    private String creationDate; 
+    private String creationDate;
     private String taskDueDate;
     private UUID taskUUID;
     private UUID projectUUID;
@@ -80,7 +81,7 @@ public class Task {
      */
     public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc, String taskType,
             ArrayList<UUID> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
-            String taskDueDate, String taskCreationDate) { 
+            String taskDueDate, String taskCreationDate) {
         this.taskUUID = taskID;
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
@@ -101,7 +102,8 @@ public class Task {
      */
     private UUID generateUUID() {
         return UUID.randomUUID();
-    
+    }
+
     /**
      * Adds a comment to the task.
      *
