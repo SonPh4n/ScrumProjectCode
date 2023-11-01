@@ -8,9 +8,8 @@ import java.util.Map;
  * Represents a leaderboard that displays user scores for a scrum project.
  */
 public class Leaderboard {
-    // Attributes
-    private ArrayList<User> usersLeaderboard;  // Stores the list of users in the leaderboard
-    private Map<User, Integer> userScores;     // Stores user scores
+    private ArrayList<User> usersLeaderboard;  
+    private Map<User, Integer> userScores;    
 
     /**
      * Constructor to create a Leaderboard object.
@@ -48,6 +47,13 @@ public class Leaderboard {
         }
     }
 
+    /**
+     * Adds the given task points to the user's score in the leaderboard.
+     * If the user is not found in the leaderboard, prints an error message.
+     * 
+     * @param user the user whose score is to be updated
+     * @param taskPoints the points to be added to the user's score
+     */
     public void completeTask(User user, int taskPoints) {
         if (userScores.containsKey(user)) {
             int currentScore = userScores.get(user);

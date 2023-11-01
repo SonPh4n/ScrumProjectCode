@@ -103,8 +103,7 @@ public class Column {
         return this.columnTasks;
     }
 
-    public ArrayList<Task> uuidToTasks() { // I decided to include a method that converts the UUID values in columnTasks
-                                           // to Task objects
+    public ArrayList<Task> uuidToTasks() { 
         ArrayList<Task> uuidToColumnTask = new ArrayList<>();
         for (UUID uuid : columnTasks)
             uuidToColumnTask.add(findTask(uuid));

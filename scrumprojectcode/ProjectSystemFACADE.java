@@ -1,5 +1,11 @@
 package scrumprojectcode;
 
+/**
+ * This class serves as the facade for the project management system. It provides methods for user management, project management, and task management. It also implements the Singleton design pattern to ensure that only one instance of the class is created. 
+ * 
+ * @version 1.0
+ * @since 2021-10-18
+ */
 public class ProjectSystemFACADE {
     private static ProjectSystemFACADE facade; // Singleton instance
     private static UserList userList = UserList.getInstance();
@@ -77,8 +83,6 @@ public class ProjectSystemFACADE {
             String phoneNumber, String type) {
         return currentUser.facadeRegister(firstName, lastName, username, password, email, phoneNumber, type);
     }
-
-    // getter for currentUser
     public User getCurrentUser() {
         return currentUser;
     }

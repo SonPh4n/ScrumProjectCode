@@ -10,8 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-//TODO: make DataLoader singleton
-
 /**
  * @author jedalto
  * @author kuriakm
@@ -25,21 +23,15 @@ public class DataLoader extends DataConstants {
 
     private static DataLoader dataLoader;
 
-    public static DataLoader getInstance() { // why is there a constructor?
+    public static DataLoader getInstance() { 
         if (dataLoader == null)
             dataLoader = new DataLoader();
         return dataLoader;
     }
 
-    /*
-     * public static void main(String[] args) {
-     * DataLoader dl = DataLoader.getInstance();
-     * dl.tasks = loadTasks();
-     * dl.users = loadUsers();
-     * dl.projects = loadProjects();
-     * }
+    /**
+     * loads all data from json files
      */
-
     public DataLoader() {
         tasks = new ArrayList<>();
         users = new ArrayList<>();
@@ -143,8 +135,7 @@ public class DataLoader extends DataConstants {
      * 
      * @return returns an arraylist of user objects
      */
-    public static ArrayList<User> loadUsers() { // Modified loadUsers() to convert Objects directly from user.json and
-                                                // read UUID arrays for my-projects and my-tasks @kuriakm
+    public static ArrayList<User> loadUsers() {
         ArrayList<User> users = new ArrayList<User>();
         try {
             FileReader reader = new FileReader(USER_FILE_NAME);

@@ -21,16 +21,6 @@ public class DataWriter extends DataConstants {
     private boolean saveUsers;
     private boolean saveProjects;
 
-    /*
-     * public static void main(String[] args) {
-     * DataLoader dataLoader = DataLoader.getInstance();
-     * User user1 = new User("test", "user1", "username1", "password1", "email1",
-     * "number1", "user");
-     * ArrayList<User> testusers = new ArrayList();
-     * testusers.add(user1);
-     * saveUsers(testusers);
-     * }
-     */
     // Constructor
     public DataWriter(boolean saveTasks, boolean saveUsers, boolean saveProjects) {
         this.saveTasks = saveTasks;
@@ -71,7 +61,7 @@ public class DataWriter extends DataConstants {
          * }
          */
 
-        for (Task task : tasks) { // more efficient i think
+        for (Task task : tasks) { 
             jsonTasks.add(getTaskJSON(task));
         }
 

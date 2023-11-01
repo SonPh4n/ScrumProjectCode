@@ -12,6 +12,12 @@ public class History {
     private UUID historyUUID;
     private static UserList userList = UserList.getInstance(); // TODO update UML
 
+    /**
+     * Constructs a new History object with the given user ID, date, and details.
+     * @param userID the UUID of the user associated with this history
+     * @param date the date of this history entry
+     * @param details the details of this history entry
+     */
     public History(UUID userID, String date, String details) {
         setUser(userID);
         setDate(date);

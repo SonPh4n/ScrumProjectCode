@@ -1,26 +1,33 @@
 package scrumprojectcode;
+/*
+ * @kurikam
+ * @AidanH002
+ */
 
 import java.time.LocalDate;
-import java.time.LocalDateTime; // Handles creationDate attribute @kuriakm
-import java.time.format.DateTimeFormatter; // Formats creationDate to MM/dd/YYYY @kuriakm
+import java.time.LocalDateTime; 
+import java.time.format.DateTimeFormatter; 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-/**
- * Represents a task in a project management system.
- */
 
+/**
+ * The Task class represents a task in a project management system. 
+ * It contains information about the task such as its 
+ * name, description, type, comments, assigned users, history, creation date, due date, and UUID. 
+ * It also provides methods to add comments and reply to comments, 
+ * find a specific comment, and generate a UUID for the task. 
+ * The class overrides the toString() method to provide a string representation of the task.
+ */
 public class Task {
     private String taskName;
     private String taskDescription;
     private String taskType;
     private ArrayList<Comment> taskComments;
-    private ArrayList<UUID> assignedUsers; // Since we have UserList available in Task, I changed this to
-                                           // ArrayList<User> @kuriakm
+    private ArrayList<UUID> assignedUsers; 
     private HashMap<String, History> taskHistory;
-    private String creationDate; // Changed creationDate from Date to String to make it easier to load from file
-                                 // @kuriakm
+    private String creationDate; 
     private String taskDueDate;
     private UUID taskUUID;
     private UUID projectUUID;
@@ -43,10 +50,9 @@ public class Task {
         this.taskType = taskType;
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
-        this.assignedUsers.add(userUUID); // Adds first User that created
+        this.assignedUsers.add(userUUID);
         this.taskHistory = new HashMap<String, History>();
 
-        // Adds "User created ..." to taskHistory
         LocalDateTime now = LocalDateTime.now();
         String creationDate = formatter.format(now);
         String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
@@ -74,7 +80,7 @@ public class Task {
      */
     public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc, String taskType,
             ArrayList<UUID> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
-            String taskDueDate, String taskCreationDate) { // TODO: update Task constructor
+            String taskDueDate, String taskCreationDate) { 
         this.taskUUID = taskID;
         this.taskName = taskTitle;
         this.taskDescription = taskDesc;
@@ -94,24 +100,8 @@ public class Task {
      * @return The generated UUID for the task.
      */
     private UUID generateUUID() {
-        // Implementation to generate UUID
         return UUID.randomUUID();
-    }
-
-    /**
-     * Moves the task to a different column.
-     *
-     * @param taskName   The name of the task.
-     * @param columnName The name of the target column.
-     * @return True if the task was successfully moved, false otherwise.
-     */
-    /*
-     * public boolean moveTask(String taskName, String columnName) {
-     * // Implementation for moving the task to a different column
-     * return false;
-     * }
-     */
-
+    
     /**
      * Adds a comment to the task.
      *
@@ -152,8 +142,7 @@ public class Task {
         return false;
     }
 
-    public Comment findComment(String comment) { // Add functionality to add a comment to a comment to
-                                                 // a comment ... @kuriakm
+    public Comment findComment(String comment) {
         for (Comment findComment : taskComments) {
             if (findComment.getComment().equals(comment))
                 return findComment;
@@ -180,7 +169,6 @@ public class Task {
                 + "[Task Comments]: \n" + commentsToString;
     }
 
-    // getters and setters for all attributes
     public String getTaskName() {
         return taskName;
     }
@@ -280,8 +268,6 @@ public class Task {
 
     public boolean addUser(User user) {
         this.assignedUsers.add(user.getUserUUID());
-        // Create History object with the description "(username) was added to (task
-        // name)" and adds it to taskHistory
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
         History addUserHistory = new History(user.getUserUUID(), date,
@@ -294,8 +280,6 @@ public class Task {
         if (user == null)
             return false;
         this.assignedUsers.remove(user.getUserUUID());
-        // Create History object with the description "(username) was removed from (task
-        // name)" and adds it to taskHistory
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
         History addUserHistory = new History(user.getUserUUID(), date,
@@ -308,8 +292,6 @@ public class Task {
         return printComments();
     }
 
-    // Temporarily using System.out.println() to test if comments are being added
-    // correctly from DataLoader @kuriakm
     public boolean printComments() {
         if (taskComments.isEmpty() || taskComments == null)
             return false;

@@ -85,6 +85,11 @@ public class Project {
         return this.listOfColumns;
     }
 
+    /**
+     * Returns an ArrayList of User objects that are assigned to this project.
+     *
+     * @return ArrayList of User objects assigned to this project.
+     */
     public ArrayList<User> getAssignedUsers() {
         ArrayList<User> usersFromUUID = new ArrayList<>();
         for (UUID userUUID : assignedUsers) {
@@ -144,6 +149,14 @@ public class Project {
         return moveTask(sourceColumn, targetColumn, taskName);
     }
 
+    /**
+     * Moves a task from one column to another.
+     * 
+     * @param sourceColumn the name of the column the task is currently in
+     * @param targetColumn the name of the column to move the task to
+     * @param taskName the name of the task to move
+     * @return true if the task was successfully moved, false otherwise
+     */
     private boolean moveTask(String sourceColumn, String targetColumn, String taskName) {
         Column oldColumn = findColumn(sourceColumn);
         Column newColumn = findColumn(targetColumn);
@@ -157,7 +170,7 @@ public class Project {
         return true;
     }
 
-    public Column findColumn(String columnName) { // can this be public
+    public Column findColumn(String columnName) { 
         for (Column column : listOfColumns) {
             if (column.getColumnName().equals(columnName)) {
                 return column;

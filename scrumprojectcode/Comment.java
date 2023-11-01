@@ -11,26 +11,9 @@ public class Comment {
     // Attributes
     private String comment; // Stores the comment text
     private UUID user; // Represents the user associated with the comment
-    // Was unable to use User object when loading from task.json so I changed it
-    // to UUID @kuriakm
     private ArrayList<Comment> moreComments; // Stores Array of comments
     private UUID commentUUID; // Provides a unique identifier for the comment
     private static UserList userList = UserList.getInstance();
-
-    /**
-     * Debugger method, remove in final submission
-     */
-    /*
-     * public Comment(User user) {
-     * this.comment = "Test comment";
-     * this.user = userList.findUser(user.getUserUUID());
-     * this.commentUUID = generateUUID();
-     * this.moreComments = new ArrayList<>();
-     * Comment testMoreComments = new Comment("Test more comments", user);
-     * testMoreComments.moreComments.add(testMoreComments);
-     * moreComments.add(testMoreComments);
-     * }
-     */
 
     /**
      * Constructor to create a Comment object.
@@ -39,11 +22,10 @@ public class Comment {
      * @param user    The user associated with the comment.
      */
     public Comment(String comment, UUID user) {
-        // Constructor logic
         setComment(comment);
         setUser(user);
-        generateUUID(); // Generate a unique UUID for the comment
-        this.moreComments = new ArrayList<>(); // Initialize the list for additional comments
+        generateUUID(); 
+        this.moreComments = new ArrayList<>();
     }
 
     /**
