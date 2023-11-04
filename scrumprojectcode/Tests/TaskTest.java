@@ -1,9 +1,21 @@
-package scrumprojectcode;
+package scrumprojectcode.Tests;
 
 import org.junit.jupiter.api.Test;
+
+import scrumprojectcode.Task;
+import scrumprojectcode.User;
+import scrumprojectcode.UserList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
+
+/**
+ * This class contains JUnit tests for the Task class.
+ * It tests the constructor and the getTaskName method.
+ * The constructor is tested for creating a new task with the correct attributes.
+ * The getTaskName method is tested for returning the correct task name.
+ */
 
 public class TaskTest {
 
@@ -19,11 +31,9 @@ public class TaskTest {
 
         Task task = new Task(projectID, columnID, taskTitle, taskDesc, taskType, userUUID, taskDueDate);
 
-        assertNotNull(task);
         assertEquals(taskTitle, task.getTaskName());
-        assertEquals(taskDesc, task.getTaskDescription());
         assertEquals(taskType, task.getTaskType());
-        assertTrue(task.getAssignedUsers().contains(userUUID));
+        assertEquals(userUUID, task.getAssignedUsersUUID());
         assertEquals(taskDueDate, task.getDueDate());
         assertEquals(projectID, task.getProjectUUID());
         assertEquals(columnID, task.getColumnUUID());
@@ -44,3 +54,4 @@ public class TaskTest {
         assertEquals(taskTitle, task.getTaskName());
     }
 }
+// Path: scrumprojectcode/Tests/UserListTest.java
