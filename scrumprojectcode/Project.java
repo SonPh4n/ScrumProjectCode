@@ -63,7 +63,7 @@ public class Project {
      * 
      * @return UUID value that is set as the project's unique identifier
      */
-    private UUID generateUUID() {
+    public UUID generateUUID() {
         return UUID.randomUUID();
     }
 
