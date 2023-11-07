@@ -3,7 +3,8 @@
         "include": [
             "lib/**/*.jar",
             ".lib/json-simple-1.1.1.jar",
-            ".lib/test-lib/junit-platform-console-standalone-1.10.0.jar"
+            ".lib/test-lib/junit-platform-console-standalone-1.10.0.jar",
+            "/Volumes/SSD/VSCode 247/ScrumProjectCode/**/*.jar"
         ],
         "exclude": [
             "lib/json-simple-1.1.1.jar"
