@@ -2,6 +2,7 @@ package scrumprojectcode;
 
 //import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -19,9 +20,14 @@ public class User {
     public boolean loggedIn;
     private String type;
     private UUID userUUID;
-    private static UserList userList = UserList.getInstance();
-    private static ProjectList projectList = ProjectList.getInstance();
-    private static TaskList taskList = TaskList.getInstance();
+    private ArrayList<User> userList = DataLoader.loadUsers(); // Temp attributes to bypass list classes @kuriakm
+    private static ArrayList<Project> projectList = DataLoader.loadProjects();
+    private static ArrayList<Task> taskList = DataLoader.loadTasks();
+
+    // TODO: Reimplement attributes after testing @kuriakm
+    // private static UserList userList = UserList.getInstance();
+    // private static ProjectList projectList = ProjectList.getInstance();
+    // private static TaskList taskList = TaskList.getInstance();
 
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
@@ -163,10 +169,10 @@ public class User {
     // a new UUID and set their info
     private boolean register(String firstName, String lastName, String username, String password, String email,
             String phoneNumber, String type) {
-        if (userList.findUser(username, password) == null) {
+        if (findUser(username, password) == null) {
             User newUser = new User(firstName, lastName, username, password, email, phoneNumber, type);
-            userList.getListOfUsers().add(newUser);
-            userList.saveUsers();
+            userList.add(newUser);
+            DataWriter.saveUsers(userList);
             return true;
         }
         return false;
@@ -191,8 +197,8 @@ public class User {
     private boolean addProject(String projectName) {
         if (findProject(projectName) == null) {
             Project newProject = new Project(projectName);
-            projectList.getListOfProjects().add(newProject);
-            projectList.saveProjects();
+            projectList.add(newProject);
+            DataWriter.saveProjects(projectList);
             return true;
         }
         return false;
@@ -206,15 +212,46 @@ public class User {
         if (findProject(projectName) == null) {
             return false;
         }
-        projectList.getListOfProjects().remove(findProject(projectName));
+        projectList.remove(findProject(projectName));
+        DataWriter.saveProjects(projectList);
         return true;
     }
 
     public Project findProject(String projectName) { // TODO: is it ok to keep this public?
-        projectList = ProjectList.getInstance();
-        for (Project project : projectList.getListOfProjects()) {
+        projectList = DataLoader.loadProjects();
+        for (Project project : projectList) {
             if (project.getProjectName().equals(projectName)) {
                 return project;
+            }
+        }
+        return null;
+    }
+
+    public Task findTask(String taskName) { // TODO: is it ok to keep this public?
+        taskList = DataLoader.loadTasks();
+        for (Task task : taskList) {
+            if (task.getTaskName().equals(taskName)) {
+                return task;
+            }
+        }
+        return null;
+    }
+
+    public User findUser(String username) { // TODO: is it ok to keep this public?
+        userList = DataLoader.loadUsers();
+        for (User user : userList) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User findUser(String username, String password) { // TODO: is it ok to keep this public?
+        userList = DataLoader.loadUsers();
+        for (User user : userList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
             }
         }
         return null;
@@ -229,16 +266,16 @@ public class User {
     }
 
     public boolean addUserToTask(String username, String taskName) {
-        Task task = taskList.findTask(taskName);
-        User user = userList.findUser(username);
+        Task task = findTask(taskName);
+        User user = findUser(username);
         if (user == null || task == null)
             return false;
         return task.addUser(user);
     }
 
     public boolean removeUserFromTask(String username, String taskName) {
-        Task task = taskList.findTask(taskName);
-        User user = userList.findUser(username);
+        Task task = findTask(taskName);
+        User user = findUser(username);
         if (user == null || task == null)
             return false;
         return task.removeUser(user);
@@ -253,16 +290,16 @@ public class User {
     }
 
     public boolean addUserToProject(String username, String projectName) {
-        Project project = projectList.findProject(projectName);
-        User user = userList.findUser(username);
+        Project project = findProject(projectName);
+        User user = findUser(username);
         if (user == null || project == null)
             return false;
         return project.addUser(user);
     }
 
     public boolean removeUserFromProject(String username, String projectName) {
-        Project project = projectList.findProject(projectName);
-        User user = userList.findUser(username);
+        Project project = findProject(projectName);
+        User user = findUser(username);
         if (user == null || project == null)
             return false;
         return project.removeUser(user);
@@ -274,10 +311,10 @@ public class User {
     }
 
     public boolean addComment(String username, String taskName, String comment) {
-        userList = UserList.getInstance();
-        taskList = TaskList.getInstance();
-        User user = userList.findUser(username);
-        Task task = taskList.findTask(taskName);
+        userList = DataLoader.loadUsers();
+        taskList = DataLoader.loadTasks();
+        User user = findUser(username);
+        Task task = findTask(taskName);
         if (user == null || task == null)
             return false;
         return task.addComment(user, comment);
@@ -290,11 +327,11 @@ public class User {
 
     public boolean addReplyComment(String username, String taskName, String comment, String originalUsername,
             String originalComment) {
-        userList = UserList.getInstance();
-        taskList = TaskList.getInstance();
-        User replyUser = userList.findUser(username);
-        Task task = taskList.findTask(taskName);
-        User originalUser = userList.findUser(originalUsername);
+        userList = DataLoader.loadUsers();
+        taskList = DataLoader.loadTasks();
+        User replyUser = findUser(username);
+        Task task = findTask(taskName);
+        User originalUser = findUser(originalUsername);
         if (replyUser == null || task == null || originalUser == null)
             return false;
         return task.addReplyComment(replyUser, comment, originalUser, originalComment);

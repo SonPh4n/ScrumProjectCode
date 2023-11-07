@@ -1,16 +1,20 @@
 package scrumprojectcode;
 
+import java.util.ArrayList; // Remove after testing @kuriakm
+import java.util.UUID;
+
 /**
  * Represents the history of a task in a scrum project.
  */
-import java.util.UUID;
-
 public class History {
     private UUID user;
     private String details;
     private String date;
     private UUID historyUUID;
-    private static UserList userList = UserList.getInstance(); // TODO update UML
+    private ArrayList<User> userList = DataLoader.loadUsers(); // Temp attribute to bypass list classes @kuriakm
+
+    // TODO: Reimplement attribute after testing @kuriakm
+    // private static UserList userList = UserList.getInstance();
 
     /**
      * Constructs a new History object with the given user ID, date, and details.
@@ -37,7 +41,7 @@ public class History {
     }
 
     public User getUser() {
-        return userList.findUser(this.user);
+        return findUser(this.user);
     }
 
     public UUID getUserUUID() {
@@ -72,9 +76,33 @@ public class History {
         this.historyUUID = historyUUID;
     }
 
+    // TODO: Modify method after testing @kuriakm
+    public User findUser(UUID userUUID) {
+        userList = DataLoader.loadUsers();
+        for (User user : userList) {
+            if (user.getUserUUID().equals(userUUID)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // TODO: Remove method after testing @kuriakm
+    public void setUserList(ArrayList<User> userList) {
+        if (userList.isEmpty() || userList == null)
+            return;
+        else
+            this.userList = userList;
+    }
+
+    // TODO: Remove method after testing @kuriakm
+    public ArrayList<User> getUserList() {
+        return userList;
+    }
+
     public String toString() {
         return "[Task History]: \n" +
-                "[User]: " + userList.findUser(user).getUsername() + "\n" +
+                "[User]: " + findUser(user).getUsername() + "\n" +
                 "[History Details]: " + details + "\n" +
                 "[Recorded Date]: " + date + "\n";
     }
