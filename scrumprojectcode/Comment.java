@@ -13,10 +13,7 @@ public class Comment {
     private UUID user; // Represents the user associated with the comment
     private ArrayList<Comment> moreComments; // Stores Array of comments
     private UUID commentUUID; // Provides a unique identifier for the comment
-    private ArrayList<User> userList = DataLoader.loadUsers(); // Temp attribute to bypass list classes @kuriakm
-
-    // TODO: Reimplement attribute after testing @kuriakm
-    // private static UserList userList = UserList.getInstance();
+    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor to create a Comment object.
@@ -75,7 +72,7 @@ public class Comment {
     }
 
     public User getUser() {
-        return findUser(this.user);
+        return userList.findUser(this.user);
     }
 
     public UUID getUserUUID() {
@@ -102,29 +99,6 @@ public class Comment {
         this.commentUUID = commentUUID;
     }
 
-    // TODO: Modify method after testing @kuriakm
-    public User findUser(UUID userUUID) {
-        for (User user : userList) {
-            if (user.getUserUUID().equals(userUUID)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    // TODO: Remove method after testing @kuriakm
-    public void setUserList(ArrayList<User> userList) {
-        if (userList.isEmpty() || userList == null)
-            return;
-        else
-            this.userList = userList;
-    }
-
-    // TODO: Remove method after testing @kuriakm
-    public ArrayList<User> getUserList() {
-        return userList;
-    }
-
     /**
      * Returns a string representation of the Comment object.
      *
@@ -132,6 +106,7 @@ public class Comment {
      */
     @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
+        userList = UserList.getInstance();
         if (this.comment == null)
             return "No comments for this task";
         String commentsToString = "";
@@ -139,7 +114,7 @@ public class Comment {
             commentsToString = printMoreComments(commentsToString, comment);
         }
         return "[Comment]: " + comment + "\n"
-                + "[User]: " + findUser(this.user).getUsername() + "\n" + commentsToString; // TODO: Use
+                + "[User]: " + userList.findUser(this.user).getUsername() + "\n" + commentsToString; // TODO: Use
                                                                                                      // UserList to
                                                                                                      // access username
                                                                                                      // instead of
@@ -150,7 +125,7 @@ public class Comment {
         int commentIterator = 0;
         moreCommentsToString = moreCommentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
                 + moreComment.getComment() + "\n"
-                + "\t[User]: " + findUser(moreComment.getUserUUID()).getUsername();
+                + "\t[User]: " + userList.findUser(moreComment.getUserUUID()).getUsername();
         commentIterator++;
         for (Comment comment : moreComment.moreComments)
             moreCommentsToString = moreCommentsToString + printMoreComments(moreCommentsToString, comment);

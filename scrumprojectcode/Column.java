@@ -9,10 +9,7 @@ public class Column {
                                         // from column.json @kuriakm
     private UUID columnUUID;
     private UUID projectUUID;
-    private ArrayList<Task> taskList = DataLoader.loadTasks(); // Temp attribute to bypass list classes @kuriakm
-    
-    // TODO: Reimplement attribute after testing @kuriakm
-    // private static TaskList taskList = TaskList.getInstance();
+    private static TaskList taskList = TaskList.getInstance();
 
     /**
      * Constructor method for a new Column() which initializes the Column attributes
@@ -65,17 +62,12 @@ public class Column {
      */
     private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
             String taskType, String dueDate) {
-        if (/* taskList.findTask(taskName) != null */ taskName == null)
+        if (taskList.findTask(taskName) != null)
             return false;
         Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, userUUID, dueDate);
         columnTasks.add(newTask.getTaskUUID());
-
-        // Temp code to bypass TaskList class @kuriakm
-        taskList.add(newTask);
-        DataWriter.saveTasks(taskList);
-
-        //taskList.getListOfTasks().add(newTask);
-        //taskList.saveTasks();
+        taskList.getListOfTasks().add(newTask);
+        taskList.saveTasks();
         return true;
     }
 
@@ -94,11 +86,8 @@ public class Column {
             return false;
         }
         Task task = findTask(taskName);
+        taskList.getListOfTasks().remove(task);
         columnTasks.remove(task.getTaskUUID());
-        // taskList.getListOfTasks().remove(task);
-        // Temp code to bypass TaskList class @kuriakm
-        taskList.remove(task);
-        DataWriter.saveTasks(taskList);
         return true;
     }
 
@@ -141,8 +130,6 @@ public class Column {
         this.projectUUID = projectUUID;
     }
 
-    //TODO: Reimplement these functions after testing @kuriakm
-    /* 
     public Task findTask(String taskName) {
         for (Task task : taskList.getListOfTasks()) {
             if (task.getTaskName().equals(taskName)) {
@@ -154,39 +141,6 @@ public class Column {
 
     public Task findTask(UUID taskUUID) {
         return taskList.findTask(taskUUID);
-    } */
-
-    //TODO: Modify method after testing @kuriakm
-    public Task findTask(UUID taskUUID) {
-        for (Task task : taskList) {
-            if (task.getTaskUUID().equals(taskUUID)) {
-                return task;
-            }
-        }
-        return null;
-    }
-
-    //TODO: Modify method after testing @kuriakm
-    public Task findTask(String taskName) {
-        for (Task task : taskList) {
-            if (task.getTaskName().equals(taskName)) {
-                return task;
-            }
-        }
-        return null;
-    }
-
-    //TODO: Remove method after testing @kuriakm
-    public void setTaskList(ArrayList<Task> taskList) {
-        if (taskList.isEmpty() || taskList == null)
-            return;
-        else
-            this.taskList = taskList;
-    }
-
-    //TODO: Remove method after testing @kuriakm
-    public ArrayList<Task> getTaskList() {
-        return taskList;
     }
 
     public String toString() {

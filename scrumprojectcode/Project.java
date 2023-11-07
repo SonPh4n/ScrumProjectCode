@@ -14,10 +14,7 @@ public class Project {
     public ArrayList<Column> listOfColumns;
     public ArrayList<UUID> assignedUsers;
     private UUID projectUUID;
-    private ArrayList<User> userList = DataLoader.loadUsers(); // Temp attribute to bypass list classes @kuriakm
-
-    // TODO: Reimplement attribute after testing @kuriakm 
-    // private static UserList userList = UserList.getInstance();
+    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor method for a new Project that initializes the project attributes
@@ -96,7 +93,7 @@ public class Project {
     public ArrayList<User> getAssignedUsers() {
         ArrayList<User> usersFromUUID = new ArrayList<>();
         for (UUID userUUID : assignedUsers) {
-            User assignedUser = findUser(userUUID);
+            User assignedUser = userList.findUser(userUUID);
             usersFromUUID.add(assignedUser);
         }
         return usersFromUUID;
@@ -225,28 +222,5 @@ public class Project {
             return false;
         this.assignedUsers.remove(user.getUserUUID());
         return true;
-    }
-
-    // TODO: Modify method after testing @kuriakm
-    public User findUser(UUID userUUID) {
-        for (User user : userList) {
-            if (user.getUserUUID().equals(userUUID)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    // TODO: Remove method after testing @kuriakm
-    public void setUserList(ArrayList<User> userList) {
-        if (userList.isEmpty() || userList == null)
-            return;
-        else
-            this.userList = userList;
-    }
-
-    // TODO: Remove method after testing @kuriakm
-    public ArrayList<User> getUserList() {
-        return userList;
     }
 }
