@@ -34,8 +34,10 @@ public class Task {
     private UUID projectUUID;
     private UUID columnUUID;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
-    private static UserList userList = UserList.getInstance();
+    private ArrayList<User> userList = DataLoader.loadUsers(); // Temp attribute to bypass list classes @kuriakm
 
+    // TODO: Reimplement attribute after testing @kuriakm
+    // private static UserList userList = UserList.getInstance();
     /**
      * Constructor for Task class.
      *
@@ -54,10 +56,9 @@ public class Task {
         this.assignedUsers.add(userUUID);
         this.taskHistory = new HashMap<String, History>();
 
-        userList = UserList.getInstance();
         LocalDateTime now = LocalDateTime.now();
         String creationDate = formatter.format(now);
-        String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
+        String historyDetails = findUser(userUUID).getUsername() + " created " + taskName;
         taskHistory.put(creationDate, new History(userUUID, creationDate, historyDetails));
 
         this.creationDate = creationDate;
@@ -207,7 +208,7 @@ public class Task {
     public ArrayList<User> getAssignedUsers() {
         ArrayList<User> users = new ArrayList<>();
         for (UUID userUUID : assignedUsers) {
-            User uuidToUser = userList.findUser(userUUID);
+            User uuidToUser = findUser(userUUID);
             users.add(uuidToUser);
         }
         return users;
@@ -267,6 +268,30 @@ public class Task {
 
     public void setTaskUUID(UUID taskID) {
         this.taskUUID = taskID;
+    }
+
+    // TODO: Modify method after testing @kuriakm
+    public User findUser(UUID userUUID) {
+        userList = DataLoader.loadUsers();
+        for (User user : userList) {
+            if (user.getUserUUID().equals(userUUID)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // TODO: Remove method after testing @kuriakm
+    public void setUserList(ArrayList<User> userList) {
+        if (userList.isEmpty() || userList == null)
+            return;
+        else
+            this.userList = userList;
+    }
+
+    // TODO: Remove method after testing @kuriakm
+    public ArrayList<User> getUserList() {
+        return userList;
     }
 
     public boolean addUser(User user) {
