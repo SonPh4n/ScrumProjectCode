@@ -5,7 +5,6 @@ package scrumprojectcode;
  */
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class Task {
         this.taskHistory = new HashMap<String, History>();
 
         userList = UserList.getInstance();
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         String creationDate = formatter.format(now);
         String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
         taskHistory.put(creationDate, new History(userUUID, creationDate, historyDetails));
