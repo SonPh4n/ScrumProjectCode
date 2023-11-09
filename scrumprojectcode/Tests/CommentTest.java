@@ -10,12 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains JUnit tests for the Comment class.
- * It tests the constructor, setters, getters, and toString methods of the Comment class.
- * The tests include checking if the comment and user UUID are set correctly, 
- * if the comment can be set to null, if the user UUID can be set to null, 
- * if the comment can be updated, if the user UUID can be updated, 
- * if more comments can be added, if the comment UUID can be set, 
- * if the toString method returns the expected string, 
+ * It tests the constructor, setters, getters, and toString methods of the
+ * Comment class.
+ * The tests include checking if the comment and user UUID are set correctly,
+ * if the comment can be set to null, if the user UUID can be set to null,
+ * if the comment can be updated, if the user UUID can be updated,
+ * if more comments can be added, if the comment UUID can be set,
+ * if the toString method returns the expected string,
  * and if the printMoreComments method returns the expected string.
  */
 class CommentTest {
