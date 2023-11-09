@@ -73,6 +73,7 @@ public class DataWriter extends DataConstants {
      * getCommentJSON(Comment comment);
      * 
      * @param task
+     * 
      * @return
      */
     public static JSONObject getTaskJSON(Task task) {
@@ -112,6 +113,7 @@ public class DataWriter extends DataConstants {
      * Converts a Comment object to JSON object
      * 
      * @param comment
+     * 
      * @return a JSON object representation of a comment
      */
     public static JSONObject getCommentJSON(Comment comment) {
@@ -186,6 +188,7 @@ public class DataWriter extends DataConstants {
      * JSONObject method that takes in a User and adds its attributes to JSONObject
      * 
      * @param user User to be converted into a JSONObject
+     * 
      * @return JSONObject to be added to JSONArray
      */
     public static JSONObject getUserJSON(User user) {
@@ -244,6 +247,7 @@ public class DataWriter extends DataConstants {
      * JSONObject
      * 
      * @param project Project to be converted into a JSONObject
+     * 
      * @return JSONObject to be added to JSONArray
      */
     public static JSONObject getProjectJSON(Project project) {

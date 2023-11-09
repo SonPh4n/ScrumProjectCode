@@ -101,13 +101,14 @@ public class UI {
         System.out.println("Johanna Cole is now logged in.");
 
         // comments on a pre-existing task
-        /*
+        /**
          * if (!facade.addComment("Good work", "new project", "new column", "new task"))
          * {
          * System.out.println("Sorry we could not add your comment.");
          * } else {
          * System.out.
-         * println("'good work' was was commented on new task in new column in new project."
+         * println("'good work' was was commented on new task in new column in new
+         * project."
          * );
          * }
          */

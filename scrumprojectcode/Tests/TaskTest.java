@@ -13,7 +13,8 @@ import java.util.UUID;
 /**
  * This class contains JUnit tests for the Task class.
  * It tests the constructor and the getTaskName method.
- * The constructor is tested for creating a new task with the correct attributes.
+ * The constructor is tested for creating a new task with the correct
+ * attributes.
  * The getTaskName method is tested for returning the correct task name.
  */
 
