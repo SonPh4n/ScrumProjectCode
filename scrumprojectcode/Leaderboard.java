@@ -26,6 +26,8 @@ public class Leaderboard {
         }
     }
 
+    // Added setters and getters for attributes to make testing easier @kuriakm
+
     public ArrayList<User> getUsersLeaderboard() {
         return usersLeaderboard;
     }
@@ -48,6 +50,10 @@ public class Leaderboard {
      * Implement logic to retrieve user scores and display or process them.
      * This method should be used to obtain and handle user scores.
      */
+
+    // Modified set/getUserScores to be setScores and printScores respectively to
+    // properly access Map<User, Integer> userScores in testing @kuriakm
+
     public void setScores(User user, int score) {
         if (userScores.containsKey(user)) {
             userScores.put(user, score);
