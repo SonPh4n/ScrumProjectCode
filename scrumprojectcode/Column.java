@@ -60,7 +60,7 @@ public class Column {
      * 
      * @param task New project Task to be added to columnTasks
      */
-    public boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+    private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
             String taskType, String dueDate) {
         if (taskList.findTask(taskName) != null)
             return false;
