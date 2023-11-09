@@ -34,7 +34,7 @@ public class SprintTest {
     // Test Sprint(String startDate, String endDate, ArrayList<Task>
     // tasksToComplete)
 
-    Date startDate = 
+    //Date startDate = 
 
     // Test addNewTask(Task task): void
     // Test removeTask(Task task): void

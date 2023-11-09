@@ -1,3 +1,7 @@
+/**
+ * @author Jane Dalton
+ */
+
 package scrumprojectcode.Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
