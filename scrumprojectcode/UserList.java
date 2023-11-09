@@ -44,6 +44,7 @@ public class UserList {
      * finds user by uuid
      * 
      * @param uuid unique id for individual user
+     * 
      * @return true if user is found by uuid, false if not
      */
     public User findUser(UUID uuid) {

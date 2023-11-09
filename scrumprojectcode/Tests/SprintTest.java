@@ -15,17 +15,20 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This class holds the JUnit tests for Sprint.
+ * This class holds the JUnit tests for Leaderboard.
  * 
  * Methods tested:
  * Sprint(String startDate, String endDate, ArrayList<Task> tasksToComplete)
+ * - normal values
  * - null value(s)
- * - incorrect date(s) (format should be "MM/dd/YYYY")
+ * - incorrect date(s)
+ * - incorrect date format(s) (should be "MM/dd/YYYY")
  * addNewTask(Task task)
+ * - normal value
  * - null value
  * - duplicate Task
  * removeTask(Task task)
- * - null value
+ * - normal values
  * - task does not exist
  * toString()
  * 
@@ -68,7 +71,7 @@ public class SprintTest {
         assertArrayEquals(taskListToArray, sprint.getTasksToComplete().toArray(new Task[taskList.size()]));
     }
 
-    /*
+    /**
      * Test Sprint(String startDate, String endDate, ArrayList<Task>
      * tasksToComplete) with null date values
      * 
@@ -78,13 +81,15 @@ public class SprintTest {
     @Test
     void testConstructorWithNullDates() {
         Sprint nullStartDate = new Sprint(null, end, taskList);
+        assertNotNull(nullStartDate);
         assertEquals("N/A", nullStartDate.getStartDate());
 
         Sprint nullEndDate = new Sprint(start, null, taskList);
+        assertNotNull(nullEndDate);
         assertEquals("N/A", nullEndDate.getEndDate());
     }
 
-    /*
+    /**
      * Test Sprint(String startDate, String endDate, ArrayList<Task>
      * tasksToComplete) with incorrect date formats
      * 
@@ -95,13 +100,15 @@ public class SprintTest {
     void testConstructorWithIncorrectDateFormats() { // TODO: Add pre-check in Sprint to set incorrect dates to "N/A" or
                                                      // the correct format @kuriakm
         Sprint incorrectStartFormat = new Sprint("2023/11/09", end, taskList);
+        assertNotNull(incorrectStartFormat);
         assertEquals("N/A", incorrectStartFormat.getStartDate());
 
         Sprint incorrectEndFormat = new Sprint(start, "21/11/2023", taskList);
+        assertNotNull(incorrectEndFormat);
         assertEquals("N/A", incorrectEndFormat.getEndDate());
     }
 
-    /*
+    /**
      * Test Sprint(String startDate, String endDate, ArrayList<Task>
      * tasksToComplete) with incorrect dates
      * 
@@ -111,13 +118,15 @@ public class SprintTest {
     @Test
     void testConstructorWithIncorrectDates() { // TODO: Add pre-check in Sprint to set incorrect dates to "N/A" @kuriakm
         Sprint incorrectStartDate = new Sprint("11/42/2023", end, taskList);
+        assertNotNull(incorrectStartDate);
         assertEquals("N/A", incorrectStartDate.getStartDate());
 
         Sprint incorrectEndDate = new Sprint(start, "13/21/2023", taskList);
+        assertNotNull(incorrectEndDate);
         assertEquals("N/A", incorrectEndDate.getEndDate());
     }
 
-    /*
+    /**
      * Test Sprint(String startDate, String endDate, ArrayList<Task>
      * tasksToComplete) with null ArrayList<Task>
      * 
@@ -127,10 +136,11 @@ public class SprintTest {
     @Test
     void testConstructorWithNullTasksToComplete() {
         Sprint nullTasksToComplete = new Sprint(start, end, null);
+        assertNotNull(nullTasksToComplete);
         assertNotNull(nullTasksToComplete.getTasksToComplete());
     }
 
-    /*
+    /**
      * Test Sprint(String startDate, String endDate, ArrayList<Task>
      * tasksToComplete) with null Tasks in tasksToComplete
      * 
@@ -143,6 +153,7 @@ public class SprintTest {
         taskList.add(nullTask);
         taskList.add(nullTask);
         Sprint nullTasks = new Sprint(start, end, taskList);
+        assertNotNull(nullTasks);
 
         for (Task task : nullTasks.getTasksToComplete()) // TODO: Add pre-check in Sprint to remove null values in
                                                          // tasksToComplete @kuriakm

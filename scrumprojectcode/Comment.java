@@ -19,6 +19,7 @@ public class Comment {
      * Constructor to create a Comment object.
      *
      * @param comment The comment text.
+     * 
      * @param user    The user associated with the comment.
      */
     public Comment(String comment, UUID user) {

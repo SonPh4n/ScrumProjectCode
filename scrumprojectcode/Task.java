@@ -1,5 +1,6 @@
 package scrumprojectcode;
-/*
+
+/**
  * @kurikam
  * @AidanH002
  */
@@ -39,7 +40,9 @@ public class Task {
      * Constructor for Task class.
      *
      * @param taskName        The name of the task.
+     * 
      * @param taskDescription The description of the task.
+     * 
      * @param timeToComplete  The estimated time to complete the task.
      */
     public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc, String taskType,
@@ -69,14 +72,23 @@ public class Task {
      * creates a Task from DataLoader
      * 
      * @param projectID
+     * 
      * @param columnID
+     * 
      * @param taskID
+     * 
      * @param taskTitle
+     * 
      * @param taskDesc
+     * 
      * @param taskUsers
+     * 
      * @param taskHistory
+     * 
      * @param taskComments
+     * 
      * @param taskDueDate
+     * 
      * @param taskCreationDate
      */
     public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc, String taskType,
@@ -108,9 +120,13 @@ public class Task {
      * Adds a comment to the task.
      *
      * @param comment     The comment to be added.
+     * 
      * @param projectName The name of the project.
+     * 
      * @param columnName  The name of the column.
+     * 
      * @param taskName    The name of the task.
+     * 
      * @return True if the comment was successfully added, false otherwise.
      */
     public boolean addComment(User user, String comment) {

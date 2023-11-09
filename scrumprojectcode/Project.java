@@ -33,8 +33,10 @@ public class Project {
      * project attributes with the file contents
      * 
      * @param projectName   String name set by the user for the project
+     * 
      * @param listOfColumns ArrayList<Column> which holds Column() and Task()
      *                      objects for the project
+     * 
      * @param projectUUID   UUID generated when project was first created
      */
     public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns,
@@ -153,8 +155,11 @@ public class Project {
      * Moves a task from one column to another.
      * 
      * @param sourceColumn the name of the column the task is currently in
+     * 
      * @param targetColumn the name of the column to move the task to
-     * @param taskName the name of the task to move
+     * 
+     * @param taskName     the name of the task to move
+     * 
      * @return true if the task was successfully moved, false otherwise
      */
     private boolean moveTask(String sourceColumn, String targetColumn, String taskName) {
@@ -170,7 +175,7 @@ public class Project {
         return true;
     }
 
-    public Column findColumn(String columnName) { 
+    public Column findColumn(String columnName) {
         for (Column column : listOfColumns) {
             if (column.getColumnName().equals(columnName)) {
                 return column;

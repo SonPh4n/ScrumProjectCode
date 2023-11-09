@@ -16,7 +16,9 @@ public class Sprint {
      * of tasks to complete.
      *
      * @param startDate       the start date of the sprint
+     * 
      * @param endDate         the end date of the sprint
+     * 
      * @param tasksToComplete the list of tasks to complete in the sprint
      */
     public Sprint(String startDate, String endDate, ArrayList<Task> tasksToComplete) {
