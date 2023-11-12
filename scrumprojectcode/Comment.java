@@ -111,15 +111,18 @@ public class Comment {
         if (this.comment == null)
             return "No comments for this task";
         String commentsToString = "";
-        for (Comment comment : moreComments) { // TODO: use UserList to convert getUser to User.username
-            commentsToString = printMoreComments(commentsToString, comment);
+        for (Comment comment : moreComments) {
+            // Use UserList to convert getUser to User.username
+            User user = userList.findUser(comment.getUserUUID());
+            if (user != null) {
+                commentsToString = printMoreComments(commentsToString, comment);
+            }
         }
+        // Use UserList to access username instead of userUUID
+        User mainUser = userList.findUser(this.user);
+        String username = (mainUser != null) ? mainUser.getUsername() : "Unknown user";
         return "[Comment]: " + comment + "\n"
-                + "[User]: " + userList.findUser(this.user).getUsername() + "\n" + commentsToString; // TODO: Use
-                                                                                                     // UserList to
-                                                                                                     // access username
-                                                                                                     // instead of
-        // userUUID
+                + "[User]: " + username + "\n" + commentsToString;
     }
 
     public String printMoreComments(String moreCommentsToString, Comment moreComment) {
@@ -133,4 +136,4 @@ public class Comment {
         return moreCommentsToString;
     }
 
-}
+} // End of Comment class
