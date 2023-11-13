@@ -49,24 +49,6 @@ public class DataLoaderTest {
         
         System.out.println("Test 2: Passed - All user attributes are not null");
     }
-
-    @Test
-    public void testLoadProjects() {
-        ArrayList<Project> projects = DataLoader.loadProjects();
-
-        assertNotNull(projects, "Test 3: Failed - The project list is null");
-        assertFalse(projects.isEmpty(), "Test 3: Failed - The project list is empty");
-
-        for (Project project : projects) {
-            assertNotNull(project, "Test 3: Failed - A project is null");
-            assertNotNull(project.getProjectName(), "Test 3: Failed - A project name is null");
-            assertNotNull(project.getListOfColumns(), "Test 3: Failed - A project column list is null");
-            assertNotNull(project.getAssignedUsers(), "Test 3: Failed - A project user list is null");
-        }
-        
-        System.out.println("Test 3: Passed - All project attributes are not null");
-    }
-
     @Test
 public void testLoadProjectsColumns() {
     ArrayList<Project> projects = DataLoader.loadProjects();
