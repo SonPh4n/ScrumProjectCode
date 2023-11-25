@@ -1,89 +1,74 @@
 [
     {
-        "assigned-users": [],
-        "comments": [
+        "assigned-users": [
             {
-                "commentor": "58a0aa11-221e-4a93-a4a0-f5466af47d13",
-                "comment": "Not cylindrical enough",
-                "id": "111a5803-0de6-44e8-ad8f-8735890151a8",
-                "more-comments": [
-                    {
-                        "commentor": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                        "comment": "How about you do it Jeff?",
-                        "id": "f5dd6fa1-d7f1-41cd-88c8-8f27b04333c3",
-                        "more-comments": []
-                    }
-                ]
-            },
-            {
-                "commentor": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                "comment": "What's a cylinder",
-                "id": "64c92afc-4797-4f4b-8e55-1138a5251ba1",
-                "more-comments": []
+                "user-id": "91de24ee-af56-4881-850f-550d88886487"
             }
         ],
+        "comments": [],
         "task-description": "Curve the metal to make a cylindrical shape",
         "task-title": "task1",
-        "column-id": "8dfbe3bd-e059-459b-bfd6-e43487b2235d",
-        "due-date": "11\/01\/2023",
-        "creation-date": "11\/01\/2023",
-        "task-type": "task",
+        "column-id": "5e6e12c9-8269-4398-bb29-8200869ca940",
+        "due-date": "11\/30\/2023",
+        "creation-date": "11\/25\/2023",
+        "task-type": "new feature",
         "history": [
             {
-                "history-details": "a_madden added a comment to gold_j's comment",
-                "recorded-date": "11\/01\/2023",
-                "history-user": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                "history-id": "b289af4c-10e4-47e1-a4ff-f239545af1da"
+                "history-details": "a_madden created task1",
+                "recorded-date": "11\/25\/2023",
+                "history-user": "91de24ee-af56-4881-850f-550d88886487",
+                "history-id": "f055e600-c2a9-49a7-b776-547a806bca14"
             }
         ],
-        "project-id": "96b912d1-d15e-4a36-8da6-8092757cc006",
-        "task-id": "6f396d4a-7979-407f-a561-80de03f097a1"
+        "project-id": "c8100946-5eb3-40c3-981c-1a743b9b2cfc",
+        "task-id": "531c91ca-712d-4c9b-b8cd-ed7f2ff17c2e"
     },
     {
-        "assigned-users": [],
+        "assigned-users": [
+            {
+                "user-id": "91de24ee-af56-4881-850f-550d88886487"
+            }
+        ],
+        "comments": [],
+        "task-description": "Initialize super algorithm to detonate at warp speed",
+        "task-title": "task2",
+        "column-id": "ba447722-fc3a-4069-8b36-4cd5ff2fc56f",
+        "due-date": "11\/30\/2023",
+        "creation-date": "11\/25\/2023",
+        "task-type": "new feature",
+        "history": [
+            {
+                "history-details": "a_madden created task2",
+                "recorded-date": "11\/25\/2023",
+                "history-user": "91de24ee-af56-4881-850f-550d88886487",
+                "history-id": "8f27536e-9744-4ca4-bae4-9a95f47fa8a1"
+            }
+        ],
+        "project-id": "c8100946-5eb3-40c3-981c-1a743b9b2cfc",
+        "task-id": "5c7af4e0-dbf4-41ef-ab0d-70046924ca81"
+    },
+    {
+        "assigned-users": [
+            {
+                "user-id": "91de24ee-af56-4881-850f-550d88886487"
+            }
+        ],
         "comments": [],
         "task-description": "Make impossible burger possible",
         "task-title": "task3",
-        "column-id": "eac050ee-8009-4c30-be3e-5edeac4edd35",
-        "due-date": "11\/01\/2023",
-        "creation-date": "11\/01\/2023",
-        "task-type": "task",
+        "column-id": "2a268bf1-9216-40ec-8add-d5edb9c71390",
+        "due-date": "11\/30\/2023",
+        "creation-date": "11\/25\/2023",
+        "task-type": "new feature",
         "history": [
             {
                 "history-details": "a_madden created task3",
-                "recorded-date": "11\/01\/2023",
-                "history-user": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                "history-id": "aa974329-e7cd-4cfa-9809-0fe8339e5722"
+                "recorded-date": "11\/25\/2023",
+                "history-user": "91de24ee-af56-4881-850f-550d88886487",
+                "history-id": "29d2f511-3a00-40f1-9219-c0bf10f305f9"
             }
         ],
-        "project-id": "96b912d1-d15e-4a36-8da6-8092757cc006",
-        "task-id": "1b38ea40-1b25-4857-bc44-e5a2b2ef2c2a"
-    },
-    {
-        "assigned-users": [],
-        "comments": [
-            {
-                "commentor": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                "comment": "Avoid civilians Jeff!",
-                "id": "fd2e7b8a-5019-4412-96f2-ff38501eb18e",
-                "more-comments": []
-            }
-        ],
-        "task-description": "Initialize super algorithm to detonate at warp speed",
-        "task-title": "task2",
-        "column-id": "dae69833-6749-4549-b2e6-4ad363328afa",
-        "due-date": "11\/01\/2023",
-        "creation-date": "11\/01\/2023",
-        "task-type": "task",
-        "history": [
-            {
-                "history-details": "a_madden added a comment to task2",
-                "recorded-date": "11\/01\/2023",
-                "history-user": "ba111e96-2bf2-4382-82a2-7b80bc199583",
-                "history-id": "17ca1db3-bf0a-4c72-8779-ac08e5b771d3"
-            }
-        ],
-        "project-id": "96b912d1-d15e-4a36-8da6-8092757cc006",
-        "task-id": "3319e1df-5c76-455d-8e41-7e2a890d416c"
+        "project-id": "c8100946-5eb3-40c3-981c-1a743b9b2cfc",
+        "task-id": "14ff5bc9-9972-4526-9163-581bb7a46eb6"
     }
 ]
