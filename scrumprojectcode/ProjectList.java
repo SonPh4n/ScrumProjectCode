@@ -14,7 +14,7 @@ public class ProjectList {
     private static ArrayList<Project> listOfProjects;
 
     private ProjectList() {
-        listOfProjects = DataLoader.loadProjects();
+        listOfProjects = (DataLoader.loadProjects() == null ? new ArrayList<>() : DataLoader.loadProjects());
     }
 
     private ProjectList(ArrayList<Project> projects) {

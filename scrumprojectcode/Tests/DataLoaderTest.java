@@ -1,5 +1,6 @@
 package scrumprojectcode.Tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scrumprojectcode.DataLoader;
 import scrumprojectcode.Project;
@@ -13,11 +14,15 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class DataLoaderTest {
+    private ArrayList<Task> tasks;
+
+    @BeforeEach
+    void setUp() {
+        tasks = DataLoader.loadTasks();
+    }
 
     @Test
     public void testLoadTasks() {
-        ArrayList<Task> tasks = DataLoader.loadTasks();
-
         assertNotNull(tasks, "Test 1: Failed - The task list is null");
         assertFalse(tasks.isEmpty(), "Test 1: Failed - The task list is empty");
 

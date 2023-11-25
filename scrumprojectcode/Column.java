@@ -55,12 +55,12 @@ public class Column {
     }
 
     /**
-     * Void method that adds a new Task to the Column using the ArrayList.add()
+     * Boolean method that adds a new Task to the Column using the ArrayList.add()
      * method
      * 
      * @param task New project Task to be added to columnTasks
      */
-    private boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+    public boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
             String taskType, String dueDate) {
         if (taskList.findTask(taskName) != null)
             return false;

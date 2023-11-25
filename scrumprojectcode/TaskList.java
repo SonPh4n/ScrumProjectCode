@@ -8,7 +8,7 @@ public class TaskList {
     private static ArrayList<Task> listOfTasks;
 
     private TaskList() {
-        listOfTasks = DataLoader.loadTasks();
+        listOfTasks = (DataLoader.loadTasks() == null ? new ArrayList<>() : DataLoader.loadTasks());
     }
 
     private TaskList(ArrayList<Task> tasks) {

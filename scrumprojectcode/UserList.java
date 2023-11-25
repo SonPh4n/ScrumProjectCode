@@ -17,7 +17,7 @@ public class UserList {
                                                 // an instance without an ArrayList
 
     private UserList() {
-        listOfUsers = DataLoader.loadUsers();
+        listOfUsers = (DataLoader.loadUsers() == null ? new ArrayList<>() : DataLoader.loadUsers());
     }
 
     private UserList(ArrayList<User> users) {
