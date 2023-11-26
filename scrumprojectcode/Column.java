@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Column {
     public String columnName;
-    public ArrayList<UUID> columnTasks; // Preemptively changed this to ArrayList<UUID> to make it easier to read tasks
+    public ArrayList<Task> columnTasks; // Preemptively changed this to ArrayList<UUID> to make it easier to read tasks
                                         // from column.json @kuriakm
     private UUID columnUUID;
     private UUID projectUUID;
@@ -19,12 +19,12 @@ public class Column {
      */
     public Column(String columnName, UUID projectUUID) { // slightly changed this from String columnName, UUID taskUUID
         this.createColumn(columnName);
-        this.columnTasks = new ArrayList<UUID>();
+        this.columnTasks = new ArrayList<Task>();
         this.columnUUID = generateUUID();
         this.projectUUID = projectUUID;
     }
 
-    public Column(UUID projectID, UUID columnID, String columnTitle, ArrayList<UUID> columnTasks) {
+    public Column(UUID projectID, UUID columnID, String columnTitle, ArrayList<Task> columnTasks) {
         this.projectUUID = projectID;
         this.columnUUID = columnID;
         this.columnName = columnTitle;
@@ -65,7 +65,7 @@ public class Column {
         if (taskList.findTask(taskName) != null)
             return false;
         Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, userUUID, dueDate);
-        columnTasks.add(newTask.getTaskUUID());
+        columnTasks.add(newTask);
         taskList.getListOfTasks().add(newTask);
         taskList.saveTasks();
         return true;
@@ -87,7 +87,7 @@ public class Column {
         }
         Task task = findTask(taskName);
         taskList.getListOfTasks().remove(task);
-        columnTasks.remove(task.getTaskUUID());
+        columnTasks.remove(task);
         return true;
     }
 
@@ -99,18 +99,20 @@ public class Column {
         this.columnName = columnName;
     }
 
-    public ArrayList<UUID> getColumnTasks() {
+    public ArrayList<Task> getColumnTasks() {
         return this.columnTasks;
     }
 
-    public ArrayList<Task> uuidToTasks() {
-        ArrayList<Task> uuidToColumnTask = new ArrayList<>();
-        for (UUID uuid : columnTasks)
-            uuidToColumnTask.add(findTask(uuid));
-        return uuidToColumnTask;
-    }
+    /*
+     * public ArrayList<Task> uuidToTasks() {
+     * ArrayList<Task> uuidToColumnTask = new ArrayList<>();
+     * for (UUID uuid : columnTasks)
+     * uuidToColumnTask.add(findTask(uuid));
+     * return uuidToColumnTask;
+     * }
+     */
 
-    public void setColumnTasks(ArrayList<UUID> columnTasks) {
+    public void setColumnTasks(ArrayList<Task> columnTasks) {
         this.columnTasks = columnTasks;
     }
 
@@ -145,8 +147,8 @@ public class Column {
 
     public String toString() {
         String tasksToString = "";
-        for (Task task : uuidToTasks())
-            tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
+        for (Task task : columnTasks)
+            tasksToString = tasksToString + (task == null ? "" : "- " + task.getTaskName() + "\n");
         return "--- " + this.columnName + " ---\n" + (tasksToString == null ? "" : tasksToString);
     }
 }

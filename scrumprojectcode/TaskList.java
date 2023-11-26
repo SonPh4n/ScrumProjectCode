@@ -53,4 +53,11 @@ public class TaskList {
     public void saveTasks() { // is this all we have to do for this method?
         DataWriter.saveTasks(listOfTasks);
     }
+
+    public String toString() {
+        String toString = "";
+        for (Task task : listOfTasks)
+            toString = toString + task + "\n\n";
+        return toString;
+    }
 }

@@ -166,9 +166,9 @@ public class Project {
         Column oldColumn = findColumn(sourceColumn);
         Column newColumn = findColumn(targetColumn);
         Task task = oldColumn.findTask(taskName);
-        oldColumn.getColumnTasks().remove(task.getTaskUUID());
+        oldColumn.getColumnTasks().remove(task);
         task.setColumnUUID(newColumn.getColumnUUID());
-        newColumn.columnTasks.add(task.getTaskUUID());
+        newColumn.columnTasks.add(task);
         if (newColumn.findTask(taskName) == null) {
             return false;
         }
@@ -196,7 +196,7 @@ public class Project {
      */
     public String displayColumnTasks(Column column) {
         String tasksToString = "";
-        for (Task task : column.uuidToTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
+        for (Task task : column.getColumnTasks()) // TODO: Figure out how to print taskName from UUID taskUUID
             tasksToString = tasksToString + "- " + task.getTaskName() + "\n";
         return "--- " + column.columnName + " ---\n" + tasksToString;
     }
@@ -210,7 +210,7 @@ public class Project {
     public String toString() {
         String columnsToString = "";
         for (Column column : listOfColumns)
-            columnsToString = columnsToString + column.toString() + "\n\n";
+            columnsToString = columnsToString + column + "\n\n";
         return "[" + this.projectName + "]:\n"
                 + (columnsToString == null ? "" : columnsToString);
     }

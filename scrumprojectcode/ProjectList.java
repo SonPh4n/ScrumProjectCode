@@ -58,4 +58,11 @@ public class ProjectList {
     public void saveProjects() {
         DataWriter.saveProjects(listOfProjects);
     }
+
+    public String toString() {
+        String toString = "";
+        for (Project project : listOfProjects)
+            toString = toString + project + "\n\n";
+        return toString;
+    }
 }

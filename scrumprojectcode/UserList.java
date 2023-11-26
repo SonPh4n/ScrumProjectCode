@@ -79,7 +79,7 @@ public class UserList {
     public String toString() {
         String toString = "";
         for (User user : listOfUsers)
-            toString = toString + user + "\n";
+            toString = toString + user + "\n\n";
         return toString;
     }
 }

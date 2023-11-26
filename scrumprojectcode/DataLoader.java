@@ -11,13 +11,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 /**
+ * loads all data from json files
+ * 
  * @author jedalto
  * @author kuriakm
  */
 public class DataLoader extends DataConstants {
-    /**
-     * loads all data from json files
-     */
+    private static ArrayList<User> users;
+    private static ArrayList<Task> tasks;
+    private static ArrayList<Project> projects;
 
     /**
      * loads tasks from json files
@@ -27,7 +29,7 @@ public class DataLoader extends DataConstants {
      */
     public static ArrayList<Task> loadTasks() { // TODO: Read comments recursively and fix getTaskHistory to properly
                                                 // TODO: populate HashMap<String, History>
-        ArrayList<Task> tasks = new ArrayList<Task>();
+        tasks = new ArrayList<Task>();
         try {
             FileReader reader = new FileReader(TASK_FILE_NAME);
             JSONParser parser = new JSONParser();
@@ -118,7 +120,7 @@ public class DataLoader extends DataConstants {
      * @return returns an arraylist of user objects
      */
     public static ArrayList<User> loadUsers() {
-        ArrayList<User> users = new ArrayList<User>();
+        users = new ArrayList<User>();
         try {
             FileReader reader = new FileReader(USER_FILE_NAME);
             JSONParser parser = new JSONParser();
@@ -154,7 +156,8 @@ public class DataLoader extends DataConstants {
      * @return returns an arraylist of project objects
      */
     public static ArrayList<Project> loadProjects() {
-        ArrayList<Project> projects = new ArrayList<>();
+        projects = new ArrayList<>();
+        tasks = loadTasks();
 
         try {
             FileReader reader = new FileReader(PROJECT_FILE_NAME);
@@ -190,12 +193,23 @@ public class DataLoader extends DataConstants {
 
                         JSONArray columnTasksJSON = (JSONArray) columnJSON.get("column-tasks");
 
-                        ArrayList<UUID> columnTasks = new ArrayList<>();
+                        ArrayList<UUID> columnTaskIDs = new ArrayList<>();
                         if (columnTasksJSON != null) {
                             for (int k = 0; k < columnTasksJSON.size(); k++) {
                                 JSONObject columnTaskJSON = (JSONObject) columnTasksJSON.get(k);
                                 UUID taskUUID = UUID.fromString((String) columnTaskJSON.get("column-task-id"));
-                                columnTasks.add(taskUUID);
+                                columnTaskIDs.add(taskUUID);
+                            }
+                        }
+
+                        ArrayList<Task> columnTasks = new ArrayList<>();
+
+                        for (i = 0; i < columnTaskIDs.size(); i++) {
+                            if (tasks.get(0).getTaskUUID().equals(columnTaskIDs.get(i))) {
+                                columnTasks.add(tasks.get(0));
+                                tasks.remove(0);
+                                columnTaskIDs.remove(i);
+                                i = 0;
                             }
                         }
 

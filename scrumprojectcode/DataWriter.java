@@ -272,10 +272,10 @@ public class DataWriter extends DataConstants {
             projectColumn.put(COLUMN_TITLE, column.getColumnName());
 
             JSONArray columnTasks = new JSONArray();
-            for (UUID columnTaskID : column.getColumnTasks()) {
-                JSONObject columnTask = new JSONObject();
-                columnTask.put(COLUMN_TASK_ID, columnTaskID.toString());
-                columnTasks.add(columnTask);
+            for (Task columnTask : column.getColumnTasks()) {
+                JSONObject columnTaskObject = new JSONObject();
+                columnTaskObject.put(COLUMN_TASK_ID, columnTask.getColumnUUID().toString());
+                columnTasks.add(columnTaskObject);
             }
             projectColumn.put(COLUMN_TASKS, columnTasks);
             projectColumns.add(projectColumn);
