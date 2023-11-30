@@ -3,7 +3,6 @@ package scrumprojectcode;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,42 +15,12 @@ import org.json.simple.JSONObject;
  */
 
 public class DataWriter extends DataConstants {
-    // Attributes
-    private boolean saveTasks;
-    private boolean saveUsers;
-    private boolean saveProjects;
-
-    // Constructor
-    public DataWriter(boolean saveTasks, boolean saveUsers, boolean saveProjects) {
-        this.saveTasks = saveTasks;
-        this.saveUsers = saveUsers;
-        this.saveProjects = saveProjects;
-    }
-
-    // Getters and Setters
-
-    /**
-     * Check if saving tasks is enabled.
-     *
-     * @return True if saving tasks is enabled, false otherwise.
-     */
-    public boolean isSaveTasks() {
-        return saveTasks;
-    }
-
-    /**
-     * Set whether to enable saving tasks.
-     *
-     * @param saveTasks True to enable saving tasks, false to disable.
-     */
-    public void setSaveTasks(boolean saveTasks) {
-        this.saveTasks = saveTasks;
-    }
 
     /**
      * Void method that saves the current values in TaskList() and stores it in
      * task.json
      */
+
     public static void saveTasks(ArrayList<Task> tasks) {
         JSONArray jsonTasks = new JSONArray();
 
@@ -97,9 +66,9 @@ public class DataWriter extends DataConstants {
         for (HashMap.Entry<String, History> entry : task.getTaskHistory().entrySet())
             arrayHistory.add(getHistoryJSON(entry.getValue()));
 
-        for (UUID user : task.getAssignedUsersUUID()) {
+        for (User user : task.getAssignedUsers()) {
             JSONObject userIDs = new JSONObject();
-            userIDs.put(TASK_USER_ID, user.toString());
+            userIDs.put(TASK_USER_ID, user.getUserUUID().toString());
             arrayUser.add(userIDs);
         }
         taskDetails.put(TASK_USERS, arrayUser);
@@ -120,7 +89,7 @@ public class DataWriter extends DataConstants {
         JSONObject commentDetails = new JSONObject();
         if (comment != null) {
             commentDetails.put(TASK_COMMENT_ID, comment.getCommentUUID().toString());
-            commentDetails.put(TASK_COMMENTOR, comment.getUserUUID().toString());
+            commentDetails.put(TASK_COMMENTOR, comment.getUser().getUserUUID().toString());
             commentDetails.put(TASK_COMMENT, comment.getComment());
 
             JSONArray arrayMoreComments = new JSONArray();
@@ -137,29 +106,11 @@ public class DataWriter extends DataConstants {
     public static JSONObject getHistoryJSON(History history) {
         JSONObject historyDetails = new JSONObject();
         historyDetails.put(HISTORY_ID, history.getHistoryUUID().toString());
-        historyDetails.put(HISTORY_USER, history.getUserUUID().toString());
+        historyDetails.put(HISTORY_USER, history.getUser().getUserUUID().toString());
         historyDetails.put(HISTORY_DETAILS, history.getDetails());
         historyDetails.put(HISTORY_RECORDED_DATE, history.getDate());
 
         return historyDetails;
-    }
-
-    /**
-     * Check if saving users is enabled.
-     *
-     * @return True if saving users is enabled, false otherwise.
-     */
-    public boolean isSaveUsers() {
-        return saveUsers;
-    }
-
-    /**
-     * Set whether to enable saving users.
-     *
-     * @param saveUsers True to enable saving users, false to disable.
-     */
-    public void setSaveUsers(boolean saveUsers) {
-        this.saveUsers = saveUsers;
     }
 
     /**
@@ -206,24 +157,6 @@ public class DataWriter extends DataConstants {
     }
 
     /**
-     * Check if saving projects is enabled.
-     *
-     * @return True if saving projects is enabled, false otherwise.
-     */
-    public boolean isSaveProjects() {
-        return saveProjects;
-    }
-
-    /**
-     * Set whether to enable saving projects.
-     *
-     * @param saveProjects True to enable saving projects, false to disable.
-     */
-    public void setSaveProjects(boolean saveProjects) {
-        this.saveProjects = saveProjects;
-    }
-
-    /**
      * Void method that saves the current values in ProjectList() and stores it in
      * project.json
      */
@@ -258,7 +191,7 @@ public class DataWriter extends DataConstants {
         JSONArray arrayUsers = new JSONArray();
         JSONArray projectColumns = new JSONArray();
 
-        for (UUID projectUser : project.getAssignedUsersUUID()) {
+        for (User projectUser : project.getAssignedUsers()) {
             if (projectUser != null) {
                 JSONObject user = new JSONObject();
                 user.put(PROJECT_USERS_ID, projectUser.toString());

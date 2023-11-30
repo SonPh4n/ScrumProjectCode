@@ -130,7 +130,7 @@ public class ProjectSystemFACADE {
             String taskDesc, String taskType, String dueDate) {
         Project project = currentUser.findProject(projectName);
         Column column = project.findColumn(columnName);
-        return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser.getUserUUID(),
+        return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser,
                 taskName, taskDesc, taskType, dueDate);
     }
 

@@ -26,7 +26,7 @@ public class Task {
     private String taskDescription;
     private String taskType;
     private ArrayList<Comment> taskComments;
-    private ArrayList<UUID> assignedUsers;
+    private ArrayList<User> assignedUsers;
     private HashMap<String, History> taskHistory;
     private String creationDate;
     private String taskDueDate;
@@ -34,7 +34,6 @@ public class Task {
     private UUID projectUUID;
     private UUID columnUUID;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
-    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor for Task class.
@@ -46,26 +45,27 @@ public class Task {
      * @param timeToComplete  The estimated time to complete the task.
      */
     public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc, String taskType,
-            UUID userUUID, String taskDueDate) { // TODO: update Task constructor
+            User user, String taskDueDate) { // TODO: update Task constructor
         this.taskUUID = generateUUID();
-        this.taskName = taskTitle;
-        this.taskDescription = taskDesc;
-        this.taskType = taskType;
+        setTaskName(taskTitle);
+        setTaskDescription(taskDesc);
+        setTaskType(taskType);
+        setTaskComments(taskComments);
+
         this.taskComments = new ArrayList<Comment>();
         this.assignedUsers = new ArrayList<>();
-        this.assignedUsers.add(userUUID);
         this.taskHistory = new HashMap<String, History>();
 
-        userList = UserList.getInstance();
         LocalDate now = LocalDate.now();
         String creationDate = formatter.format(now);
-        String historyDetails = userList.findUser(userUUID).getUsername() + " created " + taskName;
-        taskHistory.put(creationDate, new History(userUUID, creationDate, historyDetails));
+        String historyDetails = user.getUsername() + " created " + taskName;
+        taskHistory.put(creationDate, new History(user, creationDate, historyDetails));
 
-        this.creationDate = creationDate;
-        this.taskDueDate = taskDueDate;
-        this.projectUUID = projectID;
-        this.columnUUID = columnID;
+        setTaskHistory(taskHistory);
+        setCreationDate(creationDate);
+        setDueDate(taskDueDate);
+        setProjectUUID(projectID);
+        setColumnUUID(columnID);
     }
 
     /**
@@ -92,19 +92,19 @@ public class Task {
      * @param taskCreationDate
      */
     public Task(UUID projectID, UUID columnID, UUID taskID, String taskTitle, String taskDesc, String taskType,
-            ArrayList<UUID> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
+            ArrayList<User> taskUsers, HashMap<String, History> taskHistory, ArrayList<Comment> taskComments,
             String taskDueDate, String taskCreationDate) {
-        this.taskUUID = taskID;
-        this.taskName = taskTitle;
-        this.taskDescription = taskDesc;
-        this.taskType = taskType;
-        this.taskComments = taskComments;
-        this.assignedUsers = new ArrayList<>();
-        this.taskHistory = taskHistory;
-        this.creationDate = taskCreationDate;
-        this.taskDueDate = taskDueDate;
-        this.projectUUID = projectID;
-        this.columnUUID = columnID;
+        setTaskUUID(taskID);
+        setTaskName(taskTitle);
+        setTaskDescription(taskDesc);
+        setTaskType(taskType);
+        setTaskComments(taskComments);
+        setAssignedUsers(taskUsers);
+        setTaskHistory(taskHistory);
+        setCreationDate(taskCreationDate);
+        setDueDate(taskDueDate);
+        setProjectUUID(projectID);
+        setColumnUUID(columnID);
     }
 
     /**
@@ -130,13 +130,13 @@ public class Task {
      * @return True if the comment was successfully added, false otherwise.
      */
     public boolean addComment(User user, String comment) {
-        Comment newComment = new Comment(comment, user.getUserUUID());
-        if (newComment == null)
+        if (comment == null || user == null)
             return false;
+        Comment newComment = new Comment(comment, user);
         taskComments.add(newComment);
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
-        History addUserHistory = new History(user.getUserUUID(), date,
+        History addUserHistory = new History(user, date,
                 user.getUsername() + " added a comment to " + getTaskName());
         taskHistory.put(date, addUserHistory);
         return true;
@@ -145,13 +145,11 @@ public class Task {
     public boolean addReplyComment(User moreUser, String moreComment, User originalUser, String originalComment) {
         for (Comment commentToFind : taskComments) {
             if (findComment(originalComment).equals(commentToFind)) {
-                Comment newComment = new Comment(moreComment, moreUser.getUserUUID());
-                if (newComment == null)
-                    return false;
+                Comment newComment = new Comment(moreComment, moreUser);
                 commentToFind.getMoreComments().add(newComment);
                 LocalDate now = LocalDate.now();
                 String date = formatter.format(now);
-                History addUserHistory = new History(moreUser.getUserUUID(), date,
+                History addUserHistory = new History(moreUser, date,
                         moreUser.getUsername() + " added a comment to " + originalUser.getUsername() + "'s comment");
                 taskHistory.put(date, addUserHistory);
                 return true;
@@ -220,19 +218,10 @@ public class Task {
     }
 
     public ArrayList<User> getAssignedUsers() {
-        ArrayList<User> users = new ArrayList<>();
-        for (UUID userUUID : assignedUsers) {
-            User uuidToUser = userList.findUser(userUUID);
-            users.add(uuidToUser);
-        }
-        return users;
-    }
-
-    public ArrayList<UUID> getAssignedUsersUUID() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(ArrayList<UUID> assignedUsers) {
+    public void setAssignedUsers(ArrayList<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 
@@ -285,10 +274,10 @@ public class Task {
     }
 
     public boolean addUser(User user) {
-        this.assignedUsers.add(user.getUserUUID());
+        this.assignedUsers.add(user);
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
-        History addUserHistory = new History(user.getUserUUID(), date,
+        History addUserHistory = new History(user, date,
                 user.getUsername() + " was added to " + getTaskName());
         taskHistory.put(date, addUserHistory);
         return true;
@@ -297,10 +286,10 @@ public class Task {
     public boolean removeUser(User user) {
         if (user == null)
             return false;
-        this.assignedUsers.remove(user.getUserUUID());
+        this.assignedUsers.remove(user);
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
-        History addUserHistory = new History(user.getUserUUID(), date,
+        History addUserHistory = new History(user, date,
                 user.getUsername() + " was removed from " + getTaskName());
         taskHistory.put(date, addUserHistory);
         return true;

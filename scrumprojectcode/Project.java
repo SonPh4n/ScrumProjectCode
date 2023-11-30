@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Project {
     public String projectName;
     public ArrayList<Column> listOfColumns;
-    public ArrayList<UUID> assignedUsers;
+    public ArrayList<User> assignedUsers;
     private UUID projectUUID;
     private static UserList userList = UserList.getInstance();
 
@@ -40,15 +40,11 @@ public class Project {
      * @param projectUUID   UUID generated when project was first created
      */
     public Project(UUID projectUUID, String projectName, ArrayList<Column> listOfColumns,
-            ArrayList<UUID> uuidToUser) {
-        this.projectUUID = projectUUID;
-        this.projectName = projectName;
-        this.listOfColumns = listOfColumns;
-        setAssignedUsers(uuidToUser);
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+            ArrayList<User> users) {
+        setProjectUUID(projectUUID);
+        setProjectName(projectName);
+        setListOfColumns(listOfColumns);
+        setAssignedUsers(users);
     }
 
     /**
@@ -58,6 +54,10 @@ public class Project {
      */
     public String getProjectName() {
         return this.projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     /**
@@ -78,11 +78,19 @@ public class Project {
         return this.projectUUID;
     }
 
+    public void setProjectUUID(UUID projectUUID) {
+        this.projectUUID = projectUUID;
+    }
+
     /**
      * ArrayList<Column> method that returns the current value of listOfColumns
      * 
      * @return ArrayList<Column> with the project's columns and column tasks
      */
+    public void setListOfColumns(ArrayList<Column> listOfColumns) {
+        this.listOfColumns = listOfColumns;
+    }
+
     public ArrayList<Column> getListOfColumns() {
         return this.listOfColumns;
     }
@@ -93,20 +101,11 @@ public class Project {
      * @return ArrayList of User objects assigned to this project.
      */
     public ArrayList<User> getAssignedUsers() {
-        ArrayList<User> usersFromUUID = new ArrayList<>();
-        for (UUID userUUID : assignedUsers) {
-            User assignedUser = userList.findUser(userUUID);
-            usersFromUUID.add(assignedUser);
-        }
-        return usersFromUUID;
+        return assignedUsers;
     }
 
-    public ArrayList<UUID> getAssignedUsersUUID() {
-        return this.assignedUsers;
-    }
-
-    public void setAssignedUsers(ArrayList<UUID> userUUID) {
-        this.assignedUsers = userUUID;
+    public void setAssignedUsers(ArrayList<User> users) {
+        this.assignedUsers = users;
     }
 
     public boolean facadeAddColumn(String columnName) {
@@ -123,7 +122,8 @@ public class Project {
         if (findColumn(columnName) == null) {
             Column newColumn = new Column(columnName, projectUUID);
             this.listOfColumns.add(newColumn);
-            // projectList.saveProjects(); should we save right after modifying?
+            // projectList.saveProjects(); should we save right after modifyingpackage
+            // scrumprojectcode;
             return true;
         }
         return false;
@@ -218,14 +218,14 @@ public class Project {
     public boolean addUser(User user) {
         if (user == null)
             return false;
-        this.assignedUsers.add(user.getUserUUID());
+        this.assignedUsers.add(user);
         return true;
     }
 
     public boolean removeUser(User user) {
         if (user == null)
             return false;
-        this.assignedUsers.remove(user.getUserUUID());
+        this.assignedUsers.remove(user);
         return true;
     }
 }

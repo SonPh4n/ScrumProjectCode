@@ -15,7 +15,7 @@ public class TaskList {
         listOfTasks = tasks;
     }
 
-    public static TaskList getInstance(ArrayList<Task> tasks) { // why is there a constructor?
+    public static TaskList getInstance(ArrayList<Task> tasks) { // why is there a constructorpackage scrumprojectcode;
         if (taskList == null)
             taskList = new TaskList(tasks);
         return taskList;
@@ -50,7 +50,7 @@ public class TaskList {
         return null;
     }
 
-    public void saveTasks() { // is this all we have to do for this method?
+    public void saveTasks() { // is this all we have to do for this methodpackage scrumprojectcode;
         DataWriter.saveTasks(listOfTasks);
     }
 

@@ -10,10 +10,9 @@ public class Comment {
 
     // Attributes
     private String comment; // Stores the comment text
-    private UUID user; // Represents the user associated with the comment
+    private User user; // Represents the user associated with the comment
     private ArrayList<Comment> moreComments; // Stores Array of comments
     private UUID commentUUID; // Provides a unique identifier for the comment
-    private static UserList userList = UserList.getInstance();
 
     /**
      * Constructor to create a Comment object.
@@ -22,10 +21,10 @@ public class Comment {
      * 
      * @param user    The user associated with the comment.
      */
-    public Comment(String comment, UUID user) {
+    public Comment(String comment, User user) {
         setComment(comment);
         setUser(user);
-        generateUUID();
+        setCommentUUID(generateUUID());
         this.moreComments = new ArrayList<>();
     }
 
@@ -34,10 +33,10 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, UUID userUUID, String comment, ArrayList<Comment> moreComments) {
+    public Comment(UUID commentID, User user, String comment, ArrayList<Comment> moreComments) {
         setCommentUUID(commentID);
         setComment(comment);
-        setUser(userUUID);
+        setUser(user);
         setMoreComments(moreComments);
         ;
     }
@@ -48,10 +47,10 @@ public class Comment {
      * 
      * @param comment
      */
-    public Comment(UUID commentID, UUID userUUID, String comment) {
+    public Comment(UUID commentID, User user, String comment) {
         setCommentUUID(commentID);
         setComment(comment);
-        setUser(userUUID);
+        setUser(user);
         this.moreComments = new ArrayList<>();
     }
 
@@ -60,8 +59,8 @@ public class Comment {
      *
      * @return The generated UUID.
      */
-    private void generateUUID() {
-        this.commentUUID = UUID.randomUUID();
+    private UUID generateUUID() {
+        return UUID.randomUUID();
     }
 
     public String getComment() {
@@ -73,14 +72,10 @@ public class Comment {
     }
 
     public User getUser() {
-        return userList.findUser(this.user);
-    }
-
-    public UUID getUserUUID() {
         return this.user;
     }
 
-    public void setUser(UUID user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -107,29 +102,24 @@ public class Comment {
      */
     @Override // TODO: Include sub-comments within moreComments Comments
     public String toString() {
-        userList = UserList.getInstance();
         if (this.comment == null)
             return "No comments for this task";
         String commentsToString = "";
         for (Comment comment : moreComments) {
-            // Use UserList to convert getUser to User.username
-            User user = userList.findUser(comment.getUserUUID());
-            if (user != null) {
+            String username = comment.getUser().getUsername();
+            if (username != null) {
                 commentsToString = printMoreComments(commentsToString, comment);
             }
         }
-        // Use UserList to access username instead of userUUID
-        User mainUser = userList.findUser(this.user);
-        String username = (mainUser != null) ? mainUser.getUsername() : "Unknown user";
-        return "[Comment]: " + comment + "\n"
-                + "[User]: " + username + "\n" + commentsToString;
+        return "[Comment]: " + this.comment + "\n"
+                + "[User]: " + this.user.getUsername() + "\n" + commentsToString;
     }
 
     public String printMoreComments(String moreCommentsToString, Comment moreComment) {
         int commentIterator = 0;
         moreCommentsToString = moreCommentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
                 + moreComment.getComment() + "\n"
-                + "\t[User]: " + userList.findUser(moreComment.getUserUUID()).getUsername();
+                + "\t[User]: " + moreComment.getUser().getUsername();
         commentIterator++;
         for (Comment comment : moreComment.moreComments)
             moreCommentsToString = moreCommentsToString + printMoreComments(moreCommentsToString, comment);

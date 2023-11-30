@@ -30,6 +30,8 @@ public class DataLoader extends DataConstants {
     public static ArrayList<Task> loadTasks() { // TODO: Read comments recursively and fix getTaskHistory to properly
                                                 // TODO: populate HashMap<String, History>
         tasks = new ArrayList<Task>();
+        users = loadUsers();
+
         try {
             FileReader reader = new FileReader(TASK_FILE_NAME);
             JSONParser parser = new JSONParser();
@@ -65,12 +67,33 @@ public class DataLoader extends DataConstants {
                         usersUUID.add(userUUID);
                     }
 
+                    ArrayList<User> assignedUsers = new ArrayList<>();
+
+                    for (int j = 0; j < usersUUID.size(); j++) {
+                        if (users.get(0).getUserUUID().equals(usersUUID.get(j))) {
+                            assignedUsers.add(users.get(0));
+                            users.remove(0);
+                            usersUUID.remove(j);
+                            j = 0;
+                        }
+                    }
+
                     while (ih.hasNext()) {
                         JSONObject historyJSON = (JSONObject) ih.next();
                         UUID historyUUID = UUID.fromString((String) historyJSON.get(TASK_HISTORY_ID));
-                        UUID historyUser = UUID.fromString((String) historyJSON.get(HISTORY_USER));
+                        UUID historyUserUUID = UUID.fromString((String) historyJSON.get(HISTORY_USER));
                         String historyDetails = (String) historyJSON.get(HISTORY_DETAILS);
                         String date = (String) historyJSON.get(HISTORY_RECORDED_DATE);
+
+                        int index = 0;
+                        boolean findUser = false;
+                        User historyUser = null;
+
+                        for (int k = 0; k < assignedUsers.size(); i++) {
+                            if (assignedUsers.get(k).getUserUUID().equals(historyUserUUID))
+                                historyUser = assignedUsers.get(k);
+                        }
+
                         history.put(date, new History(historyUUID, historyUser, date, historyDetails));
                     }
 
@@ -81,20 +104,24 @@ public class DataLoader extends DataConstants {
                             comments.add(aC);
                     }
 
-                    Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, taskType, usersUUID, history,
+                    Task aT = new Task(projectID, columnID, taskID, taskTitle, taskDesc, taskType, users, history,
                             comments, taskDueDate, taskCreationDate);
                     tasks.add(aT);
                 }
             }
             return tasks;
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     public static Comment getCommentJSON(JSONObject commentJSON) {
-        UUID commentor = UUID.fromString((String) commentJSON.get(TASK_COMMENTOR));
+        users = loadUsers();
+
+        UUID commentorUUID = UUID.fromString((String) commentJSON.get(TASK_COMMENTOR));
         String comment = (String) commentJSON.get(TASK_COMMENT);
         UUID commentUUID = UUID.fromString((String) commentJSON.get(TASK_COMMENT_ID));
 
@@ -110,7 +137,18 @@ public class DataLoader extends DataConstants {
                 moreComments.add(jsonToMoreComments);
             }
         }
+
+        int index = 0;
+        boolean findUser = false;
+        User commentor = null;
+
+        for (int k = 0; k < users.size(); k++) {
+            if (users.get(k).getUserUUID().equals(commentorUUID))
+                commentor = users.get(k);
+        }
+
         return new Comment(commentUUID, commentor, comment, moreComments);
+
     }
 
     /**
@@ -158,6 +196,7 @@ public class DataLoader extends DataConstants {
     public static ArrayList<Project> loadProjects() {
         projects = new ArrayList<>();
         tasks = loadTasks();
+        users = loadUsers();
 
         try {
             FileReader reader = new FileReader(PROJECT_FILE_NAME);
@@ -172,12 +211,23 @@ public class DataLoader extends DataConstants {
 
                     // Parse assigned users
                     JSONArray assignedUsersJSON = (JSONArray) projectJSON.get(PROJECT_USERS);
-                    ArrayList<UUID> assignedUsers = new ArrayList<>();
+                    ArrayList<UUID> assignedUsersUUID = new ArrayList<>();
                     for (Object userObj : assignedUsersJSON) {
                         JSONObject userJSON = (JSONObject) userObj;
                         if (userJSON != null) {
                             UUID userUUID = UUID.fromString((String) userJSON.get(PROJECT_USERS_ID));
-                            assignedUsers.add(userUUID);
+                            assignedUsersUUID.add(userUUID);
+                        }
+                    }
+
+                    ArrayList<User> assignedUsers = new ArrayList<>();
+
+                    for (int j = 0; j < assignedUsersUUID.size(); j++) {
+                        if (users.get(0).getUserUUID().equals(assignedUsersUUID.get(j))) {
+                            assignedUsers.add(users.get(0));
+                            users.remove(0);
+                            assignedUsersUUID.remove(j);
+                            j = 0;
                         }
                     }
 

@@ -1,8 +1,8 @@
+package scrumprojectcode;
+
 /**
  * @author Jane Dalton
  */
-
-package scrumprojectcode;
 
 /**
  * @author Jane Dalton

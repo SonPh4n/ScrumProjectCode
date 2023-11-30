@@ -12,23 +12,24 @@ public class Column {
     private static TaskList taskList = TaskList.getInstance();
 
     /**
-     * Constructor method for a new Column() which initializes the Column attributes
+     * Constructor method for a new Column() which initializes the Column
+     * attributessetColumnUUID(generateUUID());
      * 
      * @param columnName
      * @param task
      */
     public Column(String columnName, UUID projectUUID) { // slightly changed this from String columnName, UUID taskUUID
-        this.createColumn(columnName);
+        setProjectUUID(projectUUID);
+        setColumnName(columnName);
+        setColumnUUID(generateUUID());
         this.columnTasks = new ArrayList<Task>();
-        this.columnUUID = generateUUID();
-        this.projectUUID = projectUUID;
     }
 
     public Column(UUID projectID, UUID columnID, String columnTitle, ArrayList<Task> columnTasks) {
-        this.projectUUID = projectID;
-        this.columnUUID = columnID;
-        this.columnName = columnTitle;
-        this.columnTasks = columnTasks;
+        setProjectUUID(projectID);
+        setColumnUUID(columnID);
+        setColumnName(columnTitle);
+        setColumnTasks(columnTasks);
     }
 
     /**
@@ -40,18 +41,9 @@ public class Column {
         return UUID.randomUUID();
     }
 
-    /**
-     * Void method that sets String this.columnName to the user-set column name
-     * 
-     * @param columnName String value that holds the user-set column name
-     */
-    private void createColumn(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+    public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, User user, String taskName, String taskDesc,
             String taskType, String dueDate) {
-        return addTask(projectUUID, columnUUID, userUUID, taskName, taskDesc, taskType, dueDate);
+        return addTask(projectUUID, columnUUID, user, taskName, taskDesc, taskType, dueDate);
     }
 
     /**
@@ -60,11 +52,11 @@ public class Column {
      * 
      * @param task New project Task to be added to columnTasks
      */
-    public boolean addTask(UUID projectUUID, UUID columnUUID, UUID userUUID, String taskName, String taskDesc,
+    public boolean addTask(UUID projectUUID, UUID columnUUID, User user, String taskName, String taskDesc,
             String taskType, String dueDate) {
         if (taskList.findTask(taskName) != null)
             return false;
-        Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, userUUID, dueDate);
+        Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, user, dueDate);
         columnTasks.add(newTask);
         taskList.getListOfTasks().add(newTask);
         taskList.saveTasks();

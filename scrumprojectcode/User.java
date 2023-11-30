@@ -26,27 +26,28 @@ public class User {
     public User(String firstName, String lastName, String username, String password, String email, String phoneNumber,
             String type) {
         this.userUUID = generateUUID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.loggedIn = false;
-        this.type = type;
+
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setPassword(password);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+        setLoggedIn(true);
+        setUserType(type);
     }
 
     public User(UUID userID, String firstName, String lastName, String username, String password, String email,
             String phoneNumber, String type) {
-        this.userUUID = userID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.loggedIn = false;
-        this.type = type;
+        setUserUUID(userID);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setPassword(password);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+        setLoggedIn(true);
+        setUserType(type);
     }
 
     // Setters and Getters
@@ -149,8 +150,10 @@ public class User {
     }
 
     // logs out the user
-    public void logout() { // TODO: Call UserList.saveTasks(), saveUsers(), saveProjects() and set loggedIn
-                           // to false
+    public void logout() {
+        userList.saveUsers();
+        taskList.saveTasks();
+        projectList.saveProjects();
         loggedIn = false;
     }
 
@@ -210,7 +213,7 @@ public class User {
         return true;
     }
 
-    public Project findProject(String projectName) { // TODO: is it ok to keep this public?
+    public Project findProject(String projectName) {
         projectList = ProjectList.getInstance();
         for (Project project : projectList.getListOfProjects()) {
             if (project.getProjectName().equals(projectName)) {

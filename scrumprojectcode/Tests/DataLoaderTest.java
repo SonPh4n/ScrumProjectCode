@@ -35,7 +35,7 @@ public class DataLoaderTest {
             assertNotNull(task.getProjectUUID(), "Test 1: Failed - A task project UUID is null");
             assertNotNull(task.getColumnUUID(), "Test 1: Failed - A task column UUID is null");
         }
-        
+
         System.out.println("Test 1: Passed - All task attributes are not null");
     }
 
@@ -51,37 +51,38 @@ public class DataLoaderTest {
             assertNotNull(user.getUsername(), "Test 2: Failed - A user's username is null");
             assertNotNull(user.getPassword(), "Test 2: Failed - A user's password is null");
         }
-        
+
         System.out.println("Test 2: Passed - All user attributes are not null");
     }
+
     @Test
-public void testLoadProjectsColumns() {
-    ArrayList<Project> projects = DataLoader.loadProjects();
+    public void testLoadProjectsColumns() {
+        ArrayList<Project> projects = DataLoader.loadProjects();
 
-    assertNotNull(projects, "Test: Failed - The project list is null");
-    assertFalse(projects.isEmpty(), "Test: Failed - The project list is empty");
+        assertNotNull(projects, "Test: Failed - The project list is null");
+        assertFalse(projects.isEmpty(), "Test: Failed - The project list is empty");
 
-    for (Project project : projects) {
-        ArrayList<Column> columns = project.getListOfColumns();
+        for (Project project : projects) {
+            ArrayList<Column> columns = project.getListOfColumns();
 
-        assertNotNull(columns, "Test: Failed - The column list of a project is null");
-        assertFalse(columns.isEmpty(), "Test: Failed - The column list of a project is empty");
+            assertNotNull(columns, "Test: Failed - The column list of a project is null");
+            assertFalse(columns.isEmpty(), "Test: Failed - The column list of a project is empty");
 
-        for (Column column : columns) {
-            assertNotNull(column, "Test: Failed - A column is null");
-            assertNotNull(column.getColumnUUID(), "Test: Failed - A column ID is null");
-            assertNotNull(column.getColumnName(), "Test: Failed - A column title is null");
-            assertNotNull(column.getColumnTasks(), "Test: Failed - A column task list is null");
-            assertFalse(column.getColumnTasks().isEmpty(), "Test: Failed - A column task list is empty");
+            for (Column column : columns) {
+                assertNotNull(column, "Test: Failed - A column is null");
+                assertNotNull(column.getColumnUUID(), "Test: Failed - A column ID is null");
+                assertNotNull(column.getColumnName(), "Test: Failed - A column title is null");
+                assertNotNull(column.getColumnTasks(), "Test: Failed - A column task list is null");
+                assertFalse(column.getColumnTasks().isEmpty(), "Test: Failed - A column task list is empty");
 
-            for (UUID taskUUID : column.getColumnTasks()) {
-                assertNotNull(taskUUID, "Test: Failed - A task UUID in a column is null");
+                for (Task task : column.getColumnTasks()) {
+                    assertNotNull(task, "Test: Failed - A task in a column is null");
+                }
             }
         }
-    }
 
-    System.out.println("Test: Passed - All project column attributes are not null");
-}
+        System.out.println("Test: Passed - All project column attributes are not null");
+    }
 
     @Test
     public void testLoadProjectsUsers() {
@@ -105,5 +106,5 @@ public void testLoadProjectsColumns() {
         }
 
         System.out.println("Test: Passed - All project user attributes are not null");
-    } 
+    }
 }
