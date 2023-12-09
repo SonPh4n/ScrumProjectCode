@@ -21,12 +21,39 @@ public class Leaderboard {
         this.userScores = new HashMap<>();
 
         // Initialize user scores to zero for each user
-        for (User user : usersLeaderboard) {
-            userScores.put(user, 0);
-        }
+        for (User user : usersLeaderboard)
+            setScore(user, 0);
     }
 
-    // Added setters and getters for attributes to make testing easier @kuriakm
+    /**
+     * Void method that sets the scores for each user in the leaderboard
+     * 
+     * @param user
+     * @param score
+     */
+    public void setScore(User user, int score) {
+        if (userScores.containsKey(user)) {
+            userScores.put(user, score);
+        } else
+            System.out.println("User not found in the leaderboard.");
+    }
+
+    /**
+     * Adds the given task points to the user's score in the leaderboard.
+     * If the user is not found in the leaderboard, prints an error message.
+     * 
+     * @param user       the user whose score is to be updated
+     * 
+     * @param taskPoints the points to be added to the user's score
+     */
+    public void completeTask(User user, int taskPoints) {
+        if (userScores.containsKey(user)) {
+            int currentScore = userScores.get(user);
+            int newScore = currentScore + taskPoints;
+            userScores.put(user, newScore);
+        } else
+            System.out.println("User not found in the leaderboard.");
+    }
 
     public ArrayList<User> getUsersLeaderboard() {
         return usersLeaderboard;
@@ -44,46 +71,10 @@ public class Leaderboard {
         this.userScores = userScores;
     }
 
-    /**
-     * Method to retrieve and display user scores.
-     *
-     * Implement logic to retrieve user scores and display or process them.
-     * This method should be used to obtain and handle user scores.
-     */
-
-    // Modified set/getUserScores to be setScores and printScores respectively to
-    // properly access Map<User, Integer> userScores in testing @kuriakm
-
-    public void setScores(User user, int score) {
-        if (userScores.containsKey(user)) {
-            userScores.put(user, score);
-        } else {
-            System.out.println("User not found in the leaderboard.");
-        }
-    }
-
     public void printScores() {
         for (User user : usersLeaderboard) {
             int score = userScores.get(user);
             System.out.println("User: " + user.getFirstName() + " Score: " + score);
-        }
-    }
-
-    /**
-     * Adds the given task points to the user's score in the leaderboard.
-     * If the user is not found in the leaderboard, prints an error message.
-     * 
-     * @param user       the user whose score is to be updated
-     * 
-     * @param taskPoints the points to be added to the user's score
-     */
-    public void completeTask(User user, int taskPoints) {
-        if (userScores.containsKey(user)) {
-            int currentScore = userScores.get(user);
-            int newScore = currentScore + taskPoints;
-            userScores.put(user, newScore);
-        } else {
-            System.out.println("User not found in the leaderboard.");
         }
     }
 

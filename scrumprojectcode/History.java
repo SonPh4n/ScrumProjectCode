@@ -6,7 +6,6 @@ package scrumprojectcode;
 import java.util.UUID;
 
 public class History {
-    private User user;
     private String details;
     private String date;
     private UUID historyUUID;
@@ -14,36 +13,35 @@ public class History {
     /**
      * Constructs a new History object with the given user ID, date, and details.
      * 
-     * @param username the username of the user associated with this history
-     * 
-     * @param date     the date of this history entry
-     * 
-     * @param details  the details of this history entry
+     * @param date    the date of the history entry
+     * @param details the details of the history entry
      */
-    public History(User user, String date, String details) {
-        setUser(user);
+    public History(String date, String details) {
         setDate(date);
         setDetails(details);
         this.historyUUID = generateUUID();
     }
 
-    public History(UUID historyID, User user, String date, String details) {
+    /**
+     * Constructs a History object from DataLoader
+     * 
+     * @param historyID the UUID of the object
+     * @param date      the date of the history entry
+     * @param details   the details of the history entry
+     */
+    public History(UUID historyID, String date, String details) {
         setHistoryUUID(historyID);
-        setUser(user);
         setDate(date);
         setDetails(details);
     }
 
+    /**
+     * Generates a UUID for the history.
+     *
+     * @return The generated UUID for the history.
+     */
     private UUID generateUUID() {
         return UUID.randomUUID();
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    private void setUser(User user) {
-        this.user = user;
     }
 
     public String getDetails() {
@@ -72,7 +70,6 @@ public class History {
 
     public String toString() {
         return "[Task History]: \n" +
-                "[User]: " + user.getUsername() + "\n" +
                 "[History Details]: " + details + "\n" +
                 "[Recorded Date]: " + date + "\n";
     }

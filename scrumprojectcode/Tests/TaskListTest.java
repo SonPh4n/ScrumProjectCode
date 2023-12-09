@@ -20,6 +20,7 @@ import scrumprojectcode.Task;
 import scrumprojectcode.TaskList;
 import scrumprojectcode.User;
 import scrumprojectcode.UserList;
+
 public class TaskListTest {
 
     private static UserList userList = UserList.getInstance();
@@ -39,8 +40,10 @@ public class TaskListTest {
         testProjects.add(nctProject);
         testUsers.add(mark);
 
-        Task emptyTask = new Task(nctProject.getProjectUUID(), nctColumn.getColumnUUID(), "", "", "", mark.getUserUUID(), "");
-        Task handshakeTask = new Task(nctProject.getProjectUUID(), nctColumn.getColumnUUID(), "handshakeTask", "make a secret handshake", "task", mark.getUserUUID(), "110823");
+        Task emptyTask = new Task(nctProject.getProjectUUID(), nctColumn.getColumnUUID(), "", "", "",
+                mark.getUserUUID(), "");
+        Task handshakeTask = new Task(nctProject.getProjectUUID(), nctColumn.getColumnUUID(), "handshakeTask",
+                "make a secret handshake", "task", mark.getUserUUID(), "110823");
 
         testTasks.add(emptyTask);
         testTasks.add(handshakeTask);
@@ -61,49 +64,49 @@ public class TaskListTest {
         DataWriter.saveTasks(taskList.getListOfTasks());
     }
 
-    //test findTask by UUID
+    // test findTask by UUID
     @Test
-    public void testfindingOneTaskbyUUID(){
+    public void testfindingOneTaskbyUUID() {
         assertEquals("make a secret handshake", taskList.findTask(testTasks.get(1).getTaskUUID()).getTaskDescription());
     }
 
     @Test
-    public void testfindingemptyTaskbyUUID(){
+    public void testfindingemptyTaskbyUUID() {
         assertEquals("", taskList.findTask(testTasks.get(0).getTaskUUID()).getTaskDescription());
     }
 
     @Test
-    public void testfindingNonexistentTaskbyUUID(){
+    public void testfindingNonexistentTaskbyUUID() {
         UUID uuid = UUID.randomUUID();
         assertEquals(null, taskList.findTask(uuid));
     }
 
     @Test
-    public void testfindingNullTaskbyUUID(){
+    public void testfindingNullTaskbyUUID() {
         Task nullTask = null;
         UUID uuid = null;
         assertEquals(null, taskList.findTask(uuid));
     }
 
-    //test findTask by taskName
+    // test findTask by taskName
     @Test
-    public void testfindingOneTaskbyName(){
+    public void testfindingOneTaskbyName() {
         assertEquals("make a secret handshake", taskList.findTask(testTasks.get(1).getTaskName()).getTaskDescription());
     }
 
     @Test
-    public void testfindingemptyTaskbyName(){
+    public void testfindingemptyTaskbyName() {
         assertEquals("", taskList.findTask(testTasks.get(0).getTaskName()).getTaskDescription());
     }
 
     @Test
-    public void testfindingNonexistentTaskbyName(){
+    public void testfindingNonexistentTaskbyName() {
         String taskName = "nonexistent task";
         assertEquals(null, taskList.findTask(taskName));
     }
 
     @Test
-    public void testfindingNullTaskbyName(){
+    public void testfindingNullTaskbyName() {
         Task nullTask = null;
         String taskName = null;
         assertEquals(null, taskList.findTask(taskName));

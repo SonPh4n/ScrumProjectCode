@@ -6,19 +6,18 @@ import java.util.UUID;
 /**
  * Represents a comment in a scrum project.
  */
+
 public class Comment {
 
-    // Attributes
-    private String comment; // Stores the comment text
-    private User user; // Represents the user associated with the comment
-    private ArrayList<Comment> moreComments; // Stores Array of comments
-    private UUID commentUUID; // Provides a unique identifier for the comment
+    private String comment;
+    private User user;
+    private ArrayList<Comment> moreComments;
+    private UUID commentUUID;
 
     /**
      * Constructor to create a Comment object.
      *
      * @param comment The comment text.
-     * 
      * @param user    The user associated with the comment.
      */
     public Comment(String comment, User user) {
@@ -38,7 +37,6 @@ public class Comment {
         setComment(comment);
         setUser(user);
         setMoreComments(moreComments);
-        ;
     }
 
     /**
@@ -95,12 +93,7 @@ public class Comment {
         this.commentUUID = commentUUID;
     }
 
-    /**
-     * Returns a string representation of the Comment object.
-     *
-     * @return A string representing the Comment object.
-     */
-    @Override // TODO: Include sub-comments within moreComments Comments
+    @Override
     public String toString() {
         if (this.comment == null)
             return "No comments for this task";
@@ -115,6 +108,12 @@ public class Comment {
                 + "[User]: " + this.user.getUsername() + "\n" + commentsToString;
     }
 
+    /**
+     * Returns a string representation of the Comment's ArrayList<Comment>
+     * moreComments.
+     *
+     * @return A string representing the reply comments for a Comment
+     */
     public String printMoreComments(String moreCommentsToString, Comment moreComment) {
         int commentIterator = 0;
         moreCommentsToString = moreCommentsToString + (commentIterator < 1 ? "\t[Comment]: " : "\n\t[Comment]: ")
@@ -126,4 +125,4 @@ public class Comment {
         return moreCommentsToString;
     }
 
-} // End of Comment class
+}

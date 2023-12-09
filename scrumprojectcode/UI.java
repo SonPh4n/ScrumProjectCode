@@ -46,7 +46,7 @@ public class UI {
 
         // user comments "avoid civilians jeff" to warp task
 
-        if (!facade.addComment("a_madden", "task2", "Avoid civilians Jeff!")) {
+        if (!facade.addComment("task2", "Avoid civilians Jeff!")) {
             System.out.println("Sorry, we could not add your comment to the task");
         } else {
             System.out.println("'Avoid civilians Jeff!' comment has been added to task");
@@ -60,7 +60,7 @@ public class UI {
         }
 
         ///// add comment to existing task
-        if (!facade.addReplyComment("a_madden", "task1", "How about you do it Jeff?", "gold_j",
+        if (!facade.addReplyComment("task1", "How about you do it Jeff?", "gold_j",
                 "Not cylindrical enough")) {
             System.out.println("Sorry, we could not add your comment to the task");
         } else {

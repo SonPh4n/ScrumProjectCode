@@ -1,10 +1,5 @@
 package scrumprojectcode;
 
-/**
- * @kurikam
- * @AidanH002
- */
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +15,9 @@ import java.util.UUID;
  * find a specific comment, and generate a UUID for the task.
  * The class overrides the toString() method to provide a string representation
  * of the task.
+ * 
+ * @author kurikam
+ * @author AidanH002
  */
 public class Task {
     private String taskName;
@@ -45,7 +43,7 @@ public class Task {
      * @param timeToComplete  The estimated time to complete the task.
      */
     public Task(UUID projectID, UUID columnID, String taskTitle, String taskDesc, String taskType,
-            User user, String taskDueDate) { // TODO: update Task constructor
+            User user, String taskDueDate) {
         this.taskUUID = generateUUID();
         setTaskName(taskTitle);
         setTaskDescription(taskDesc);
@@ -59,7 +57,7 @@ public class Task {
         LocalDate now = LocalDate.now();
         String creationDate = formatter.format(now);
         String historyDetails = user.getUsername() + " created " + taskName;
-        taskHistory.put(creationDate, new History(user, creationDate, historyDetails));
+        taskHistory.put(creationDate, new History(creationDate, historyDetails));
 
         setTaskHistory(taskHistory);
         setCreationDate(creationDate);
@@ -107,13 +105,29 @@ public class Task {
         setColumnUUID(columnID);
     }
 
-    /**
-     * Generates a UUID for the task.
-     *
-     * @return The generated UUID for the task.
-     */
-    private UUID generateUUID() {
-        return UUID.randomUUID();
+    public boolean addUser(User user) {
+        if (user == null || assignedUsers.contains(user))
+            return false;
+        this.assignedUsers.add(user);
+        LocalDate now = LocalDate.now();
+        String date = formatter.format(now);
+        History addUserHistory = new History(date,
+                user.getUsername() + " was added to " + getTaskName());
+        taskHistory.put(date, addUserHistory);
+        return true;
+    }
+
+    public boolean removeUser(User user) {
+        if (user == null || !assignedUsers.contains(user))
+            return false;
+        this.assignedUsers.remove(user);
+        LocalDate now = LocalDate.now();
+        String date = formatter.format(now);
+        History addUserHistory = new History(date,
+                user.getUsername() + " was removed from " + getTaskName());
+        taskHistory.put(date, addUserHistory);
+        return true;
+
     }
 
     /**
@@ -132,26 +146,37 @@ public class Task {
     public boolean addComment(User user, String comment) {
         if (comment == null || user == null)
             return false;
+        ProjectList projectList = ProjectList.getInstance();
+        projectList.removeTask(this, columnUUID);
+
         Comment newComment = new Comment(comment, user);
         taskComments.add(newComment);
         LocalDate now = LocalDate.now();
         String date = formatter.format(now);
-        History addUserHistory = new History(user, date,
+        History addUserHistory = new History(date,
                 user.getUsername() + " added a comment to " + getTaskName());
         taskHistory.put(date, addUserHistory);
+
+        projectList.addTask(this, columnUUID);
+
         return true;
     }
 
     public boolean addReplyComment(User moreUser, String moreComment, User originalUser, String originalComment) {
+        ProjectList projectList = ProjectList.getInstance();
         for (Comment commentToFind : taskComments) {
             if (findComment(originalComment).equals(commentToFind)) {
+                projectList.removeTask(this, columnUUID);
+
                 Comment newComment = new Comment(moreComment, moreUser);
                 commentToFind.getMoreComments().add(newComment);
                 LocalDate now = LocalDate.now();
                 String date = formatter.format(now);
-                History addUserHistory = new History(moreUser, date,
+                History addUserHistory = new History(date,
                         moreUser.getUsername() + " added a comment to " + originalUser.getUsername() + "'s comment");
                 taskHistory.put(date, addUserHistory);
+
+                projectList.addTask(this, columnUUID);
                 return true;
             }
         }
@@ -167,22 +192,12 @@ public class Task {
     }
 
     /**
-     * Overrides the toString() method to provide a string representation of the
-     * task.
+     * Generates a UUID for the task.
      *
-     * @return A string representation of the task.
+     * @return The generated UUID for the task.
      */
-    @Override
-    public String toString() {
-        String commentsToString = "";
-        for (Comment comment : taskComments)
-            commentsToString = commentsToString + comment.toString();
-        return "[Task]: " + this.taskName + "\n"
-                + "[Task Type]: " + this.taskType + "\n"
-                + "[Description]: " + this.taskDescription + "\n"
-                + "[Due Date]: " + this.taskDueDate + "\n"
-                + "[Creation Date]: " + this.creationDate + "\n\n"
-                + "[Task Comments]: \n" + commentsToString;
+    private UUID generateUUID() {
+        return UUID.randomUUID();
     }
 
     public String getTaskName() {
@@ -273,28 +288,6 @@ public class Task {
         this.taskUUID = taskID;
     }
 
-    public boolean addUser(User user) {
-        this.assignedUsers.add(user);
-        LocalDate now = LocalDate.now();
-        String date = formatter.format(now);
-        History addUserHistory = new History(user, date,
-                user.getUsername() + " was added to " + getTaskName());
-        taskHistory.put(date, addUserHistory);
-        return true;
-    }
-
-    public boolean removeUser(User user) {
-        if (user == null)
-            return false;
-        this.assignedUsers.remove(user);
-        LocalDate now = LocalDate.now();
-        String date = formatter.format(now);
-        History addUserHistory = new History(user, date,
-                user.getUsername() + " was removed from " + getTaskName());
-        taskHistory.put(date, addUserHistory);
-        return true;
-    }
-
     public boolean facadePrintComments() {
         return printComments();
     }
@@ -305,5 +298,29 @@ public class Task {
         for (Comment comment : taskComments)
             System.out.println(comment);
         return true;
+    }
+
+    /**
+     * Overrides the toString() method to provide a string representation of the
+     * task.
+     *
+     * @return A string representation of the task.
+     */
+    @Override
+    public String toString() {
+        String commentsToString = "";
+        String historyToString = "";
+        for (Comment comment : taskComments)
+            commentsToString = commentsToString + comment.toString();
+        for (History value : taskHistory.values())
+            historyToString = historyToString + value.toString();
+        return "[Task]: " + this.taskName + "\n"
+                + "[Task Type]: " + this.taskType + "\n"
+                + "[Description]: " + this.taskDescription + "\n"
+                + "[Due Date]: " + this.taskDueDate + "\n"
+                + "[Creation Date]: " + this.creationDate + "\n\n"
+                + "[Task Comments]: \n" + commentsToString + "\n\n"
+                + "[History]: " + historyToString;
+
     }
 }

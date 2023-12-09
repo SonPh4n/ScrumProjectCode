@@ -1,5 +1,8 @@
 package scrumprojectcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class serves as the facade for the project management system. It
  * provides methods for user management, project management, and task
@@ -10,18 +13,21 @@ package scrumprojectcode;
  * @since 2021-10-18
  */
 public class ProjectSystemFACADE {
-    private static ProjectSystemFACADE facade; // Singleton instance
-    private static UserList userList = UserList.getInstance();
-    private User currentUser; // Track the currently logged-in user
-    private static ProjectList projectList = ProjectList.getInstance();
-    private static TaskList taskList = TaskList.getInstance();
+    private static ProjectSystemFACADE facade;
+    private UserList userList = UserList.getInstance();
+    private User currentUser;
+    private ProjectList projectList = ProjectList.getInstance();
 
-    // Private constructor to prevent direct instantiation
+    /**
+     * Private constructor to prevent direct instantiation
+     */
     private ProjectSystemFACADE() {
         this.currentUser = new User("guest", "user", "guest", "guest", "guest", "guest", "guest");
     }
 
-    // Get the singleton instance
+    /**
+     * Get the singleton instance
+     */
     public static ProjectSystemFACADE getFacadeInstance() {
         if (facade == null) {
             facade = new ProjectSystemFACADE();
@@ -45,7 +51,7 @@ public class ProjectSystemFACADE {
         User user = userList.findUser(username, password);
         if (user == null || !user.getUsername().equals(username) || !user.getPassword().equals(password))
             return false;
-        currentUser = user;
+        setCurrentUser(user);
         currentUser.facadeLogin(username, password);
         return true;
     }
@@ -62,7 +68,6 @@ public class ProjectSystemFACADE {
             return false;
         }
         userList.saveUsers();
-        taskList.saveTasks();
         projectList.saveProjects();
 
         currentUser.logout();
@@ -100,6 +105,10 @@ public class ProjectSystemFACADE {
         return currentUser;
     }
 
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
     // Project management methods
 
     public boolean addProject(String projectName) {
@@ -114,9 +123,8 @@ public class ProjectSystemFACADE {
     public boolean addColumn(String projectName, String columnName) {
         if (currentUser != null) {
             boolean found = currentUser.findProject(projectName).facadeAddColumn(columnName);
-            if (found) {
+            if (found)
                 projectList.saveProjects();
-            }
             return found;
         }
         return false;
@@ -129,7 +137,10 @@ public class ProjectSystemFACADE {
     public boolean addTask(String projectName, String columnName, String taskName,
             String taskDesc, String taskType, String dueDate) {
         Project project = currentUser.findProject(projectName);
+        System.out.println(project.getProjectName());
         Column column = project.findColumn(columnName);
+        System.out.println(column.getColumnName());
+        System.out.println(columnName);
         return column.facadeAddTask(project.getProjectUUID(), column.getColumnUUID(), currentUser,
                 taskName, taskDesc, taskType, dueDate);
     }
@@ -137,6 +148,7 @@ public class ProjectSystemFACADE {
     public boolean removeTask(String projectName, String columnName, String taskName) {
         Project project = currentUser.findProject(projectName);
         Column column = project.findColumn(columnName);
+        projectList.saveProjects();
         return column.facadeRemoveTask(taskName);
     }
 
@@ -145,28 +157,30 @@ public class ProjectSystemFACADE {
         return project.facadeMoveTask(sourceColumn, targetColumn, taskName);
     }
 
-    public boolean addComment(String username, String taskName, String comment) {
-        return currentUser.facadeAddComment(username, taskName, comment);
+    public String findTask(String taskName) {
+        projectList = ProjectList.getInstance();
+        return projectList.findTask(taskName).getTaskDescription();
     }
 
-    public boolean addReplyComment(String username, String taskName, String comment, String originalUsername,
+    public boolean addComment(String taskName, String comment) {
+        return currentUser.facadeAddComment(taskName, comment);
+    }
+
+    public boolean addReplyComment(String taskName, String comment, String originalUsername,
             String originalComment) {
-        return currentUser.facadeAddReplyComment(username, taskName, comment, originalUsername, originalComment);
+        return currentUser.facadeAddReplyComment(taskName, comment, originalUsername, originalComment);
     }
 
     public boolean addUserToProject(String username, String projectName) {
         return currentUser.facadeAddUserToProject(username, projectName);
     }
 
-    public boolean addUserToTask(String username, String taskName) { // Takes in two String values, one being a user's
-                                                                     // username and the other being a Task's task name
-                                                                     // and adds the user to Task.assignedUsers
-                                                                     // @kuriakm
-        return currentUser.facadeAddUserToTask(username, taskName);
-    }
-
     public boolean removeUserFromProject(String username, String projectName) {
         return currentUser.facadeRemoveUserFromProject(username, projectName);
+    }
+
+    public boolean addUserToTask(String username, String taskName) {
+        return currentUser.facadeAddUserToTask(username, taskName);
     }
 
     public boolean removeUserFromTask(String username, String taskName) {
@@ -174,13 +188,51 @@ public class ProjectSystemFACADE {
     }
 
     public boolean printTaskComments(String taskName) {
-        Task task = taskList.findTask(taskName);
+        Task task = projectList.findTask(taskName);
         return task.facadePrintComments();
     }
 
-    public boolean printProject(String projectName) { // TODO: Fix during bug-testing next week, ignore for now
+    public boolean printProject(String projectName) {
         Project project = projectList.findProject(projectName);
         String projectToPrint = project.facadePrintProject();
         return projectToPrint != null;
+    }
+
+    // return todo tasks
+    public ArrayList<Task> getProjectTasks(String columnName) {
+        ArrayList<Task> listOfTasks = new ArrayList<>();
+        ArrayList<Task> todoTasks = new ArrayList<>();
+        List<String> inProgressTasks;
+        List<String> doneTasks;
+
+        for (Project project : projectList.getListOfProjects()) {
+            for (Column column : project.getListOfColumns()) {
+                if (column.getColumnName().equals(columnName)) {
+                    todoTasks.addAll(column.getColumnTasks());
+                }
+            }
+        }
+
+        return todoTasks;
+    }
+
+    public Project getProject(String projectName) {
+        Project projectReturn = null;
+        for (Project project : projectList.getListOfProjects()) {
+            if (project.getProjectName().equals(projectName))
+                projectReturn = project;
+        }
+        return projectReturn;
+    }
+
+    public String findTaskColumn(String taskName, String taskProject) {
+        String returnColumnName = null;
+        for (Column column : getProject(taskProject).getListOfColumns()) {
+            for (Task task : column.getColumnTasks()) {
+                if (task.getTaskName().equals(taskName))
+                    returnColumnName = column.getColumnName();
+            }
+        }
+        return returnColumnName;
     }
 }

@@ -1,20 +1,14 @@
 package scrumprojectcode;
 
-/**
- * @author Jane Dalton
- */
-
-/**
- * @author Jane Dalton
- */
-
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * @author jedalto
+ */
 public class UserList {
     private static UserList userList = null;
-    private static ArrayList<User> listOfUsers; // @kuriakm: Allows UserList to create
-                                                // an instance without an ArrayList
+    private static ArrayList<User> listOfUsers;
 
     private UserList() {
         listOfUsers = (DataLoader.loadUsers() == null ? new ArrayList<>() : DataLoader.loadUsers());
@@ -34,10 +28,6 @@ public class UserList {
         if (userList == null)
             userList = new UserList();
         return userList;
-    }
-
-    public ArrayList<User> getListOfUsers() {
-        return listOfUsers;
     }
 
     /**
@@ -70,6 +60,10 @@ public class UserList {
                 return user;
         }
         return null;
+    }
+
+    public ArrayList<User> getListOfUsers() {
+        return listOfUsers;
     }
 
     public void saveUsers() {

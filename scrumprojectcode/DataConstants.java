@@ -1,19 +1,19 @@
 package scrumprojectcode;
 
 /**
- * @author Jane Dalton
- *         Data constants class defines data constants from json files
+ * Data constants class defines data constants from json files
+ * 
+ * @author jedalto
  */
 
 public class DataConstants {
 
         /**
-         * user data constants
+         * User Data Constants
          */
         protected static final String USER_FILE_NAME = (System.getProperty("os.name").equals("Linux")
                         ? "./.lib/json/user.json"
-                        : ".\\.lib\\json\\user.json"); // Updated String to check operating system before setting file
-                                                       // path @kuriakm
+                        : ".\\.lib\\json\\user.json");
         protected static final String USER = "user";
         protected static final String USER_ID = "user-id";
         protected static final String USER_FIRST_NAME = "first-name";
@@ -25,7 +25,7 @@ public class DataConstants {
         protected static final String USER_TYPE = "type";
 
         /**
-         * column data constants
+         * Column Data Constants
          */
         protected static final String COLUMN = "column";
         protected static final String COLUMN_PROJECT_ID = "project-id";
@@ -35,21 +35,11 @@ public class DataConstants {
         protected static final String COLUMN_TASK_ID = "column-task-id";
 
         /**
-         * history data constants
-         */
-        protected static final String HISTORY = "history";
-        protected static final String HISTORY_ID = "history-id";
-        protected static final String HISTORY_USER = "history-user";
-        protected static final String HISTORY_DETAILS = "history-details";
-        protected static final String HISTORY_RECORDED_DATE = "recorded-date";
-
-        /**
-         * project data constants
+         * Project Data Constants
          */
         protected static final String PROJECT_FILE_NAME = (System.getProperty("os.name").equals("Linux")
                         ? "./.lib/json/project.json"
-                        : ".\\.lib\\json\\project.json"); // Updated String to check operating system before setting
-                                                          // file path @kuriakm
+                        : ".\\.lib\\json\\project.json");
         protected static final String PROJECT = "project";
         protected static final String PROJECT_ID = "project-id";
         protected static final String PROJECT_TITLE = "project-title";
@@ -59,12 +49,8 @@ public class DataConstants {
         protected static final String PROJECT_COLUMNS_ID = "column-task-id";
 
         /**
-         * task data constants
+         * Task Data Constants
          */
-        protected static final String TASK_FILE_NAME = (System.getProperty("os.name").equals("Linux")
-                        ? "./.lib/json/task.json"
-                        : ".\\.lib\\json\\task.json"); // Updated String to check operating system before setting file
-                                                       // path @kuriakm
         protected static final String TASK_PROJECT_ID = "project-id";
         protected static final String TASK_COLUMN_ID = "column-id";
         protected static final String TASK_ = "task";
@@ -74,13 +60,24 @@ public class DataConstants {
         protected static final String TASK_TYPE = "task-type";
         protected static final String TASK_USERS = "assigned-users";
         protected static final String TASK_USER_ID = "user-id";
-        protected static final String TASK_HISTORY = "history";
-        protected static final String TASK_HISTORY_ID = "history-id";
+        protected static final String TASK_CREATION_DATE = "creation-date";
+        protected static final String TASK_DUE_DATE = "due-date";
+
+        /*
+         * Comment Data Constants
+         */
         protected static final String TASK_COMMENT_TITLE = "comments";
         protected static final String TASK_COMMENT_ID = "id";
         protected static final String TASK_COMMENTOR = "commentor";
         protected static final String TASK_COMMENT = "comment";
         protected static final String TASK_MORE_COMMENTS = "more-comments";
-        protected static final String TASK_CREATION_DATE = "creation-date";
-        protected static final String TASK_DUE_DATE = "due-date";
+
+        /**
+         * History Data Constants
+         */
+        protected static final String HISTORY = "history";
+        protected static final String HISTORY_ID = "history-id";
+        protected static final String HISTORY_USER = "history-user";
+        protected static final String HISTORY_DETAILS = "history-details";
+        protected static final String HISTORY_RECORDED_DATE = "recorded-date";
 }

@@ -5,18 +5,16 @@ import java.util.UUID;
 
 public class Column {
     public String columnName;
-    public ArrayList<Task> columnTasks; // Preemptively changed this to ArrayList<UUID> to make it easier to read tasks
-                                        // from column.json @kuriakm
+    public ArrayList<Task> columnTasks;
     private UUID columnUUID;
     private UUID projectUUID;
-    private static TaskList taskList = TaskList.getInstance();
+    private static ProjectList projectList = ProjectList.getInstance();
 
     /**
      * Constructor method for a new Column() which initializes the Column
-     * attributessetColumnUUID(generateUUID());
      * 
-     * @param columnName
-     * @param task
+     * @param columnName  String name of the column
+     * @param projectUUID The project ID where the column is located
      */
     public Column(String columnName, UUID projectUUID) { // slightly changed this from String columnName, UUID taskUUID
         setProjectUUID(projectUUID);
@@ -25,20 +23,19 @@ public class Column {
         this.columnTasks = new ArrayList<Task>();
     }
 
+    /**
+     * Constructor method for a new Column() from project.json
+     *
+     * @param projectUUID The project ID where the column is located
+     * @param columnID    The column's unique ID
+     * @param columnTitle String name of the column
+     * @param columnTasks The tasks listed in the column task section of each column
+     */
     public Column(UUID projectID, UUID columnID, String columnTitle, ArrayList<Task> columnTasks) {
         setProjectUUID(projectID);
         setColumnUUID(columnID);
         setColumnName(columnTitle);
         setColumnTasks(columnTasks);
-    }
-
-    /**
-     * UUID method that generates a unique UUID for Column
-     * 
-     * @return UUID value to be set as the value of columnUUID
-     */
-    public UUID generateUUID() {
-        return UUID.randomUUID();
     }
 
     public boolean facadeAddTask(UUID projectUUID, UUID columnUUID, User user, String taskName, String taskDesc,
@@ -54,15 +51,22 @@ public class Column {
      */
     public boolean addTask(UUID projectUUID, UUID columnUUID, User user, String taskName, String taskDesc,
             String taskType, String dueDate) {
-        if (taskList.findTask(taskName) != null)
+        if (projectList.findTask(taskName) != null)
             return false;
         Task newTask = new Task(projectUUID, columnUUID, taskName, taskDesc, taskType, user, dueDate);
         columnTasks.add(newTask);
-        taskList.getListOfTasks().add(newTask);
-        taskList.saveTasks();
+        projectList.addTask(newTask, columnUUID);
+        projectList.saveProjects();
         return true;
     }
 
+    /**
+     * Boolean method that is used by ProjectSystemFACADE to remove a task within
+     * Column
+     * 
+     * @param taskName String name
+     * @return
+     */
     public boolean facadeRemoveTask(String taskName) {
         return removeTask(taskName);
     }
@@ -78,9 +82,26 @@ public class Column {
             return false;
         }
         Task task = findTask(taskName);
-        taskList.getListOfTasks().remove(task);
+        projectList.removeTask(task, columnUUID);
         columnTasks.remove(task);
         return true;
+    }
+
+    public Task findTask(String taskName) {
+        return projectList.findTask(taskName);
+    }
+
+    public Task findTask(UUID taskUUID) {
+        return projectList.findTask(taskUUID);
+    }
+
+    /**
+     * UUID method that generates a unique UUID for Column
+     * 
+     * @return UUID value to be set as the value of columnUUID
+     */
+    public UUID generateUUID() {
+        return UUID.randomUUID();
     }
 
     public String getColumnName() {
@@ -94,15 +115,6 @@ public class Column {
     public ArrayList<Task> getColumnTasks() {
         return this.columnTasks;
     }
-
-    /*
-     * public ArrayList<Task> uuidToTasks() {
-     * ArrayList<Task> uuidToColumnTask = new ArrayList<>();
-     * for (UUID uuid : columnTasks)
-     * uuidToColumnTask.add(findTask(uuid));
-     * return uuidToColumnTask;
-     * }
-     */
 
     public void setColumnTasks(ArrayList<Task> columnTasks) {
         this.columnTasks = columnTasks;
@@ -122,19 +134,6 @@ public class Column {
 
     public void setProjectUUID(UUID projectUUID) {
         this.projectUUID = projectUUID;
-    }
-
-    public Task findTask(String taskName) {
-        for (Task task : taskList.getListOfTasks()) {
-            if (task.getTaskName().equals(taskName)) {
-                return task;
-            }
-        }
-        return null;
-    }
-
-    public Task findTask(UUID taskUUID) {
-        return taskList.findTask(taskUUID);
     }
 
     public String toString() {
